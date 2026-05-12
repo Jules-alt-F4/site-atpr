@@ -626,49 +626,28 @@
         </div>
     </main>
 
-    <main id="connexion" class="page py-20 px-6">
-    <div class="max-w-4xl mx-auto flex flex-col md:flex-row shadow-2xl relative auth-frame-gold">
+<main id="inscription" class="page py-20 px-6">
+    <div class="max-w-5xl mx-auto flex flex-col md:flex-row shadow-2xl relative auth-frame-gold">
 
-        <div class="md:w-1/2 bg-[#052e16] p-12 text-white flex flex-col justify-center relative overflow-hidden">
+        <div class="md:w-5/12 bg-[#052e16] p-12 text-white flex flex-col justify-between relative overflow-hidden">
             <div class="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/marble-white.png')]"></div>
-            <span class="text-[10px] tracking-[0.5em] uppercase text-[#c5a059] mb-4 block z-10">Membres de l'Institution</span>
-            <h2 class="text-5xl font-heritage italic mb-6 z-10">Les Archives <br>du Savoir</h2>
-            <div class="h-[1px] w-20 bg-[#c5a059] mb-6 z-10"></div>
-            <p class="text-xs leading-loose opacity-60 z-10 tracking-widest">IDENTIFIEZ-VOUS POUR ACCÉDER AU PATRIMOINE PÉDAGOGIQUE DE L'ATPR.</p>
-        </div>
-
-        <div class="md:w-1/2 p-12 relative" style="background-color: var(--parchment)">
-            <div class="auth-column auth-column-left"></div>
-            <div class="auth-column auth-column-right"></div>
-
-            <form onsubmit="handleLogin(event)" class="flex flex-col relative z-10">
-                <h3 class="auth-title">Connexion</h3>
-                <label class="text-[9px] uppercase font-bold tracking-[0.3em] mb-3 opacity-40">Identifiant Académique</label>
-                <input type="email" id="login-email" class="auth-input" placeholder="prenom.nom@etudiant.univ-rennes.fr" required>
-                <label class="text-[9px] uppercase font-bold tracking-[0.3em] mb-3 opacity-40">Clé d'accès</label>
-                <input type="password" id="login-password" class="auth-input" placeholder="••••••••" required>
-                <button type="submit" class="btn-gold !text-black border-black hover:!bg-black hover:!text-white w-full py-4 mt-6 transition-all duration-700">S'identifier</button>
-                <p class="text-[9px] text-center mt-10 uppercase tracking-[0.2em] opacity-40 cursor-pointer hover:text-[#c5a059]" onclick="showPage('inscription')">Demander l'adhésion</p>
-            </form>
-        </div>
-    </div>
-</main>
-
-    <main id="inscription" class="page py-20 px-6">
-        <div class="max-w-5xl mx-auto auth-card flex flex-col md:flex-row">
-            <div class="max-w-5xl mx-auto auth-card auth-frame-gold flex flex-col md:flex-row">
-
-        <div class="md:w-5/12 bg-neutral-900 p-12 text-white flex flex-col justify-between" style="background-color: var(--forest-green)">
-            <div>
+            <div class="relative z-10">
                 <h2 class="text-5xl font-heritage italic mb-8">Rejoindre l'Excellence</h2>
-                <p class="text-sm opacity-70 leading-loose">L'adhésion à l'ATPR est réservée aux étudiants en pharmacie de Rennes.</p>
+                <p class="text-sm opacity-70 leading-loose">L'adhésion à l'ATPr est exclusivement réservée aux étudiants et personnels de l'UFR Pharmacie de Rennes.</p>
             </div>
-            <div class="mt-12 pt-8 border-t border-white/10">
+            <div class="mt-12 pt-8 border-t border-white/10 relative z-10">
                 <p class="text-[9px] uppercase tracking-[0.3em] opacity-50">Association du tutorat de pharmacie rennais</p>
             </div>
         </div>
-            <div class="md:w-7/12 p-12 relative auth-frame-gold" style="background-color: var(--parchment)">
+
+        <div class="md:w-7/12 p-12 relative" style="background-color: var(--parchment)">
+            <div class="auth-column auth-column-left"></div>
+            <div class="auth-column auth-column-right"></div>
+
+            <div class="relative z-10">
                 <form id="form-inscription" onsubmit="handleSignup(event)" class="grid grid-cols-1 md:grid-cols-2 gap-x-6">
+                    <h3 class="auth-title col-span-2">Adhésion</h3>
+
                     <div class="col-span-1">
                         <label class="text-[10px] uppercase font-bold tracking-widest mb-2 opacity-50 block">Prénom</label>
                         <input type="text" id="ins-prenom" class="auth-input" placeholder="Jean" required>
@@ -677,10 +656,11 @@
                         <label class="text-[10px] uppercase font-bold tracking-widest mb-2 opacity-50 block">Nom</label>
                         <input type="text" id="ins-nom" class="auth-input" placeholder="Dupont" required>
                     </div>
+
                     <div class="col-span-2">
                         <label class="text-[10px] uppercase font-bold tracking-widest mb-2 opacity-50 block">Cursus / Promotion</label>
                         <select id="ins-promo" class="auth-input" required>
-                            <option value="">Sélectionnez votre profil</option>
+                            <option value="">Sélectionnez votre promotion</option>
                             <option value="P2">Deuxième Année (P2)</option>
                             <option value="P3">Troisième Année (P3)</option>
                             <option value="P4">Quatrième Année (P4)</option>
@@ -689,10 +669,20 @@
                             <option value="MASTER">Étudiant en Master (Hors Pharma)</option>
                         </select>
                     </div>
+
                     <div class="col-span-2">
                         <label class="text-[10px] uppercase font-bold tracking-widest mb-2 opacity-50 block">Email Académique</label>
-                        <input type="email" id="ins-email" class="auth-input" placeholder="jean.dupont@etudiant.univ-rennes.fr" required>
+                        <input
+                            type="email"
+                            id="ins-email"
+                            class="auth-input"
+                            placeholder="prenom.nom@etudiant.univ-rennes.fr"
+                            pattern=".+@(.*univ-rennes\.fr)"
+                            title="Veuillez utiliser votre adresse @etudiant.univ-rennes.fr ou @univ-rennes.fr"
+                            required
+                        >
                     </div>
+
                     <div class="col-span-1">
                         <label class="text-[10px] uppercase font-bold tracking-widest mb-2 opacity-50 block">Mot de passe</label>
                         <input type="password" id="ins-mdp" class="auth-input" placeholder="••••••••" required>
@@ -701,17 +691,26 @@
                         <label class="text-[10px] uppercase font-bold tracking-widest mb-2 opacity-50 block">Confirmation</label>
                         <input type="password" id="ins-mdp-conf" class="auth-input" placeholder="••••••••" required>
                     </div>
-                    <button type="submit" class="btn-gold !text-black border-black hover:!bg-black hover:!text-white col-span-2 py-4 mt-4">Soumettre la demande d'adhésion</button>
+
+                    <button type="submit" class="btn-gold !text-black border-black hover:!bg-black hover:!text-white col-span-2 py-4 mt-4 transition-all duration-700">
+                        Soumettre la demande d'adhésion
+                    </button>
+
+                    <p class="text-[9px] text-center col-span-2 mt-6 uppercase tracking-[0.2em] opacity-40 cursor-pointer hover:text-[#c5a059]" onclick="showPage('connexion')">
+                        Déjà membre ? S'identifier
+                    </p>
                 </form>
+
                 <div id="success-msg" class="hidden py-12 text-center">
                     <div class="w-16 h-16 border border-emerald-500 text-emerald-500 rounded-full flex items-center justify-center mx-auto mb-6 text-2xl">✓</div>
                     <h3 class="font-heritage text-3xl italic mb-4">Demande Transmise</h3>
                     <p class="text-sm opacity-60">Le bureau étudiera vos informations et validera votre accès sous 24 à 48 heures.</p>
+                    <button onclick="showPage('accueil')" class="mt-8 text-[10px] uppercase tracking-widest border-b border-black">Retour à l'accueil</button>
                 </div>
             </div>
         </div>
-    </main>
-
+    </div>
+</main>
     <main id="mon-profil" class="page py-24 px-6 text-[#1a1a1a]">
     <div class="max-w-4xl mx-auto flex flex-col md:flex-row shadow-2xl relative auth-frame-gold">
 
@@ -1071,27 +1070,50 @@ window.addEventListener('load', detectOS);
         }
 
         async function handleSignup(e) {
-            e.preventDefault();
-            const email = document.getElementById('ins-email').value;
-            const password = document.getElementById('ins-mdp').value;
-            const { data: authData, error: authError } = await sb.auth.signUp({ email, password });
-            if (authError) { alert(authError.message); return; }
+    e.preventDefault();
 
-            const { error: profileError } = await sb.from('profils').insert([{
-                prenom: document.getElementById('ins-prenom').value,
-                nom: document.getElementById('ins-nom').value,
-                promo: document.getElementById('ins-promo').value,
-                email: email,
-                est_valide: false
-            }]);
+    const email = document.getElementById('ins-email').value.trim().toLowerCase();
+    const password = document.getElementById('ins-mdp').value;
+    const passwordConf = document.getElementById('ins-mdp-conf').value;
 
-            if (profileError) alert(profileError.message);
-            else {
-                document.getElementById('form-inscription').classList.add('hidden');
-                document.getElementById('success-msg').classList.remove('hidden');
-            }
-        }
+    // --- VÉRIFICATION DU DOMAINE UNIVERSITAIRE ---
+    const allowedDomains = ['@etudiant.univ-rennes.fr', '@univ-rennes.fr'];
+    const isUniversityEmail = allowedDomains.some(domain => email.endsWith(domain));
 
+    if (!isUniversityEmail) {
+        alert("Accès refusé : Vous devez utiliser votre adresse mail académique de l'Université de Rennes pour adhérer.");
+        return;
+    }
+
+    // Vérification de la correspondance des mots de passe
+    if (password !== passwordConf) {
+        alert("Les mots de passe ne correspondent pas.");
+        return;
+    }
+
+    // Inscription Auth Supabase
+    const { data: authData, error: authError } = await sb.auth.signUp({ email, password });
+    if (authError) {
+        alert(authError.message);
+        return;
+    }
+
+    // Insertion du profil
+    const { error: profileError } = await sb.from('profils').insert([{
+        prenom: document.getElementById('ins-prenom').value,
+        nom: document.getElementById('ins-nom').value,
+        promo: document.getElementById('ins-promo').value,
+        email: email,
+        est_valide: false
+    }]);
+
+    if (profileError) {
+        alert(profileError.message);
+    } else {
+        document.getElementById('form-inscription').classList.add('hidden');
+        document.getElementById('success-msg').classList.remove('hidden');
+    }
+}
         async function handleChangePassword(e) {
     e.preventDefault();
     const newPassword = document.getElementById('new-password').value;
