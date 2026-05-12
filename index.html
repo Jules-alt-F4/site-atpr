@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ATPR — Excellence Pharmaceutique</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600&display=swap');
+
+        :root {
+            --forest-green: #052e16;
+            --pharma-green: #064e3b;
+            --luxury-gold: #c5a059;
+            --elegant-black: #1a1a1a;
+            --parchment: #fdfdfb;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--forest-green);
+            color: var(--parchment);
+            font-size: 1.15rem;
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        .font-heritage { font-family: 'Cormorant Garamond', serif; }
+
+        .page { display: none; opacity: 0; min-height: 85vh; }
+        .page-active {
+            display: block;
+            animation: luxuryReveal 1.2s ease-out forwards;
+        }
+
+        @keyframes luxuryReveal {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        nav { background-color: rgba(255, 255, 255, 0.98); border-bottom: 1px solid var(--luxury-gold); }
+        .nav-link {
+            text-transform: uppercase; letter-spacing: 0.15em;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--elegant-black); transition: all 0.3s;
+        }
+        .nav-link:hover { color: var(--luxury-gold); }
+
+        .btn-gold {
+            border: 1px solid var(--luxury-gold); padding: 14px 35px;
+            letter-spacing: 0.1em; text-transform: uppercase;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--luxury-gold); background: transparent; transition: 0.5s;
+            cursor: pointer;
+        }
+        .btn-gold:hover { background: var(--luxury-gold); color: white; }
+
+        .section-parchment { background-color: var(--parchment); color: var(--elegant-black); }
+        .gold-divider { height: 1px; background: var(--luxury-gold); width: 100px; margin: 30px auto; opacity: 0.6; }
+
+        .matiere-titre {
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.3em;
+            color: #444;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            padding-bottom: 0.6rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .fiche-item-text {
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--elegant-black);
+        }
+
+        .auth-card {
+            background: white;
+            border-radius: 2px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+            overflow: hidden;
+            color: var(--elegant-black);
+        }
+
+        .auth-input {
+            width: 100%;
+            padding: 15px 20px !important;
+            margin-bottom: 20px;
+            border: 1px solid #e5e7eb !important;
+            border-radius: 0px !important;
+            background: #f9fafb !important;
+            color: var(--elegant-black) !important;
+            font-size: 0.9rem !important;
+            transition: all 0.3s ease;
+        }
+
+        .auth-input:focus {
+            border-color: var(--luxury-gold) !important;
+            background: white !important;
+            box-shadow: 0 0 0 1px var(--luxury-gold);
+        }
+
+        select.auth-input {
+            appearance: none;
+            cursor: pointer;
+        }
+
+        .archive-card {
+            border: 1px solid rgba(5, 46, 22, 0.1);
+            transition: all 0.4s ease;
+            background: white;
+            overflow: hidden;
+            position: relative;
+        }
+        .archive-card:hover {
+            border-color: var(--luxury-gold);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+        .archive-card img {
+            width: 100%; height: 100%; object-fit: cover;
+            opacity: 0.4; transition: opacity 0.5s ease;
+        }
+        .archive-card:hover img { opacity: 0.9; }
+
+        .card-label {
+            position: absolute;
+            z-index: 10;
+            background: rgba(255,255,255,0.9);
+            padding: 10px 20px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-size: 0.75rem;
+            color: var(--elegant-black);
+            border: 1px solid var(--luxury-gold);
+        }
+
+        .member-card {
+            background: white;
+            padding: 0;
+            border: 1px solid rgba(0,0,0,0.05);
+            text-align: center;
+            transition: all 0.4s;
+            overflow: hidden;
+        }
+        .member-card:hover {
+            border-color: var(--luxury-gold);
+            transform: translateY(-5px);
+        }
+        .member-info {
+            padding: 30px 20px;
+        }
+        .member-photo {
+            width: 100%;
+            height: 320px;
+            background-color: #f3f4f6;
+            object-fit: cover;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            filter: grayscale(100%);
+            transition: filter 0.5s ease;
+        }
+        .member-card:hover .member-photo {
+            filter: grayscale(0%);
+        }
+        .member-role {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.3em;
+            color: var(--luxury-gold);
+            font-weight: 700;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+    </style>
+</head>
+<body>
+
+    <nav class="sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-6 flex justify-between items-center h-24">
+            <div class="flex space-x-10 items-center">
+                <button onclick="showPage('accueil')" class="nav-link">L'Institution</button>
+                <button id="nav-ressources" onclick="showPage('ressources')" class="nav-link hidden">Bibliothèque</button>
+                <button onclick="showPage('tut-team')" class="nav-link">Le Bureau</button>
+            </div>
+
+            <div class="text-center cursor-pointer" onclick="showPage('accueil')">
+                <h1 class="text-3xl font-heritage font-bold tracking-widest uppercase" style="color: var(--elegant-black)">ATPR</h1>
+                <p class="text-[9px] tracking-[0.4em] uppercase opacity-40 -mt-1" style="color: var(--elegant-black)">Excellence rennaise</p>
+            </div>
+
+            <div id="nav-auth-buttons" class="flex items-center space-x-8">
+                <button onclick="showPage('connexion')" class="nav-link">Connexion</button>
+                <button onclick="showPage('inscription')" class="btn-gold">Adhérer</button>
+            </div>
+
+            <div id="nav-user-info" class="hidden flex items-center space-x-8">
+                <button id="profil-prenom-nom" onclick="showPage('mon-profil')" class="nav-link italic text-[10px] normal-case hover:text-[#c5a059] cursor-pointer"></button>
+                <button onclick="handleLogout()" class="text-[10px] uppercase opacity-50 hover:opacity-100 text-[#1a1a1a]">Quitter</button>
+            </div>
+        </div>
+    </nav>
+
+    <main id="accueil" class="page page-active">
+        <section class="h-[80vh] flex flex-col items-center justify-center text-center px-4">
+            <span class="text-[12px] tracking-[0.7em] uppercase text-gold-500 mb-8 block" style="color:var(--luxury-gold)">Association du tutorat de pharmacie rennais</span>
+            <h2 class="text-7xl md:text-9xl font-heritage italic mb-10">Tradition & <br> <span class="not-italic text-white">Savoir</span></h2>
+            <div class="gold-divider"></div>
+            <p class="max-w-2xl mx-auto text-sm tracking-[0.3em] uppercase opacity-80 leading-loose mb-12">
+                Le haut patronage pharmaceutique au service de la réussite académique rennaise.
+            </p>
+            <button onclick="showPage('tut-team')" class="btn-gold px-16 py-5">Découvrir le bureau</button>
+        </section>
+    </main>
+
+    <main id="tut-team" class="page section-parchment py-24 px-6">
+        <div class="max-w-6xl mx-auto">
+            <header class="text-center mb-20">
+                <span class="text-[10px] tracking-[0.5em] uppercase opacity-50 block mb-4">Gouvernance 2024-2025</span>
+                <h2 class="text-6xl font-heritage italic mb-6">Le Bureau Exécutif</h2>
+                <div class="gold-divider"></div>
+                <p class="max-w-xl mx-auto text-sm opacity-60 leading-relaxed">Les garants de la transmission du savoir et de l'éthique pharmaceutique au sein de notre faculté.</p>
+            </header>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="member-card">
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=400" alt="Président" class="member-photo">
+                    <div class="member-info">
+                        <span class="member-role">Président</span>
+                        <h3 class="font-heritage text-2xl italic mb-2">Théo Bernard</h3>
+                        <p class="text-[10px] uppercase tracking-widest opacity-40">Étudiant en 4ème Année</p>
+                    </div>
+                </div>
+                <div class="member-card">
+                    <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=400" alt="Secrétaire Générale" class="member-photo">
+                    <div class="member-info">
+                        <span class="member-role">Secrétaire Générale</span>
+                        <h3 class="font-heritage text-2xl italic mb-2">Amélie Girard</h3>
+                        <p class="text-[10px] uppercase tracking-widest opacity-40">Étudiante en 3ème Année</p>
+                    </div>
+                </div>
+                <div class="member-card">
+                    <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=400" alt="Trésorier" class="member-photo">
+                    <div class="member-info">
+                        <span class="member-role">Trésorier</span>
+                        <h3 class="font-heritage text-2xl italic mb-2">Lucas Morel</h3>
+                        <p class="text-[10px] uppercase tracking-widest opacity-40">Étudiant en 4ème Année</p>
+                    </div>
+                </div>
+                <div class="member-card">
+                    <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&q=80&w=400" alt="V-P Pédagogie" class="member-photo">
+                    <div class="member-info">
+                        <span class="member-role">V-P Pédagogie</span>
+                        <h3 class="font-heritage text-2xl italic mb-2">Manon Lefebvre</h3>
+                        <p class="text-[10px] uppercase tracking-widest opacity-40">Étudiante en 3ème Année</p>
+                    </div>
+                </div>
+                <div class="member-card">
+                    <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=400" alt="V-P Communication" class="member-photo">
+                    <div class="member-info">
+                        <span class="member-role">V-P Communication</span>
+                        <h3 class="font-heritage text-2xl italic mb-2">Hugo Petit</h3>
+                        <p class="text-[10px] uppercase tracking-widest opacity-40">Étudiant en 2ème Année</p>
+                    </div>
+                </div>
+                <div class="member-card">
+                    <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=400" alt="V-P Événementiel" class="member-photo">
+                    <div class="member-info">
+                        <span class="member-role">V-P Événementiel</span>
+                        <h3 class="font-heritage text-2xl italic mb-2">Clara Roux</h3>
+                        <p class="text-[10px] uppercase tracking-widest opacity-40">Étudiante en 2ème Année</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <main id="ressources" class="page section-parchment py-24 px-6">
+        <div class="max-w-5xl mx-auto">
+            <header class="text-center mb-20">
+                <h2 id="titre-ressources" class="text-6xl font-heritage italic mb-6">Bibliothèque Privée</h2>
+                <div class="gold-divider"></div>
+                <button id="btn-retour-ressources" onclick="retourRessources()" class="hidden mt-6 text-[12px] uppercase border-b border-gold-500 pb-1" style="border-color: var(--luxury-gold); color: var(--elegant-black);">← Retour aux volumes</button>
+            </header>
+
+            <div id="grid-types" class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div onclick="choisirType('Fiches')" class="archive-card aspect-[4/5] flex items-center justify-center cursor-pointer group">
+                    <img src="https://images.unsplash.com/photo-1532012197267-da84d127e765?auto=format&fit=crop&q=80&w=400" alt="Fiches">
+                    <div class="card-label">Fiches</div>
+                </div>
+                <div onclick="choisirType('Conférence')" class="archive-card aspect-[4/5] flex items-center justify-center cursor-pointer group">
+                    <img src="https://xtctlebciarjrhbbptgu.supabase.co/storage/v1/object/public/image-atpr/Conferences_photo.jpg" alt="Conférences">
+                    <div class="card-label">Conférences</div>
+                </div>
+                <div onclick="choisirType('Conférence classée')" class="archive-card aspect-[4/5] flex items-center justify-center cursor-pointer group">
+                    <img src="https://xtctlebciarjrhbbptgu.supabase.co/storage/v1/object/public/image-atpr/equipe-etudiants-collegiens-travaillant-projet-lie-gestion-entreprise_482257-118389.avif" alt="Classées">
+                    <div class="card-label">Classées</div>
+                </div>
+                <div onclick="choisirType('Méthodologie')" class="archive-card aspect-[4/5] flex items-center justify-center cursor-pointer group">
+                    <img src="https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?auto=format&fit=crop&q=80&w=400" alt="Méthodologie">
+                    <div class="card-label">Méthodologie</div>
+                </div>
+            </div>
+
+            <div id="grid-annees" class="hidden grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8">
+                <button id="btn-p2" onclick="choisirAnnee('P2')" class="btn-gold !text-black border-black hover:!bg-black hover:!text-white">P2</button>
+                <button id="btn-p3" onclick="choisirAnnee('P3')" class="btn-gold !text-black border-black hover:!bg-black hover:!text-white">P3</button>
+                <button id="btn-p4" onclick="choisirAnnee('P4')" class="btn-gold !text-black border-black hover:!bg-black hover:!text-white">P4</button>
+                <button id="btn-p5" onclick="choisirAnnee('P5')" class="btn-gold !text-black border-black hover:!bg-black hover:!text-white">P5</button>
+                <button onclick="choisirAnnee('MASTER')" class="btn-gold !text-black border-black hover:!bg-black hover:!text-white">Masters</button>
+            </div>
+
+            <div id="grid-methodo-branches" class="hidden grid grid-cols-1 md:grid-cols-2 gap-10">
+                <button onclick="choisirBrancheMethodo('Méthodologie Oraux')" class="h-40 border border-gray-200 font-heritage text-3xl italic hover:bg-emerald-950 hover:text-white transition">Méthodologie Oraux</button>
+                <button onclick="choisirBrancheMethodo('Méthodologie Écrit')" class="h-40 border border-gray-200 font-heritage text-3xl italic hover:bg-emerald-950 hover:text-white transition">Méthodologie Écrit</button>
+            </div>
+
+            <div id="grid-semestres" class="hidden grid grid-cols-2 gap-10">
+                <button onclick="choisirSemestre(1)" class="h-40 border border-gray-200 font-heritage text-3xl italic hover:bg-emerald-950 hover:text-white transition">Premier Semestre</button>
+                <button onclick="choisirSemestre(2)" class="h-40 border border-gray-200 font-heritage text-3xl italic hover:bg-emerald-950 hover:text-white transition">Second Semestre</button>
+            </div>
+
+            <div id="grid-masters-branches" class="hidden grid grid-cols-1 md:grid-cols-2 gap-10">
+                <button onclick="choisirMasterBranche('Santé Publique')" class="h-40 border border-gray-200 font-heritage text-3xl italic hover:bg-emerald-950 hover:text-white transition">Santé Publique</button>
+                <button onclick="choisirMasterBranche('Biologie Santé')" class="h-40 border border-gray-200 font-heritage text-3xl italic hover:bg-emerald-950 hover:text-white transition">Biologie Santé</button>
+            </div>
+
+            <div id="grid-matieres" class="hidden space-y-16 text-left"></div>
+        </div>
+    </main>
+
+    <main id="connexion" class="page py-20 px-6">
+        <div class="max-w-4xl mx-auto auth-card flex flex-col md:flex-row">
+            <div class="md:w-1/2 bg-neutral-100 p-12 flex flex-col justify-center border-r border-gray-100">
+                <span class="text-[10px] tracking-widest uppercase text-gold-600 mb-4 block" style="color:var(--luxury-gold)">Membre de l'Institution</span>
+                <h2 class="text-5xl font-heritage italic mb-6">Accéder aux Archives</h2>
+                <p class="text-sm leading-relaxed opacity-60">Connectez-vous pour consulter les ressources pédagogiques privées de l'ATPR.</p>
+            </div>
+            <div class="md:w-1/2 p-12 bg-white">
+                <form onsubmit="handleLogin(event)" class="flex flex-col">
+                    <label class="text-[10px] uppercase font-bold tracking-widest mb-2 opacity-50">Adresse Universitaire</label>
+                    <input type="email" id="login-email" class="auth-input" placeholder="nom.prenom@univ-rennes.fr" required>
+
+                    <label class="text-[10px] uppercase font-bold tracking-widest mb-2 opacity-50">Clé de Sécurité</label>
+                    <input type="password" id="login-password" class="auth-input" placeholder="••••••••" required>
+
+                    <button type="submit" class="btn-gold !text-black border-black hover:!bg-black hover:!text-white w-full py-4 mt-4">S'identifier</button>
+                    <p class="text-[10px] text-center mt-6 uppercase tracking-widest opacity-40 cursor-pointer hover:opacity-100" onclick="showPage('inscription')">Pas encore membre ? Demander l'adhésion</p>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <main id="inscription" class="page py-20 px-6">
+        <div class="max-w-5xl mx-auto auth-card flex flex-col md:flex-row">
+            <div class="md:w-5/12 bg-neutral-900 p-12 text-white flex flex-col justify-between" style="background-color: var(--forest-green)">
+                <div>
+                    <h2 class="text-5xl font-heritage italic mb-8">Rejoindre l'Excellence</h2>
+                    <p class="text-sm opacity-70 leading-loose">L'adhésion à l'ATPR est réservée aux étudiants en pharmacie de Rennes. Chaque demande est soumise à la validation du bureau.</p>
+                </div>
+                <div class="mt-12 pt-8 border-t border-white/10">
+                    <p class="text-[9px] uppercase tracking-[0.3em] opacity-50">Association du tutorat de pharmacie rennais</p>
+                </div>
+            </div>
+            <div class="md:w-7/12 p-12 bg-white text-black">
+                <form id="form-inscription" onsubmit="handleSignup(event)" class="grid grid-cols-1 md:grid-cols-2 gap-x-6">
+                    <div class="col-span-1">
+                        <label class="text-[10px] uppercase font-bold tracking-widest mb-2 opacity-50 block">Prénom</label>
+                        <input type="text" id="ins-prenom" class="auth-input" placeholder="Jean" required>
+                    </div>
+                    <div class="col-span-1">
+                        <label class="text-[10px] uppercase font-bold tracking-widest mb-2 opacity-50 block">Nom</label>
+                        <input type="text" id="ins-nom" class="auth-input" placeholder="Dupont" required>
+                    </div>
+                    <div class="col-span-2">
+                        <label class="text-[10px] uppercase font-bold tracking-widest mb-2 opacity-50 block">Cursus / Promotion</label>
+                        <select id="ins-promo" class="auth-input" required>
+                            <option value="">Sélectionnez votre profil</option>
+                            <option value="P2">Deuxième Année (P2)</option>
+                            <option value="P3">Troisième Année (P3)</option>
+                            <option value="P4">Quatrième Année (P4)</option>
+                            <option value="P5">Cinquième Année (P5)</option>
+                            <option value="P6">Sixième Année (P6)</option>
+                            <option value="MASTER">Étudiant en Master (Hors Pharma)</option>
+                        </select>
+                    </div>
+                    <div class="col-span-2">
+                        <label class="text-[10px] uppercase font-bold tracking-widest mb-2 opacity-50 block">Email Académique</label>
+                        <input type="email" id="ins-email" class="auth-input" placeholder="jean.dupont@etudiant.univ-rennes.fr" required>
+                    </div>
+                    <div class="col-span-1">
+                        <label class="text-[10px] uppercase font-bold tracking-widest mb-2 opacity-50 block">Mot de passe</label>
+                        <input type="password" id="ins-mdp" class="auth-input" placeholder="••••••••" required>
+                    </div>
+                    <div class="col-span-1">
+                        <label class="text-[10px] uppercase font-bold tracking-widest mb-2 opacity-50 block">Confirmation</label>
+                        <input type="password" id="ins-mdp-conf" class="auth-input" placeholder="••••••••" required>
+                    </div>
+                    <button type="submit" class="btn-gold !text-black border-black hover:!bg-black hover:!text-white col-span-2 py-4 mt-4">Soumettre la demande d'adhésion</button>
+                </form>
+                <div id="success-msg" class="hidden py-12 text-center">
+                    <div class="w-16 h-16 border border-emerald-500 text-emerald-500 rounded-full flex items-center justify-center mx-auto mb-6 text-2xl">✓</div>
+                    <h3 class="font-heritage text-3xl italic mb-4">Demande Transmise</h3>
+                    <p class="text-sm opacity-60">Le bureau étudiera vos informations et validera votre accès sous 24 à 48 heures.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <main id="mon-profil" class="page py-24 px-6 text-[#1a1a1a]">
+        <div class="max-w-xl mx-auto auth-card p-12">
+            <h2 class="text-4xl font-heritage italic mb-10 text-center">Mon Profil</h2>
+
+            <form id="form-profil" onsubmit="handleUpdateProfil(event)" class="space-y-6">
+                <div>
+                    <label class="text-[10px] tracking-widest uppercase opacity-50 block mb-2">Prénom</label>
+                    <input type="text" id="prof-prenom" class="auth-input !mb-0" required>
+                </div>
+                <div>
+                    <label class="text-[10px] tracking-widest uppercase opacity-50 block mb-2">Nom</label>
+                    <input type="text" id="prof-nom" class="auth-input !mb-0" required>
+                </div>
+                <div>
+                    <label class="text-[10px] tracking-widest uppercase opacity-50 block mb-2">Promotion</label>
+                    <select id="prof-promo" class="auth-input !mb-0" required>
+                        <option value="P2">P2</option>
+                        <option value="P3">P3</option>
+                        <option value="P4">P4</option>
+                        <option value="P5">P5</option>
+                        <option value="MASTER">Master</option>
+                    </select>
+                </div>
+
+                <button type="submit" id="btn-update-profil" class="btn-gold w-full mt-6 !text-black border-black">
+                    Enregistrer les modifications
+                </button>
+            </form>
+
+            <div class="mt-12 pt-8 border-t border-gray-100 text-center">
+                <button onclick="handleLogout()" class="text-[10px] uppercase tracking-[0.3em] opacity-40 hover:opacity-100 transition-opacity">
+                    Se déconnecter
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const _supabaseUrl = 'https://xtctlebciarjrhbbptgu.supabase.co';
+        const _supabaseKey = 'sb_publishable_QrO2DI_h-ZtTPNnmsdZ-HQ_4lIRs62A';
+        const sb = supabase.createClient(_supabaseUrl, _supabaseKey);
+
+        let selection = { type: null, annee: null, semestre: null, brancheMethodo: null, masterBranche: null };
+        let userProfile = null;
+
+        const matieresConfig = {
+            "P2": {
+                1: ["Chimie Minérale", "Biotechnologie", "ICDM", "Galénique", "Biophysique", "Chimie Analytique", "Biologie Cellulaire", "Biochimie", "Immunologie"],
+                2: ["Chimie Organique", "Pharmacognosie", "Mycologie", "Botanique", "Parasitologie", "Bactériologie & Virologie", "Physiologie & Hématologie", "Pharmacologie", "Outils Mathématiques"]
+            },
+            "P3": {
+                1: ["Bactériologie & Virologie", "Parasitologie", "Biochimie", "Immunologie", "Physiologie", "Toxicologie", "Mycologie", "Pharmacognosie", "Chimie Thérapeutique", "Chimie Analytique", "Pharmacologie", "Sémiologie"],
+                2: ["Pharmacie Clinique", "Nutrition", "HTA/Cardio", "Lipides/Diabète", "Anti-Infectieux", "Biopharmacie", "Galénique", "Pharmacocinétique", "Santé publique"]
+            },
+            "MASTER": {
+                "Biologie Santé": ["UE1A", "UE2A", "UE3A", "UE4A", "UE5A", "UE6A", "UE7A", "UE8A", "UE9A", "UE10A", "UE11A", "UE12A", "UE13A", "UE14A", "UE15A", "UE16A", "UE IB1/IB2"],
+                "Santé Publique": ["UE RMSF", "UE GRM", "UE CMNIM", "UE TBM", "UE CS", "UE BTI", "UE GGR", "UE APO", "UE IMEE1", "UE IMEE2", "UE IMET1", "UE IMET2"]
+            }
+        };
+
+       function showPage(pageId) {
+            // Cache toutes les pages
+            document.querySelectorAll('.page').forEach(p => {
+                p.classList.remove('page-active');
+                p.style.display = 'none';
+            });
+
+            // Affiche la page demandée
+            const target = document.getElementById(pageId);
+            if (target) {
+                target.classList.add('page-active');
+                target.style.display = 'block';
+
+                // Si on va sur la bibliothèque, on reset la navigation interne
+                if (pageId === 'ressources') resetNavigationRessources();
+
+                // Si on va sur le profil, on s'assure que les données sont à jour
+                if (pageId === 'mon-profil') updateUI();
+            }
+            window.scrollTo(0, 0);
+        }
+
+        function resetNavigationRessources() {
+            selection = { type: null, annee: null, semestre: null, brancheMethodo: null, masterBranche: null };
+            document.getElementById('grid-types').classList.remove('hidden');
+            document.getElementById('grid-annees').classList.add('hidden');
+            document.getElementById('grid-methodo-branches').classList.add('hidden');
+            document.getElementById('grid-semestres').classList.add('hidden');
+            document.getElementById('grid-masters-branches').classList.add('hidden');
+            document.getElementById('grid-matieres').classList.add('hidden');
+            document.getElementById('btn-retour-ressources').classList.add('hidden');
+            document.getElementById('titre-ressources').innerText = "Bibliothèque Privée";
+
+            // Logique de visibilité pour les onglets de fiches
+            if (userProfile && userProfile.promo === 'MASTER') {
+                document.getElementById('btn-p2').classList.add('hidden');
+                document.getElementById('btn-p3').classList.add('hidden');
+                document.getElementById('btn-p4').classList.add('hidden');
+                document.getElementById('btn-p5').classList.add('hidden');
+            } else {
+                document.getElementById('btn-p2').classList.remove('hidden');
+                document.getElementById('btn-p3').classList.remove('hidden');
+                document.getElementById('btn-p4').classList.remove('hidden');
+                document.getElementById('btn-p5').classList.remove('hidden');
+            }
+        }
+
+        function choisirType(t) {
+            selection.type = t;
+            document.getElementById('grid-types').classList.add('hidden');
+            document.getElementById('btn-retour-ressources').classList.remove('hidden');
+            document.getElementById('titre-ressources').innerText = t;
+            if (t === 'Méthodologie') {
+                document.getElementById('grid-methodo-branches').classList.remove('hidden');
+            } else {
+                document.getElementById('grid-annees').classList.remove('hidden');
+            }
+        }
+
+        function choisirBrancheMethodo(branche) {
+            selection.brancheMethodo = branche;
+            document.getElementById('grid-methodo-branches').classList.add('hidden');
+            document.getElementById('grid-matieres').classList.remove('hidden');
+            afficherMethodologie();
+        }
+
+        function choisirAnnee(a) {
+            selection.annee = a;
+            document.getElementById('grid-annees').classList.add('hidden');
+            if (a === 'MASTER') {
+                document.getElementById('grid-masters-branches').classList.remove('hidden');
+            } else {
+                document.getElementById('grid-semestres').classList.remove('hidden');
+            }
+        }
+
+        function choisirMasterBranche(branche) {
+            selection.masterBranche = branche;
+            document.getElementById('grid-masters-branches').classList.add('hidden');
+            document.getElementById('grid-matieres').classList.remove('hidden');
+            afficherFichesMaster();
+        }
+
+        function choisirSemestre(s) {
+            selection.semestre = s;
+            document.getElementById('grid-semestres').classList.add('hidden');
+            document.getElementById('grid-matieres').classList.remove('hidden');
+            afficherMatieresEtFiches();
+        }
+
+        function retourRessources() {
+            const gMat = document.getElementById('grid-matieres'), gSem = document.getElementById('grid-semestres'),
+                  gAnn = document.getElementById('grid-annees'), gTyp = document.getElementById('grid-types'),
+                  gMethodo = document.getElementById('grid-methodo-branches'),
+                  gMas = document.getElementById('grid-masters-branches');
+
+            if (!gMat.classList.contains('hidden')) {
+                gMat.classList.add('hidden');
+                if (selection.type === 'Méthodologie') gMethodo.classList.remove('hidden');
+                else if (selection.annee === 'MASTER') gMas.classList.remove('hidden');
+                else gSem.classList.remove('hidden');
+            } else if (!gMethodo.classList.contains('hidden') || !gAnn.classList.contains('hidden')) {
+                gMethodo.classList.add('hidden'); gAnn.classList.add('hidden'); gTyp.classList.remove('hidden');
+                document.getElementById('btn-retour-ressources').classList.add('hidden');
+            } else if (!gSem.classList.contains('hidden') || !gMas.classList.contains('hidden')) {
+                gSem.classList.add('hidden'); gMas.classList.add('hidden'); gAnn.classList.remove('hidden');
+            }
+        }
+
+        async function fetchAndRender(filters) {
+            const container = document.getElementById('grid-matieres');
+            container.innerHTML = '<p class="text-center italic opacity-50 py-10">Consultation des archives...</p>';
+
+            let query = sb.from('ressources').select('*');
+            for (const [key, value] of Object.entries(filters)) {
+                if (value !== null) query = query.eq(key, value);
+            }
+
+            const { data: docs, error } = await query;
+
+            if (error) {
+                container.innerHTML = `<p class="text-red-500 text-center py-10">Erreur de connexion : ${error.message}</p>`;
+                return;
+            }
+
+            if (!docs || docs.length === 0) {
+                container.innerHTML = `<div class="text-center py-10"><p class="opacity-50">Aucun volume trouvé dans cette section.</p></div>`;
+                return;
+            }
+
+            return docs;
+        }
+
+        async function afficherMatieresEtFiches() {
+            const container = document.getElementById('grid-matieres');
+            const docs = await fetchAndRender({
+                annee: selection.annee,
+                semestre: selection.semestre,
+                type: selection.type
+            });
+
+            if (!docs) return;
+
+            const listeMatieres = matieresConfig[selection.annee]?.[selection.semestre] || [];
+            container.innerHTML = '';
+
+            listeMatieres.forEach(nom => {
+                const section = document.createElement('div');
+                section.innerHTML = `<h4 class="matiere-titre">${nom}</h4>`;
+                const grid = document.createElement('div');
+                grid.className = "grid md:grid-cols-2 gap-4 mb-10";
+
+                const filt = docs.filter(d => d.matiere.trim().toLowerCase() === nom.trim().toLowerCase());
+
+                if (filt.length > 0) {
+                    filt.forEach(d => {
+                        grid.innerHTML += `
+                            <div class="bg-white p-5 border flex justify-between items-center hover:border-gold-500 transition shadow-sm">
+                                <span class="fiche-item-text">${d.titre}</span>
+                                <a href="${d.url_pdf}" target="_blank" class="text-gold-600 text-[11px] font-bold uppercase tracking-widest" style="color:var(--luxury-gold)">Ouvrir</a>
+                            </div>`;
+                    });
+                } else {
+                    grid.innerHTML = `<p class="text-gray-300 italic text-sm">Aucune archive disponible.</p>`;
+                }
+                section.appendChild(grid);
+                container.appendChild(section);
+            });
+        }
+
+        async function afficherFichesMaster() {
+            const container = document.getElementById('grid-matieres');
+            // On récupère TOUS les docs Master pour la branche sélectionnée
+            const docs = await fetchAndRender({
+                type: selection.type,
+                annee: 'MASTER',
+                // Important : on s'assure que la base de données filtre par la branche (Santé Publique ou Bio)
+                // Si ta colonne en base s'appelle autrement, ajuste ici.
+            });
+
+            if (!docs) return;
+
+            const listeUEs = matieresConfig["MASTER"][selection.masterBranche] || [];
+            container.innerHTML = '';
+
+            listeUEs.forEach(nomUE => {
+                const section = document.createElement('div');
+                section.className = "mb-12";
+                section.innerHTML = `<h4 class="matiere-titre">${nomUE}</h4>`;
+
+                const grid = document.createElement('div');
+                grid.className = "grid md:grid-cols-2 gap-4";
+
+                // Filtrage local pour chaque UE du listing
+                const filt = docs.filter(d => d.matiere && d.matiere.trim().toLowerCase() === nomUE.trim().toLowerCase());
+
+                if (filt.length > 0) {
+                    filt.forEach(d => {
+                        grid.innerHTML += `
+                            <div class="bg-white p-5 border flex justify-between items-center hover:border-gold-500 transition shadow-sm">
+                                <span class="fiche-item-text">${d.titre}</span>
+                                <a href="${d.url_pdf}" target="_blank" class="text-gold-600 text-[11px] font-bold uppercase tracking-widest" style="color:var(--luxury-gold)">Ouvrir</a>
+                            </div>`;
+                    });
+                } else {
+                    grid.innerHTML = `<p class="text-gray-300 italic text-sm px-2">Aucun volume disponible pour cette UE.</p>`;
+                }
+                section.appendChild(grid);
+                container.appendChild(section);
+            });
+        }
+
+        async function afficherMethodologie() {
+            const container = document.getElementById('grid-matieres');
+            const docs = await fetchAndRender({
+                type: 'Méthodologie',
+                matiere: selection.brancheMethodo
+            });
+
+            if (!docs) return;
+
+            container.innerHTML = `<h4 class="matiere-titre">${selection.brancheMethodo}</h4>`;
+            const grid = document.createElement('div');
+            grid.className = "grid md:grid-cols-2 gap-4 mb-10";
+
+            docs.forEach(d => {
+                grid.innerHTML += `
+                    <div class="bg-white p-5 border flex justify-between items-center shadow-sm">
+                        <span class="fiche-item-text">${d.titre}</span>
+                        <a href="${d.url_pdf}" target="_blank" class="text-gold-600 text-[11px] font-bold uppercase tracking-widest" style="color:var(--luxury-gold)">Ouvrir</a>
+                    </div>`;
+            });
+            container.appendChild(grid);
+        }
+
+        async function updateUI() {
+            const { data: { user } } = await sb.auth.getUser();
+            const navAuth = document.getElementById('nav-auth-buttons'),
+                  navInfo = document.getElementById('nav-user-info'),
+                  navRes = document.getElementById('nav-ressources');
+
+            if (user) {
+                navAuth.classList.add('hidden');
+                navInfo.classList.remove('hidden');
+                navRes.classList.remove('hidden');
+
+                // On récupère le profil
+                const { data: p } = await sb.from('profils').select('*').eq('email', user.email).maybeSingle();
+
+                if (p) {
+                    // Mise à jour du texte dans la nav
+                    const navName = document.getElementById('profil-prenom-nom');
+                    if (navName) navName.innerText = `${p.prenom} ${p.nom} — ${p.promo}`;
+
+                    // Remplissage automatique des champs de la page profil
+                    if (document.getElementById('prof-prenom')) {
+                        document.getElementById('prof-prenom').value = p.prenom || "";
+                        document.getElementById('prof-nom').value = p.nom || "";
+                        document.getElementById('prof-promo').value = p.promo || "P2";
+                    }
+                }
+            } else {
+                navAuth.classList.remove('hidden');
+                navInfo.classList.add('hidden');
+                navRes.classList.add('hidden');
+            }
+        }
+
+        async function handleLogin(e) {
+            e.preventDefault();
+            const { error } = await sb.auth.signInWithPassword({
+                email: document.getElementById('login-email').value,
+                password: document.getElementById('login-password').value
+            });
+            if (error) alert(error.message);
+            else { await updateUI(); showPage('accueil'); }
+        }
+
+        async function handleSignup(e) {
+    e.preventDefault();
+    const email = document.getElementById('ins-email').value;
+    const password = document.getElementById('ins-mdp').value;
+
+    // 1. Création du compte
+    const { data: authData, error: authError } = await sb.auth.signUp({
+        email,
+        password
+    });
+
+    if (authError) {
+        alert("Erreur Auth: " + authError.message);
+        return;
+    }
+
+    // 2. Insertion dans la table profils
+    const { error: profileError } = await sb.from('profils').insert([{
+        prenom: document.getElementById('ins-prenom').value,
+        nom: document.getElementById('ins-nom').value,
+        promo: document.getElementById('ins-promo').value,
+        email: email,
+        est_valide: false
+    }]);
+
+    if (profileError) {
+        console.error("Erreur Profil:", profileError);
+        alert("Le compte est créé mais les infos de profil n'ont pu être enregistrées : " + profileError.message);
+    } else {
+        document.getElementById('form-inscription').classList.add('hidden');
+        document.getElementById('success-msg').classList.remove('hidden');
+    }
+}
+    async function handleUpdateProfil(e) {
+    e.preventDefault();
+    const btn = document.getElementById('btn-update-profil');
+    btn.innerText = "Mise à jour...";
+    btn.disabled = true;
+
+    const { data: { user } } = await sb.auth.getUser();
+
+    const updates = {
+        prenom: document.getElementById('prof-prenom').value,
+        nom: document.getElementById('prof-nom').value,
+        promo: document.getElementById('prof-promo').value
+    };
+
+    const { error } = await sb
+        .from('profils')
+        .update(updates)
+        .eq('email', user.email);
+
+    if (error) {
+        alert("Erreur : " + error.message);
+    } else {
+        alert("Profil mis à jour !");
+        await updateUI(); // Pour mettre à jour le nom dans la barre de navigation
+    }
+
+    btn.innerText = "Enregistrer les modifications";
+    btn.disabled = false;
+}
+        async function handleLogout() { await sb.auth.signOut(); window.location.reload(); }
+        window.onload = updateUI;
+    </script>
+</body>
+</html>
