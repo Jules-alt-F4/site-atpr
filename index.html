@@ -472,26 +472,46 @@
         };
 
        function showPage(pageId) {
-            // Cache toutes les pages
-            document.querySelectorAll('.page').forEach(p => {
-                p.classList.remove('page-active');
-                p.style.display = 'none';
-            });
+    // 1. Cacher toutes les pages
+    document.querySelectorAll('.page').forEach(p => {
+        p.classList.remove('page-active');
+        p.style.display = 'none';
+    });
 
-            // Affiche la page demandée
-            const target = document.getElementById(pageId);
-            if (target) {
-                target.classList.add('page-active');
-                target.style.display = 'block';
+    // 2. Logique de restriction pour la bibliothèque
+    if (pageId === 'ressources' && userProfile) {
+        const btnPharma = document.getElementById('btn-annee-pharma');
+        const btnMaster = document.getElementById('btn-annee-master');
 
-                // Si on va sur la bibliothèque, on reset la navigation interne
-                if (pageId === 'ressources') resetNavigationRessources();
-
-                // Si on va sur le profil, on s'assure que les données sont à jour
-                if (pageId === 'mon-profil') updateUI();
-            }
-            window.scrollTo(0, 0);
+        if (userProfile.promo === 'MASTER') {
+            // Si c'est un Master, on cache l'accès Pharma
+            if (btnPharma) btnPharma.style.display = 'none';
+            if (btnMaster) btnMaster.style.display = 'block';
+            
+            // On force l'affichage vers la section Master directement
+            selection.annee = 'MASTER';
+            setTimeout(() => {
+                document.getElementById('section-choix-annee').classList.add('hidden');
+                document.getElementById('section-master-branches').classList.remove('hidden');
+            }, 10);
+        } else {
+            // Si c'est un P2 ou P3, on cache l'accès Master (optionnel, selon ton choix)
+            if (btnPharma) btnPharma.style.display = 'block';
+            if (btnMaster) btnMaster.style.display = 'none';
+            
+            selection.annee = userProfile.promo; // ex: P2
+            // On peut aussi forcer l'affichage de son année
         }
+    }
+
+    // 3. Afficher la page cible
+    const target = document.getElementById(pageId);
+    if (target) {
+        target.classList.add('page-active');
+        target.style.display = 'block';
+    }
+    window.scrollTo(0, 0);
+}
 
         function resetNavigationRessources() {
             selection = { type: null, annee: null, semestre: null, brancheMethodo: null, masterBranche: null };
