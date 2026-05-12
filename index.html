@@ -601,8 +601,12 @@
         }
 
         async function fetchAndRender(filters) {
-            const container = document.getElementById('grid-matieres');
-            container.innerHTML = '<p class="text-center italic opacity-50 py-10">Consultation des archives...</p>';
+    // SÉCURITÉ : On vérifie que l'année demandée correspond au profil de l'utilisateur
+    // On autorise la requête seulement si l'année demandée est celle de l'étudiant
+            if (userProfile && filters.annee !== userProfile.promo) {
+            console.error("Accès non autorisé à cette année");
+            return []; // On renvoie une liste vide
+            }
 
             let query = sb.from('ressources').select('*');
             for (const [key, value] of Object.entries(filters)) {
