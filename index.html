@@ -666,26 +666,33 @@
             }
         }
 
-        function showPage(pageId) {
-            document.querySelectorAll('.page').forEach(p => {
-                p.classList.remove('page-active');
-                p.style.display = 'none';
-                p.style.opacity = '0';
-            });
+        function showPage(pageId, addHistory = true) {
+    // 1. Gestion de l'affichage
+    document.querySelectorAll('.page').forEach(p => {
+        p.classList.remove('page-active');
+        p.style.display = 'none';
+        p.style.opacity = '0';
+    });
 
-            if (pageId === 'ressources') {
-                initRessources();
-            }
+    if (pageId === 'ressources') {
+        initRessources();
+    }
 
-            const target = document.getElementById(pageId);
-            if (target) {
-                target.classList.add('page-active');
-                target.style.display = 'block';
-                setTimeout(() => target.style.opacity = "1", 10);
-            }
-            window.scrollTo(0, 0);
-        }
+    const target = document.getElementById(pageId);
+    if (target) {
+        target.classList.add('page-active');
+        target.style.display = 'block';
+        setTimeout(() => target.style.opacity = "1", 10);
+    }
 
+    window.scrollTo(0, 0);
+
+    // 2. Gestion de l'historique (Nouveau)
+    if (addHistory) {
+        // On ajoute l'état à l'historique du navigateur
+        history.pushState({ page: pageId }, "", `#${pageId}`);
+    }
+}
         function choisirType(t) {
             selection.type = t;
             document.getElementById('grid-types').classList.add('hidden');
@@ -912,8 +919,30 @@
             btn.disabled = false;
         }
 
+        // Détecte les clics sur les flèches du navigateur
+        window.onpopstate = function(event) {
+            if (event.state && event.state.page) {
+        // On change de page SANS rajouter une entrée dans l'historique
+            showPage(event.state.page, false);
+        } else {
+        // Retour à l'accueil si aucun état n'est trouvé
+            showPage('accueil', false);
+        }
+        };
         async function handleLogout() { await sb.auth.signOut(); window.location.reload(); }
-        window.onload = updateUI;
+        window.onload = async () => {
+    await updateUI();
+
+    // Détecte si un hashtag est présent dans l'URL au chargement
+    const hash = window.location.hash.replace('#', '');
+    if (hash && document.getElementById(hash)) {
+        showPage(hash, false);
+    } else {
+        showPage('accueil', false);
+    }
+};
+
+
     </script>
 </body>
 </html>
