@@ -545,36 +545,20 @@ input, select, button {
         </section>
 
         <section>
-<div class="w-full max-w-3xl mx-auto px-4 mb-20">
-    <div class="relative p-6 md:p-10 border border-[#c5a059]/40 bg-[#052e16]/50 backdrop-blur-xl">
-        <div class="absolute -top-1 -left-1 w-4 h-4 border-t border-l border-[#c5a059]"></div>
-        <div class="absolute -bottom-1 -right-1 w-4 h-4 border-b border-r border-[#c5a059]"></div>
+<div class="max-w-4xl mx-auto mb-16">
+    <div class="border border-[#c5a059]/30 bg-white/5 backdrop-blur-sm p-8 relative">
+        <div class="absolute top-0 left-4 bottom-0 w-[1px] bg-[#c5a059]/20"></div>
+        <div class="absolute top-0 right-4 bottom-0 w-[1px] bg-[#c5a059]/20"></div>
 
-        <h3 class="font-heritage italic text-3xl text-[#c5a059] text-center mb-8">Calendrier Académique</h3>
+        <h3 class="font-heritage italic text-3xl text-[#c5a059] mb-6 text-center">Prochaines Conférences</h3>
 
-        <div class="space-y-6">
-            <div class="flex flex-col md:flex-row md:items-center justify-between border-b border-[#c5a059]/20 pb-4">
-                <div>
-                    <p class="text-[10px] text-[#c5a059] tracking-widest uppercase mb-1">20 Mai — 18h00</p>
-                    <p class="font-heritage text-xl italic">Pharmacologie Cardiaque</p>
-                </div>
-                <div class="mt-2 md:mt-0">
-                    <span class="text-[9px] px-3 py-1 border border-[#c5a059]/50 rounded-full">Amphi A</span>
-                </div>
-            </div>
-
-            <div class="flex flex-col md:flex-row md:items-center justify-between border-b border-[#c5a059]/20 pb-4">
-                <div>
-                    <p class="text-[10px] text-[#c5a059] tracking-widest uppercase mb-1">22 Mai — 17h30</p>
-                    <p class="font-heritage text-xl italic">Chimie Organique (P2)</p>
-                </div>
-                <div class="mt-2 md:mt-0">
-                    <span class="text-[9px] px-3 py-1 border border-[#c5a059]/50 rounded-full">Amphi B</span>
-                </div>
-            </div>
+        <div id="conference-list" class="grid gap-4">
+            <p class="text-center opacity-50 italic">Chargement du calendrier...</p>
         </div>
 
-        <p class="text-center text-[8px] tracking-widest opacity-40 uppercase mt-8 italic">* Les horaires et salles sont sujets à modification par le bureau.</p>
+        <p class="text-[9px] uppercase tracking-[0.2em] opacity-40 mt-6 text-center italic">
+            * Les horaires et salles sont sujets à modification par le bureau.
+        </p>
     </div>
 </div>
         </section>
@@ -1120,6 +1104,40 @@ window.addEventListener('load', detectOS);
             });
         }
 
+        async function chargerPlanning() {
+    const container = document.getElementById('conference-list');
+
+    try {
+        const { data, error } = await sb
+            .from('planning')
+            .select('*')
+            .order('ordre', { ascending: true });
+
+        if (error) throw error;
+
+        if (!data || data.length === 0) {
+            container.innerHTML = `
+                <div class="text-center py-4 opacity-40 italic border border-dashed border-[#c5a059]/20">
+                    Aucune conférence programmée pour le moment.
+                </div>`;
+            return;
+        }
+
+        container.innerHTML = data.map(conf => `
+            <div class="flex items-center justify-between border-b border-[#c5a059]/10 pb-3 group animate-pulse-slow">
+                <div class="text-left">
+                    <span class="text-[10px] tracking-widest uppercase text-[#c5a059]/70 block">${conf.date_texte}</span>
+                    <span class="font-heritage italic text-xl group-hover:text-[#c5a059] transition-colors">${conf.titre}</span>
+                </div>
+                <span class="text-[9px] border border-[#c5a059]/40 px-3 py-1 rounded-full text-[#c5a059] bg-[#c5a059]/5">${conf.salle}</span>
+            </div>
+        `).join('');
+
+    } catch (err) {
+        console.error("Erreur planning:", err);
+        container.innerHTML = "<p class='text-[10px] text-center text-red-500/50 uppercase'>Service de calendrier temporairement indisponible</p>";
+    }
+}
         async function afficherMethodologie() {
             const container = document.getElementById('grid-matieres');
             const docs = await fetchAndRender({ type: 'Méthodologie' });
