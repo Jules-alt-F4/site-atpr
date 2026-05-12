@@ -26,14 +26,25 @@
         }
 
         body {
-    font-family: 'Montserrat', sans-serif;
-    background-color: var(--forest-green);
-    color: var(--parchment);
-    margin: 0;
-    overflow-x: hidden;
-    overflow-y: scroll;
-    /* On retire le padding d'ici, il est géré par nav et .page */
-}
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--forest-green);
+            color: var(--parchment);
+            margin: 0;
+            overflow-x: hidden;
+            overflow-y: scroll;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        main.page-active {
+            flex: 1 0 auto;
+        }
+
+        footer {
+            flex-shrink: 0;
+        }
+
         #accueil {
             margin-bottom: 100px;
         }
@@ -553,7 +564,11 @@ input, select, button {
         <h3 class="font-heritage italic text-3xl text-[#c5a059] mb-6 text-center">Prochaines Conférences</h3>
 
         <div id="conference-list" class="grid gap-4">
-            <p class="text-center opacity-50 italic">Chargement du calendrier...</p>
+            <div class="py-8 text-center">
+                <p class="text-[10px] uppercase tracking-[0.3em] opacity-40 italic animate-pulse">
+                    Consultation des archives en cours...
+                </p>
+            </div>
         </div>
 
         <p class="text-[9px] uppercase tracking-[0.2em] opacity-40 mt-6 text-center italic">
@@ -561,7 +576,7 @@ input, select, button {
         </p>
     </div>
 </div>
-        </section>
+</section>
     </main>
 
     <main id="tut-team" class="page section-parchment py-24 px-6">
@@ -871,6 +886,111 @@ input, select, button {
                     </button>
                 </div>
             </div>
+        </div>
+    </div>
+</main>
+
+<main id="mentions-legales" class="page section-parchment py-24 px-6">
+    <div class="max-w-4xl mx-auto text-[#1a1a1a]">
+        <div class="text-center mb-16">
+            <span class="text-[10px] tracking-[0.5em] uppercase opacity-50 block mb-4">Informations Obligatoires</span>
+            <h2 class="text-5xl font-heritage italic mb-6">Mentions Légales</h2>
+            <div class="gold-divider"></div>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-12 text-sm leading-loose opacity-90">
+            <div class="space-y-6">
+                <section>
+                    <h3 class="font-bold uppercase tracking-widest text-[#c5a059] text-[11px] mb-3">Éditeur de l'Institution</h3>
+                    <p>Association du Tutorat de Pharmacie Rennais (ATPr)<br>
+                    UFR des Sciences Pharmaceutiques et Biologiques<br>
+                    2 Avenue du Professeur Léon Bernard, 35043 Rennes.</p>
+                </section>
+                <section>
+                    <h3 class="font-bold uppercase tracking-widest text-[#c5a059] text-[11px] mb-3">Responsabilité</h3>
+                    <p>Directeur de la publication : Le Bureau Exécutif de l'ATPr.</p>
+                </section>
+            </div>
+            <div class="space-y-6">
+                <section>
+                    <h3 class="font-bold uppercase tracking-widest text-[#c5a059] text-[11px] mb-3">Hébergement & Technique</h3>
+                    <p>Infrastructure : Supabase Inc.<br>
+                    Développement : Commission Communication ATPr.</p>
+                </section>
+                <section>
+                    <h3 class="font-bold uppercase tracking-widest text-[#c5a059] text-[11px] mb-3">Propriété Intellectuelle</h3>
+                    <p>L'ensemble des contenus (textes, logos, fiches pédagogiques) est la propriété exclusive de l'ATPr.</p>
+                </section>
+            </div>
+        </div>
+
+        <div class="mt-16 text-center">
+            <button onclick="showPage('accueil')" class="btn-gold !text-black border-black">Retour à l'Institution</button>
+        </div>
+    </div>
+</main>
+
+<main id="politique-confidentialite" class="page section-parchment py-24 px-6">
+    <div class="max-w-4xl mx-auto text-[#1a1a1a]">
+        <div class="text-center mb-16">
+            <span class="text-[10px] tracking-[0.5em] uppercase opacity-50 block mb-4">Protection des Données</span>
+            <h2 class="text-5xl font-heritage italic mb-6">Confidentialité</h2>
+            <div class="gold-divider"></div>
+        </div>
+
+        <div class="prose prose-sm max-w-none text-sm leading-relaxed opacity-80 space-y-8">
+            <p class="italic text-center">Conformément au Règlement Général sur la Protection des Données (RGPD), l'ATPr s'engage à la transparence totale.</p>
+
+            <div class="bg-white/50 p-8 border border-gray-100">
+                <h3 class="font-heritage text-2xl mb-4">Collecte des informations</h3>
+                <p>Dans le cadre de votre adhésion, nous collectons exclusivement : votre nom, prénom, promotion et votre adresse mail académique (@etudiant.univ-rennes.fr). Ces données servent uniquement à valider votre statut d'étudiant et à vous ouvrir les accès à la bibliothèque numérique.</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8">
+                <section>
+                    <h4 class="font-bold uppercase tracking-widest text-[#c5a059] text-[10px] mb-2">Sécurité</h4>
+                    <p>Vos mots de passe sont chiffrés via le protocole de sécurité de Supabase. Aucun membre du bureau n'a accès à votre mot de passe en clair.</p>
+                </section>
+                <section>
+                    <h4 class="font-bold uppercase tracking-widest text-[#c5a059] text-[10px] mb-2">Vos Droits</h4>
+                    <p>Vous disposez d'un droit d'accès, de rectification et de suppression de vos données via votre espace "Mon Profil" ou par demande mail au Bureau.</p>
+                </section>
+            </div>
+        </div>
+
+        <div class="mt-16 text-center">
+            <button onclick="showPage('accueil')" class="btn-gold !text-black border-black">Retour à l'Institution</button>
+        </div>
+    </div>
+</main>
+
+<main id="cgu" class="page section-parchment py-24 px-6">
+    <div class="max-w-4xl mx-auto text-[#1a1a1a]">
+        <div class="text-center mb-16">
+            <span class="text-[10px] tracking-[0.5em] uppercase opacity-50 block mb-4">Règles de l'Espace Numérique</span>
+            <h2 class="text-5xl font-heritage italic mb-6">Conditions d'Utilisation</h2>
+            <div class="gold-divider"></div>
+        </div>
+
+        <div class="space-y-10 text-sm leading-loose">
+            <section class="border-l-2 border-[#c5a059] pl-6">
+                <h3 class="font-heritage text-2xl italic mb-3">1. Accès aux Ressources</h3>
+                <p>L'accès à la "Bibliothèque Privée" est un privilège réservé aux membres actifs de l'ATPr. Le compte est strictement personnel : tout partage d'identifiants pourra entraîner la suspension définitive de l'accès aux ressources.</p>
+            </section>
+
+            <section class="border-l-2 border-[#c5a059] pl-6">
+                <h3 class="font-heritage text-2xl italic mb-3">2. Propriété des Documents</h3>
+                <p>Les fiches de révisions, supports de conférences et examens classés sont le fruit du travail bénévole des tuteurs. Toute diffusion, revente ou mise en ligne de ces documents sur des plateformes tierces est formellement interdite.</p>
+            </section>
+
+            <section class="border-l-2 border-[#c5a059] pl-6">
+                <h3 class="font-heritage text-2xl italic mb-3">3. Éthique & Savoir</h3>
+                <p>L'utilisateur s'engage à utiliser ces outils dans le respect de l'éthique de la faculté de pharmacie et de l'esprit de solidarité qui définit l'ATPr.</p>
+            </section>
+        </div>
+
+        <div class="mt-16 text-center">
+            <button onclick="showPage('accueil')" class="btn-gold !text-black border-black">J'accepte les conditions</button>
         </div>
     </div>
 </main>
@@ -1295,7 +1415,7 @@ window.addEventListener('load', detectOS);
         showPage('accueil', false);
     }
 };
-        
+
 function checkPasswordStrength(password) {
     const bar = document.getElementById('strength-bar');
     const text = document.getElementById('strength-text');
@@ -1330,5 +1450,34 @@ function checkPasswordStrength(password) {
     text.style.color = currentLevel.color;
 }
     </script>
+<footer class="bg-[#000000] border-t border-[#c5a059]/20 py-12 px-6 mt-20">
+    <div class="max-w-6xl mx-auto">
+        <div class="flex flex-col md:flex-row justify-between items-center gap-8">
+            <div class="text-center md:text-left">
+                <span class="font-heritage italic text-2xl text-[#c5a059] block mb-2">ATPr</span>
+                <p class="text-[9px] uppercase tracking-[0.2em] text-[#f5f2e8]/60">
+                    &copy; 2024 Association du Tutorat de Pharmacie Rennais. <br> Tous droits réservés.
+                </p>
+            </div>
+
+            <div class="flex flex-wrap justify-center gap-8">
+                <button onclick="showPage('mentions-legales')" class="text-[10px] uppercase tracking-widest text-[#f5f2e8]/60 hover:text-[#c5a059] transition-colors">Mentions Légales</button>
+                <button onclick="showPage('politique-confidentialite')" class="text-[10px] uppercase tracking-widest text-[#f5f2e8]/60 hover:text-[#c5a059] transition-colors">Politique de Confidentialité</button>
+                <button onclick="showPage('cgu')" class="text-[10px] uppercase tracking-widest text-[#f5f2e8]/60 hover:text-[#c5a059] transition-colors">CGU</button>
+            </div>
+
+            <div class="text-center md:text-right">
+                <p class="text-[10px] uppercase tracking-widest text-[#c5a059] mb-1">Contact</p>
+                <p class="text-[11px] text-[#f5f2e8]/30 font-light">atpr.rennes@gmail.com</p>
+            </div>
+        </div>
+
+        <div class="mt-12 pt-8 border-t border-white/5 text-center">
+            <p class="text-[8px] uppercase tracking-[0.4em] text-[#f5f2e8]/60 italic">
+                Savoir, Éthique et Excellence Pharmaceutique
+            </p>
+        </div>
+    </div>
+</footer>
 </body>
 </html>
