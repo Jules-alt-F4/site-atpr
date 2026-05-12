@@ -683,10 +683,17 @@
                         >
                     </div>
 
-                    <div class="col-span-1">
-                        <label class="text-[10px] uppercase font-bold tracking-widest mb-2 opacity-50 block">Mot de passe</label>
-                        <input type="password" id="ins-mdp" class="auth-input" placeholder="••••••••" required>
+                        <div class="col-span-1">
+                            <label class="text-[10px] uppercase font-bold tracking-widest mb-2 opacity-50 block">Mot de passe</label>
+                            <input type="password" id="ins-mdp" class="auth-input !mb-2" placeholder="••••••••" required oninput="checkPasswordStrength(this.value)">
+
+                        <div class="flex items-center space-x-2 mt-2 px-1">
+                            <div class="flex-1 h-1 bg-gray-200 rounded-full overflow-hidden">
+                            <div id="strength-bar" class="h-full w-0 transition-all duration-500 bg-red-500"></div>
+                        </div>
+                        <span id="strength-text" class="text-[8px] uppercase tracking-widest opacity-60 font-bold">Faible</span>
                     </div>
+            </div>
                     <div class="col-span-1">
                         <label class="text-[10px] uppercase font-bold tracking-widest mb-2 opacity-50 block">Confirmation</label>
                         <input type="password" id="ins-mdp-conf" class="auth-input" placeholder="••••••••" required>
@@ -1153,7 +1160,39 @@ window.addEventListener('load', detectOS);
     }
 };
 
+function checkPasswordStrength(password) {
+    const bar = document.getElementById('strength-bar');
+    const text = document.getElementById('strength-text');
 
+    let strength = 0;
+    if (password.length >= 6) strength++;
+    if (password.length >= 10) strength++;
+    if (/[A-Z]/.test(password)) strength++;
+    if (/[0-9]/.test(password)) strength++;
+    if (/[^A-Za-z0-9]/.test(password)) strength++;
+
+    // Calcul du pourcentage et des couleurs (Doré pour le niveau max)
+    const levels = [
+        { width: '20%', color: '#ef4444', label: 'Trop court' },    // Rouge
+        { width: '40%', color: '#f97316', label: 'Faible' },       // Orange
+        { width: '60%', color: '#eab308', label: 'Moyen' },       // Jaune
+        { width: '80%', color: '#22c55e', label: 'Robuste' },     // Vert
+        { width: '100%', color: '#c5a059', label: 'Excellence' }  // Doré (Luxury Gold)
+    ];
+
+    if (password.length === 0) {
+        bar.style.width = '0%';
+        text.innerText = '';
+        return;
+    }
+
+    const currentLevel = levels[Math.min(strength, levels.length - 1)];
+
+    bar.style.width = currentLevel.width;
+    bar.style.backgroundColor = currentLevel.color;
+    text.innerText = currentLevel.label;
+    text.style.color = currentLevel.color;
+}
     </script>
 </body>
 </html>
