@@ -14,7 +14,7 @@
             --pharma-green: #064e3b;
             --luxury-gold: #c5a059;
             --elegant-black: #1a1a1a;
-            --parchment: #fdfdfb;
+            --parchment: #f5f2e8;
         }
 
         body {
@@ -24,6 +24,10 @@
             font-size: 1.15rem;
             margin: 0;
             overflow-x: hidden;
+            overflow-y: scroll;
+        }
+        #accueil {
+            margin-bottom: 100px;
         }
 
         .font-heritage { font-family: 'Cormorant Garamond', serif; }
@@ -124,7 +128,6 @@
             width: 100%; height: 100%; object-fit: cover;
             opacity: 0.4; transition: opacity 0.5s ease;
         }
-        .archive-card:hover img { opacity: 0.9; }
 
         .card-label {
             position: absolute;
@@ -268,6 +271,27 @@
     text-align: center;
     margin-bottom: 2rem;
 }
+        .archive-card:hover img { opacity: 0.9; }
+        /* Cadre doré pour les formulaires d'authentification */
+            .auth-frame-gold {
+                border: 2px solid var(--luxury-gold);
+                box-shadow: 0 0 20px rgba(197, 160, 89, 0.2); /* Lueur subtile */
+                position: relative;
+                z-index: 10;
+        }
+
+/* Optionnel : ajout de coins décoratifs "héritage" */
+            .auth-frame-gold::before {
+                content: '';
+                position: absolute;
+                top: -5px;
+                left: -5px;
+                right: -5px;
+                bottom: -5px;
+                border: 1px solid var(--luxury-gold);
+                opacity: 0.3;
+                pointer-events: none;
+        }
     </style>
 </head>
 <body>
@@ -298,45 +322,52 @@
     </nav>
 
     <main id="accueil" class="page page-active">
-    <section class="h-[85vh] flex items-center justify-center relative">
+        <section class="min-h-screen flex flex-col items-center justify-center relative py-24">
 
-        <div class="greek-column column-left"></div>
-        <div class="greek-column column-right"></div>
+            <div class="greek-column column-left"></div>
+            <div class="greek-column column-right"></div>
 
-        <div class="hero-container text-center px-6 z-10">
-            <span class="text-[11px] tracking-[0.8em] uppercase mb-10 block animate-pulse" style="color:var(--luxury-gold)">
+            <div class="hero-container text-center px-6 z-10 max-w-7xl mx-auto">
+                <span class="text-[11px] tracking-[0.8em] uppercase mb-8 block animate-pulse" style="color:var(--luxury-gold)">
                 Association du tutorat de pharmacie rennais
-            </span>
+                </span>
 
-            <div class="relative inline-block">
-                <h2 class="text-7xl md:text-[10rem] font-heritage italic leading-none mb-4">
-                    Tradition <br>
-                    <span class="not-italic text-white opacity-90">Savoir</span>
-                </h2>
-                <div class="flex justify-center items-center space-x-4 mb-10">
-                    <div class="h-[1px] w-20 bg-[#c5a059]/30"></div>
-                    <span class="text-[#c5a059] text-xl">◈</span>
-                    <div class="h-[1px] w-20 bg-[#c5a059]/30"></div>
+                <div class="relative inline-block mb-8">
+                    <h2 class="text-6xl md:text-[8rem] font-heritage italic leading-[1.1]">
+                        Tradition, <br>
+                        <span class="italic text-white opacity-90">Savoir & Exigence</span>
+                    </h2>
+                    <div class="flex justify-center items-center space-x-4 mt-6">
+                        <div class="h-[1px] w-20 bg-[#c5a059]/30"></div>
+                        <span class="text-[#c5a059] text-xl">◈</span>
+                        <div class="h-[1px] w-20 bg-[#c5a059]/30"></div>
+                    </div>
+                </div>
+
+                    <p class="max-w-5xl mx-auto text-[13px] tracking-[0.25em] uppercase opacity-70 leading-[2.8] mb-12 font-light px-4">
+                        L'Association du tutorat de pharmacie rennais (ATPr) est une institution étudiante historique dédiée à l'apport d'un soutien logistique, moral et intellectuel constant aux étudiants de l'UFR Pharmacie de Rennes.
+                        <br>
+                        <span class="inline-block mt-4">L'association érige en principes fondamentaux l'égalité des chances, la rigueur dans le travail et la réussite académique de chaque membre de notre faculté.</span>
+                    </p>
+
+                <div class="flex flex-col md:flex-row items-center justify-center gap-8 mb-12">
+                    <button onclick="showPage('tut-team')" class="btn-gold px-12 py-4 text-[10px]">
+                    Explorer le Bureau
+                    </button>
+                    <button id="btn-hero-inscription" onclick="showPage('inscription')" class="text-[10px] uppercase tracking-[0.3em] text-white/50 hover:text-[#c5a059] transition-colors">
+                    Devenir membre →
+                    </button>
                 </div>
             </div>
 
-            <p class="max-w-4xl mx-auto text-[13px] tracking-[0.25em] uppercase opacity-70 leading-[2.5] mb-16 font-light">
-                L'Association du tutorat de pharmacie rennais (ATPr) est une institution étudiante dédiée à l'apport d'un soutien logistique, moral et intellectuel constant aux étudiants de l'UFR Pharmacie de Rennes.
-                 <br>
-                <span class="inline-block mt-4">L'association érige en principes fondamentaux l'égalité des chances, la rigueur dans le travail et la réussite académique de chaque étudiant.</span>
-            </p>
-
-            <div class="flex flex-col md:flex-row items-center justify-center gap-8">
-                <button onclick="showPage('tut-team')" class="btn-gold px-12 py-4 text-[10px]">
-                    Explorer le Bureau
-                </button>
-                <button onclick="showPage('inscription')" class="text-[10px] uppercase tracking-[0.3em] text-white/50 hover:text-[#c5a059] transition-colors">
-                    Devenir membre →
-                </button>
+            <div class="absolute bottom-8 left-1/2 -translate-x-1/2 cursor-pointer group z-20" onclick="window.scrollBy({top: window.innerHeight, behavior: 'smooth'})">
+                <div class="flex flex-col items-center">
+                    <span class="text-[9px] tracking-[0.4em] uppercase mb-4 opacity-40 group-hover:opacity-100 transition-opacity">Découvrir</span>
+                    <div class="w-[1px] h-16 bg-gradient-to-b from-[#c5a059] to-transparent opacity-60"></div>
+                </div>
             </div>
-        </div>
-    </section>
-</main>
+        </section>
+    </main>
 
     <main id="tut-team" class="page section-parchment py-24 px-6">
         <div class="max-w-6xl mx-auto">
@@ -466,7 +497,7 @@
             <p class="text-xs leading-loose opacity-60 z-10 tracking-widest">IDENTIFIEZ-VOUS POUR ACCÉDER AU PATRIMOINE PÉDAGOGIQUE DE L'ATPR.</p>
         </div>
 
-        <div class="md:w-1/2 bg-white p-12 relative">
+        <div class="md:w-1/2 p-12 relative auth-frame-gold" style="background-color: var(--parchment)">
             <div class="auth-column auth-column-left"></div>
             <div class="auth-column auth-column-right"></div>
 
@@ -502,7 +533,7 @@
                     <p class="text-[9px] uppercase tracking-[0.3em] opacity-50">Association du tutorat de pharmacie rennais</p>
                 </div>
             </div>
-            <div class="md:w-7/12 p-12 bg-white text-black">
+            <div class="md:w-7/12 p-12 relative auth-frame-gold" style="background-color: var(--parchment)">
                 <form id="form-inscription" onsubmit="handleSignup(event)" class="grid grid-cols-1 md:grid-cols-2 gap-x-6">
                     <div class="col-span-1">
                         <label class="text-[10px] uppercase font-bold tracking-widest mb-2 opacity-50 block">Prénom</label>
@@ -799,35 +830,43 @@
         }
 
         async function updateUI() {
-            const { data: { user } } = await sb.auth.getUser();
-            const navAuth = document.getElementById('nav-auth-buttons'),
-                  navInfo = document.getElementById('nav-user-info'),
-                  navRes = document.getElementById('nav-ressources');
+    const { data: { user } } = await sb.auth.getUser();
+    const navAuth = document.getElementById('nav-auth-buttons'),
+          navInfo = document.getElementById('nav-user-info'),
+          navRes = document.getElementById('nav-ressources'),
+          btnHeroInsc = document.getElementById('btn-hero-inscription'); // Nouvelle référence
 
-            if (user) {
-                navAuth.classList.add('hidden');
-                navInfo.classList.remove('hidden');
-                navRes.classList.remove('hidden');
+    if (user) {
+        // L'utilisateur est connecté
+        navAuth.classList.add('hidden');
+        navInfo.classList.remove('hidden');
+        navRes.classList.remove('hidden');
 
-                const { data: p } = await sb.from('profils').select('*').eq('email', user.email).maybeSingle();
-                if (p) {
-                    userProfile = p;
-                    const navName = document.getElementById('profil-prenom-nom');
-                    if (navName) navName.innerText = `${p.prenom} ${p.nom} — ${p.promo}`;
+        // On masque le bouton d'adhésion sur la page d'accueil
+        if (btnHeroInsc) btnHeroInsc.classList.add('hidden');
 
-                    // Remplissage automatique du formulaire profil
-                    if(document.getElementById('prof-prenom')) document.getElementById('prof-prenom').value = p.prenom;
-                    if(document.getElementById('prof-nom')) document.getElementById('prof-nom').value = p.nom;
-                    if(document.getElementById('prof-promo')) document.getElementById('prof-promo').value = p.promo;
-                }
-            } else {
-                navAuth.classList.remove('hidden');
-                navInfo.classList.add('hidden');
-                navRes.classList.add('hidden');
-                userProfile = null;
-            }
+        const { data: p } = await sb.from('profils').select('*').eq('email', user.email).maybeSingle();
+        if (p) {
+            userProfile = p;
+            const navName = document.getElementById('profil-prenom-nom');
+            if (navName) navName.innerText = `${p.prenom} ${p.nom} — ${p.promo}`;
+
+            if(document.getElementById('prof-prenom')) document.getElementById('prof-prenom').value = p.prenom;
+            if(document.getElementById('prof-nom')) document.getElementById('prof-nom').value = p.nom;
+            if(document.getElementById('prof-promo')) document.getElementById('prof-promo').value = p.promo;
         }
+    } else {
+        // L'utilisateur est déconnecté
+        navAuth.classList.remove('hidden');
+        navInfo.classList.add('hidden');
+        navRes.classList.add('hidden');
 
+        // On réaffiche le bouton d'adhésion
+        if (btnHeroInsc) btnHeroInsc.classList.remove('hidden');
+
+        userProfile = null;
+    }
+}
         async function handleLogin(e) {
             e.preventDefault();
             const { error } = await sb.auth.signInWithPassword({
