@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>ATPR — Excellence Pharmaceutique</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -18,14 +18,14 @@
         }
 
         body {
-            font-family: 'Montserrat', sans-serif;
-            background-color: var(--forest-green);
-            color: var(--parchment);
-            font-size: 1.15rem;
-            margin: 0;
-            overflow-x: hidden;
-            overflow-y: scroll;
-        }
+    font-family: 'Montserrat', sans-serif;
+    background-color: var(--forest-green);
+    color: var(--parchment);
+    margin: 0;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    /* On retire le padding d'ici, il est géré par nav et .page */
+}
         #accueil {
             margin-bottom: 100px;
         }
@@ -36,6 +36,9 @@
         .page-active {
             display: block;
             animation: luxuryReveal 1.2s ease-out forwards;
+            padding-left: env(safe-area-inset-left);
+            padding-right: env(safe-area-inset-right);
+            padding-bottom: env(safe-area-inset-bottom);
         }
 
         @keyframes luxuryReveal {
@@ -43,14 +46,107 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        nav { background-color: rgba(255, 255, 255, 0.98); border-bottom: 1px solid var(--luxury-gold); }
-        .nav-link {
-            text-transform: uppercase; letter-spacing: 0.15em;
-            font-size: 0.85rem;
-            font-weight: 700;
-            color: var(--elegant-black); transition: all 0.3s;
-        }
-        .nav-link:hover { color: var(--luxury-gold); }
+        nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    /* Couleur de fond blanche avec une légère transparence pour l'élégance */
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(10px);
+    /* Bordure dorée très fine pour le rappel de charte */
+    border-bottom: 1px solid rgba(197, 160, 89, 0.3);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Ombre pour le contraste */
+    padding-top: env(safe-area-inset-top);
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+}
+
+.nav-container {
+    max-width: 90rem;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 2rem;
+    height: 55px;
+}
+
+/* --- POLICES EN NOIR --- */
+
+.nav-brand-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    letter-spacing: 0.1em;
+    color: #000000 !important; /* Force le noir */
+}
+
+.nav-slogan {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    text-transform: uppercase;
+    letter-spacing: 0.25em;
+    font-size: 14px;
+    color: #000000;
+    opacity: 0.6;
+}
+.nav-link {
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: #000000 !important;
+    opacity: 0.8;
+    transition: all 0.3s ease;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+#nav-auth-buttons .btn-gold {
+    /* Taille et Épaisseur */
+    font-size: 11px !important;
+    font-weight: 800 !important;
+    padding: 8px 24px !important;
+
+    /* Couleur Doré Royal */
+    background-color: #FFFFFF !important; /* Fond doré par défaut */
+    color: #c5a059 !important;
+    border: 1px solid #c5a059 !important;
+
+    /* Effets */
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 15px rgba(197, 160, 89, 0.2); /* Lueur dorée discrète */
+}
+
+#nav-auth-buttons .btn-gold:hover {
+    background-color: #052e16 !important; /* Devient vert forêt au survol */
+    border-color: #052e16 !important;
+    color: #c5a059 !important;            /* Le texte repasse en doré */
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    transform: translateY(-1px);          /* Léger soulèvement */
+}
+.nav-link:hover {
+    opacity: 1;
+    color: var(--luxury-gold) !important; /* Devient doré au survol */
+}
+
+/* Boutons de droite spécifiques */
+#nav-auth-buttons button:first-child {
+    color: #000000; /* Bouton S'identifier en noir */
+}
+
+/* Style du nom dans la barre de navigation */
+#profil-prenom-nom {
+    color: #000000;
+    opacity: 0.9;
+    font-style: italic; /* Mise en italique */
+    font-weight: 700;   /* Augmentation de l'épaisseur (Gras) */
+    text-transform: none; /* Désactive la mise en majuscule automatique si elle était présente */
+}
+
 
         .btn-gold {
             border: 1px solid var(--luxury-gold); padding: 14px 35px;
@@ -292,34 +388,77 @@
                 opacity: 0.3;
                 pointer-events: none;
         }
+            /* --- ADAPTATIONS POUR IOS (iPhone/iPad) --- */
+.os-ios {
+    /* Utilise la police système San Francisco d'Apple */
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.os-ios .btn-gold {
+    border-radius: 20px; /* Bords plus arrondis typiques d'iOS */
+    letter-spacing: 0.1em;
+}
+
+/* --- ADAPTATIONS POUR ANDROID --- */
+.os-android {
+    /* Utilise la police Roboto de Google */
+    font-family: "Roboto", sans-serif;
+}
+.os-android .btn-gold {
+    border-radius: 4px; /* Bords plus carrés style Material Design */
+    text-transform: uppercase;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+}
+
+/* --- ADAPTATIONS POUR MACOS --- */
+.os-macos .font-heritage {
+    font-weight: 500; /* Le rendu des polices est plus fin sur Mac, on compense légèrement */
+}
+
+/* --- ADAPTATIONS POUR WINDOWS --- */
+.os-windows ::-webkit-scrollbar {
+    width: 12px; /* Barre de défilement plus présente sur Windows */
+}
+.os-windows ::-webkit-scrollbar-thumb {
+    background: var(--luxury-gold);
+    border: 3px solid var(--forest-green);
+    border-radius: 10px;
+}
+.absolute.bottom-8, .absolute.bottom-10 {
+    bottom: calc(2rem + env(safe-area-inset-bottom)) !important;
+}
     </style>
 </head>
+
 <body>
+    <nav>
+    <div class="nav-container">
+        <div class="flex items-center space-x-6 cursor-pointer" onclick="showPage('accueil')">
+            <span class="text-2xl nav-brand-text text-[#c5a059]">ATPr</span>
+            <div class="h-6 w-[1px] bg-[#c5a059]/20 hidden md:block"></div>
+            <span class="nav-slogan hidden md:block">Excellence & Tradition</span>
+        </div>
 
-    <nav class="sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-6 flex justify-between items-center h-24">
-            <div class="flex space-x-10 items-center">
-                <button onclick="showPage('accueil')" class="nav-link">L'Institution</button>
-                <button id="nav-ressources" onclick="showPage('ressources')" class="nav-link hidden">Bibliothèque</button>
-                <button onclick="showPage('tut-team')" class="nav-link">Le Bureau</button>
+        <div class="hidden lg:flex items-center space-x-10">
+            <button onclick="showPage('accueil')" class="nav-link">L'Institution</button>
+            <button id="nav-ressources" class="hidden nav-link !opacity-100 text-[#c5a059]" onclick="showPage('ressources')">Ressources</button>
+            <button onclick="showPage('tut-team')" class="nav-link">Le Bureau</button>
             </div>
 
-            <div class="text-center cursor-pointer" onclick="showPage('accueil')">
-                <h1 class="text-3xl font-heritage font-bold tracking-widest uppercase" style="color: var(--elegant-black)">ATPR</h1>
-                <p class="text-[9px] tracking-[0.4em] uppercase opacity-40 -mt-1" style="color: var(--elegant-black)">Excellence rennaise</p>
+        <div class="flex items-center space-x-6">
+            <div id="nav-auth-buttons" class="flex items-center space-x-6">
+                <button onclick="showPage('connexion')" class="text-[10px] uppercase tracking-[0.2em] hover:text-[#c5a059] transition-colors">S'identifier</button>
+                <button onclick="showPage('inscription')" class="btn-gold px-6 py-1.5 text-[9px] !text-black border-black">
+                    Adhérer
+                </button>
             </div>
 
-            <div id="nav-auth-buttons" class="flex items-center space-x-8">
-                <button onclick="showPage('connexion')" class="nav-link">Connexion</button>
-                <button onclick="showPage('inscription')" class="btn-gold">Adhérer</button>
-            </div>
-
-            <div id="nav-user-info" class="hidden flex items-center space-x-8">
-                <button id="profil-prenom-nom" onclick="showPage('mon-profil')" class="nav-link italic text-[10px] normal-case hover:text-[#c5a059] cursor-pointer"></button>
-                <button onclick="handleLogout()" class="text-[10px] uppercase opacity-50 hover:opacity-100 text-[#1a1a1a]">Quitter</button>
+            <div id="nav-user-info" class="hidden flex items-center space-x-6">
+                <span id="profil-prenom-nom" class="text-[10px] uppercase tracking-[0.2em] opacity-60 font-light" onclick="showPage('mon-profil')" style="cursor:pointer"></span>
+                <button onclick="handleLogout()" class="text-[10px] uppercase tracking-[0.2em] text-red-400/50 hover:text-red-400 transition-colors">Quitter</button>
             </div>
         </div>
-    </nav>
+    </div>
+</nav>
 
     <main id="accueil" class="page page-active">
         <section class="min-h-screen flex flex-col items-center justify-center relative py-24">
@@ -633,6 +772,27 @@
             }
         };
 
+        function detectOS() {
+    const ua = window.navigator.userAgent;
+    const platform = window.navigator.platform;
+    const body = document.body;
+
+    if (/iPad|iPhone|iPod/.test(ua)) {
+        body.classList.add('os-ios');
+    } else if (/Android/.test(ua)) {
+        body.classList.add('os-android');
+    } else if (/Mac/.test(platform)) {
+        body.classList.add('os-macos');
+    } else if (/Win/.test(platform)) {
+        body.classList.add('os-windows');
+    } else if (/Linux/.test(platform)) {
+        body.classList.add('os-linux');
+    }
+}
+
+// Appelez la fonction au chargement
+window.addEventListener('load', detectOS);
+
         // --- NOUVELLE FONCTION D'INITIALISATION DE LA BIBLIOTHEQUE ---
         function initRessources() {
             // Cacher toutes les sous-sections
@@ -831,39 +991,51 @@
             container.appendChild(grid);
         }
 
-        async function updateUI() {
+      async function updateUI() {
     const { data: { user } } = await sb.auth.getUser();
-    const navAuth = document.getElementById('nav-auth-buttons'),
-          navInfo = document.getElementById('nav-user-info'),
-          navRes = document.getElementById('nav-ressources'),
-          btnHeroInsc = document.getElementById('btn-hero-inscription'); // Nouvelle référence
+
+    // Récupération des éléments du DOM
+    const navAuth = document.getElementById('nav-auth-buttons');
+    const navInfo = document.getElementById('nav-user-info');
+    const navRes = document.getElementById('nav-ressources');
+    const btnHeroInsc = document.getElementById('btn-hero-inscription');
 
     if (user) {
-        // L'utilisateur est connecté
-        navAuth.classList.add('hidden');
-        navInfo.classList.remove('hidden');
-        navRes.classList.remove('hidden');
+        // --- UTILISATEUR CONNECTÉ ---
+        if (navAuth) navAuth.classList.add('hidden');
+        if (navInfo) navInfo.classList.remove('hidden');
+        if (navRes) navRes.classList.remove('hidden');
 
-        // On masque le bouton d'adhésion sur la page d'accueil
+        // Masquer le bouton d'adhésion du Hero
         if (btnHeroInsc) btnHeroInsc.classList.add('hidden');
 
         const { data: p } = await sb.from('profils').select('*').eq('email', user.email).maybeSingle();
+
         if (p) {
             userProfile = p;
             const navName = document.getElementById('profil-prenom-nom');
-            if (navName) navName.innerText = `${p.prenom} ${p.nom} — ${p.promo}`;
+            if (navName) {
+                const formatName = (str) => {
+                    if (!str) return "";
+                    return str.toLowerCase().replace(/(^\w|\s\w)/g, m => m.toUpperCase());
+                };
+                const prenomFormate = formatName(p.prenom);
+                const nomFormate = formatName(p.nom);
+                navName.innerText = `${prenomFormate} ${nomFormate} — ${p.promo}`;
+            }
 
+            // Remplissage auto du profil
             if(document.getElementById('prof-prenom')) document.getElementById('prof-prenom').value = p.prenom;
             if(document.getElementById('prof-nom')) document.getElementById('prof-nom').value = p.nom;
             if(document.getElementById('prof-promo')) document.getElementById('prof-promo').value = p.promo;
         }
     } else {
-        // L'utilisateur est déconnecté
-        navAuth.classList.remove('hidden');
-        navInfo.classList.add('hidden');
-        navRes.classList.add('hidden');
+        // --- UTILISATEUR DÉCONNECTÉ ---
+        if (navAuth) navAuth.classList.remove('hidden');
+        if (navInfo) navInfo.classList.add('hidden');
+        if (navRes) navRes.classList.add('hidden');
 
-        // On réaffiche le bouton d'adhésion
+        // Réafficher le bouton d'adhésion du Hero
         if (btnHeroInsc) btnHeroInsc.classList.remove('hidden');
 
         userProfile = null;
