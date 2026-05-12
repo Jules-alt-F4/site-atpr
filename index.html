@@ -1283,10 +1283,11 @@ window.addEventListener('load', detectOS);
 }
 
         async function handleLogout() { await sb.auth.signOut(); window.location.reload(); }
-        window.onload = async () => {
-    await updateUI();
 
-    // Détecte si un hashtag est présent dans l'URL au chargement
+   window.onload = async () => {
+    await updateUI();
+    await chargerPlanning(); // <--- AJOUTER CETTE LIGNE ICI
+
     const hash = window.location.hash.replace('#', '');
     if (hash && document.getElementById(hash)) {
         showPage(hash, false);
@@ -1294,7 +1295,7 @@ window.addEventListener('load', detectOS);
         showPage('accueil', false);
     }
 };
-
+        
 function checkPasswordStrength(password) {
     const bar = document.getElementById('strength-bar');
     const text = document.getElementById('strength-text');
