@@ -333,8 +333,8 @@ input, select, button {
 
 .greek-column {
     position: absolute;
-    top: 10%;
-    bottom: 10%;
+    top: 5%;
+    bottom: 60%;
     width: 2px; /* La bande principale */
     background: linear-gradient(to bottom, transparent, var(--luxury-gold), transparent);
     opacity: 0.4;
@@ -376,6 +376,15 @@ input, select, button {
     box-shadow: 0 5px 0 var(--luxury-gold);
 }
 
+/* Animation subtile de lueur sur les colonnes */
+@keyframes goldGlow {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 0.6; }
+}
+
+.greek-column {
+    animation: goldGlow 4s infinite ease-in-out;
+}
 /* Animation subtile de lueur sur les colonnes */
 @keyframes goldGlow {
     0%, 100% { opacity: 0.3; }
@@ -509,10 +518,11 @@ input, select, button {
 </nav>
 
     <main id="accueil" class="page page-active">
+                    <div class="greek-column column-left"></div>
+            <div class="greek-column column-right"></div>
         <section class="min-h-screen flex flex-col items-center justify-center relative py-24">
 
-            <div class="greek-column column-left"></div>
-            <div class="greek-column column-right"></div>
+
 
             <div class="hero-container text-center px-6 z-10 max-w-7xl mx-auto">
                 <span class="text-[11px] tracking-[0.8em] uppercase mb-8 block animate-pulse" style="color:var(--luxury-gold)">
@@ -577,7 +587,9 @@ input, select, button {
     </div>
 </div>
 </section>
-        <section id="presentation-association" class="py-24 px-6 relative overflow-hidden">
+
+<section id="presentation-association" class="py-24 px-6 relative overflow-hidden">
+
     <div class="absolute top-0 left-1/2 -translate-x-1/2 w-px h-24 bg-gradient-to-b from-[#c5a059] to-transparent opacity-30"></div>
 
     <div class="max-w-6xl mx-auto">
@@ -628,7 +640,8 @@ input, select, button {
 
     </div>
 </section>
-        <section id="mot-fondatrice" class="py-24 px-6 bg-[#042612]/50 relative">
+
+<section id="mot-fondatrice" class="py-24 px-6 bg-[#042612]/50 relative">
     <div class="absolute inset-0 flex items-center justify-center opacity-[0.03] pointer-events-none">
         <span class="font-heritage text-[25vw] leading-none">ATPr</span>
     </div>
@@ -670,6 +683,7 @@ input, select, button {
         </div>
     </div>
 </section>
+
         <section>
             <div class="grid md:grid-cols-3 gap-12 mt-32 border-t border-white/5 pt-16">
             <div class="text-center group">
