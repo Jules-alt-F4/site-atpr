@@ -254,7 +254,7 @@
                 <div class="member-card">
                     <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&q=80&w=400" alt="V-P Pédagogie" class="member-photo">
                     <div class="member-info">
-                        <span class="member-role">V-P Méthodologie</span>
+                        <span class="member-role">V-P Methodologie</span>
                         <h3 class="font-heritage text-2xl italic mb-2">El Grande Juanito</h3>
                         <p class="text-[10px] uppercase tracking-widest opacity-40">Étudiante en 3ème Année</p>
                     </div>
@@ -262,7 +262,7 @@
                 <div class="member-card">
                     <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=400" alt="V-P Communication" class="member-photo">
                     <div class="member-info">
-                        <span class="member-role">V-P site & Communication</span>
+                        <span class="member-role">V-P Site & Communication</span>
                         <h3 class="font-heritage text-2xl italic mb-2">Jules Martin</h3>
                         <p class="text-[10px] uppercase tracking-widest opacity-40">Étudiant en 3ème Année</p>
                     </div>
@@ -306,30 +306,32 @@
                 </div>
             </div>
 
-            <div id="grid-annees" class="hidden grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8">
-                <button id="btn-p2" onclick="choisirAnnee('P2')" class="btn-gold !text-black border-black hover:!bg-black hover:!text-white">P2</button>
-                <button id="btn-p3" onclick="choisirAnnee('P3')" class="btn-gold !text-black border-black hover:!bg-black hover:!text-white">P3</button>
-                <button id="btn-p4" onclick="choisirAnnee('P4')" class="btn-gold !text-black border-black hover:!bg-black hover:!text-white">P4</button>
-                <button id="btn-p5" onclick="choisirAnnee('P5')" class="btn-gold !text-black border-black hover:!bg-black hover:!text-white">P5</button>
-                <button onclick="choisirAnnee('MASTER')" class="btn-gold !text-black border-black hover:!bg-black hover:!text-white">Masters</button>
-            </div>
+            <div id="section-choix-annee" class="space-y-6">
+                <div id="grid-annees" class="hidden grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8">
+                    <button id="btn-p2" onclick="choisirAnnee('P2')" class="btn-gold !text-black border-black hover:!bg-black hover:!text-white">P2</button>
+                    <button id="btn-p3" onclick="choisirAnnee('P3')" class="btn-gold !text-black border-black hover:!bg-black hover:!text-white">P3</button>
+                    <button id="btn-p4" onclick="choisirAnnee('P4')" class="btn-gold !text-black border-black hover:!bg-black hover:!text-white">P4</button>
+                    <button id="btn-p5" onclick="choisirAnnee('P5')" class="btn-gold !text-black border-black hover:!bg-black hover:!text-white">P5</button>
+                    <button id="btn-master" onclick="choisirAnnee('MASTER')" class="btn-gold !text-black border-black hover:!bg-black hover:!text-white">Masters</button>
+                </div>
 
-            <div id="grid-methodo-branches" class="hidden grid grid-cols-1 md:grid-cols-2 gap-10">
-                <button onclick="choisirBrancheMethodo('Méthodologie Oraux')" class="h-40 border border-gray-200 font-heritage text-3xl italic hover:bg-emerald-950 hover:text-white transition">Méthodologie Oraux</button>
-                <button onclick="choisirBrancheMethodo('Méthodologie Écrit')" class="h-40 border border-gray-200 font-heritage text-3xl italic hover:bg-emerald-950 hover:text-white transition">Méthodologie Écrit</button>
-            </div>
+                <div id="grid-methodo-branches" class="hidden grid grid-cols-1 md:grid-cols-2 gap-10">
+                    <button onclick="choisirBrancheMethodo('Méthodologie Oraux')" class="h-40 border border-gray-200 font-heritage text-3xl italic hover:bg-emerald-950 hover:text-white transition">Méthodologie Oraux</button>
+                    <button onclick="choisirBrancheMethodo('Méthodologie Écrit')" class="h-40 border border-gray-200 font-heritage text-3xl italic hover:bg-emerald-950 hover:text-white transition">Méthodologie Écrit</button>
+                </div>
 
-            <div id="grid-semestres" class="hidden grid grid-cols-2 gap-10">
-                <button onclick="choisirSemestre(1)" class="h-40 border border-gray-200 font-heritage text-3xl italic hover:bg-emerald-950 hover:text-white transition">Premier Semestre</button>
-                <button onclick="choisirSemestre(2)" class="h-40 border border-gray-200 font-heritage text-3xl italic hover:bg-emerald-950 hover:text-white transition">Second Semestre</button>
-            </div>
+                <div id="grid-semestres" class="hidden grid grid-cols-2 gap-10">
+                    <button onclick="choisirSemestre(1)" class="h-40 border border-gray-200 font-heritage text-3xl italic hover:bg-emerald-950 hover:text-white transition">Premier Semestre</button>
+                    <button onclick="choisirSemestre(2)" class="h-40 border border-gray-200 font-heritage text-3xl italic hover:bg-emerald-950 hover:text-white transition">Second Semestre</button>
+                </div>
 
-            <div id="grid-masters-branches" class="hidden grid grid-cols-1 md:grid-cols-2 gap-10">
-                <button onclick="choisirMasterBranche('Santé Publique')" class="h-40 border border-gray-200 font-heritage text-3xl italic hover:bg-emerald-950 hover:text-white transition">Santé Publique</button>
-                <button onclick="choisirMasterBranche('Biologie Santé')" class="h-40 border border-gray-200 font-heritage text-3xl italic hover:bg-emerald-950 hover:text-white transition">Biologie Santé</button>
-            </div>
+                <div id="grid-masters-branches" class="hidden grid grid-cols-1 md:grid-cols-2 gap-10">
+                    <button onclick="choisirMasterBranche('Santé Publique')" class="h-40 border border-gray-200 font-heritage text-3xl italic hover:bg-emerald-950 hover:text-white transition">Santé Publique</button>
+                    <button onclick="choisirMasterBranche('Biologie Santé')" class="h-40 border border-gray-200 font-heritage text-3xl italic hover:bg-emerald-950 hover:text-white transition">Biologie Santé</button>
+                </div>
 
-            <div id="grid-matieres" class="hidden space-y-16 text-left"></div>
+                <div id="grid-matieres" class="hidden space-y-16 text-left"></div>
+            </div>
         </div>
     </main>
 
@@ -471,71 +473,57 @@
             }
         };
 
-       function showPage(pageId) {
-    // 1. Cacher toutes les pages
-    document.querySelectorAll('.page').forEach(p => {
-        p.classList.remove('page-active');
-        p.style.display = 'none';
-    });
-
-    // 2. Logique de restriction pour la bibliothèque
-    if (pageId === 'ressources' && userProfile) {
-        const btnPharma = document.getElementById('btn-annee-pharma');
-        const btnMaster = document.getElementById('btn-annee-master');
-
-        if (userProfile.promo === 'MASTER') {
-            // Si c'est un Master, on cache l'accès Pharma
-            if (btnPharma) btnPharma.style.display = 'none';
-            if (btnMaster) btnMaster.style.display = 'block';
-            
-            // On force l'affichage vers la section Master directement
-            selection.annee = 'MASTER';
-            setTimeout(() => {
-                document.getElementById('section-choix-annee').classList.add('hidden');
-                document.getElementById('section-master-branches').classList.remove('hidden');
-            }, 10);
-        } else {
-            // Si c'est un P2 ou P3, on cache l'accès Master (optionnel, selon ton choix)
-            if (btnPharma) btnPharma.style.display = 'block';
-            if (btnMaster) btnMaster.style.display = 'none';
-            
-            selection.annee = userProfile.promo; // ex: P2
-            // On peut aussi forcer l'affichage de son année
-        }
-    }
-
-    // 3. Afficher la page cible
-    const target = document.getElementById(pageId);
-    if (target) {
-        target.classList.add('page-active');
-        target.style.display = 'block';
-    }
-    window.scrollTo(0, 0);
-}
-
-        function resetNavigationRessources() {
-            selection = { type: null, annee: null, semestre: null, brancheMethodo: null, masterBranche: null };
-            document.getElementById('grid-types').classList.remove('hidden');
+        // --- NOUVELLE FONCTION D'INITIALISATION DE LA BIBLIOTHEQUE ---
+        function initRessources() {
+            // Cacher toutes les sous-sections
             document.getElementById('grid-annees').classList.add('hidden');
             document.getElementById('grid-methodo-branches').classList.add('hidden');
             document.getElementById('grid-semestres').classList.add('hidden');
             document.getElementById('grid-masters-branches').classList.add('hidden');
             document.getElementById('grid-matieres').classList.add('hidden');
             document.getElementById('btn-retour-ressources').classList.add('hidden');
+
+            // Afficher la grille de types
+            document.getElementById('grid-types').classList.remove('hidden');
             document.getElementById('titre-ressources').innerText = "Bibliothèque Privée";
 
-            // Logique de visibilité pour les onglets de fiches
+            // Cloisonnement des boutons d'années
+            const idsPharma = ['btn-p2', 'btn-p3', 'btn-p4', 'btn-p5'];
+            const btnMaster = document.getElementById('btn-master');
+
             if (userProfile && userProfile.promo === 'MASTER') {
-                document.getElementById('btn-p2').classList.add('hidden');
-                document.getElementById('btn-p3').classList.add('hidden');
-                document.getElementById('btn-p4').classList.add('hidden');
-                document.getElementById('btn-p5').classList.add('hidden');
+                idsPharma.forEach(id => {
+                    const el = document.getElementById(id);
+                    if(el) el.style.display = 'none';
+                });
+                if(btnMaster) btnMaster.style.display = 'block';
             } else {
-                document.getElementById('btn-p2').classList.remove('hidden');
-                document.getElementById('btn-p3').classList.remove('hidden');
-                document.getElementById('btn-p4').classList.remove('hidden');
-                document.getElementById('btn-p5').classList.remove('hidden');
+                idsPharma.forEach(id => {
+                    const el = document.getElementById(id);
+                    if(el) el.style.display = 'block';
+                });
+                if(btnMaster) btnMaster.style.display = 'block';
             }
+        }
+
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(p => {
+                p.classList.remove('page-active');
+                p.style.display = 'none';
+                p.style.opacity = '0';
+            });
+
+            if (pageId === 'ressources') {
+                initRessources();
+            }
+
+            const target = document.getElementById(pageId);
+            if (target) {
+                target.classList.add('page-active');
+                target.style.display = 'block';
+                setTimeout(() => target.style.opacity = "1", 10);
+            }
+            window.scrollTo(0, 0);
         }
 
         function choisirType(t) {
@@ -601,61 +589,34 @@
         }
 
         async function fetchAndRender(filters) {
-    // SÉCURITÉ : On vérifie que l'année demandée correspond au profil de l'utilisateur
-    // On autorise la requête seulement si l'année demandée est celle de l'étudiant
-            if (userProfile && filters.annee !== userProfile.promo) {
-            console.error("Accès non autorisé à cette année");
-            return []; // On renvoie une liste vide
-            }
-
             let query = sb.from('ressources').select('*');
-            for (const [key, value] of Object.entries(filters)) {
-                if (value !== null) query = query.eq(key, value);
+            if (filters.type) query = query.eq('type', filters.type);
+            if (filters.annee) query = query.eq('annee', filters.annee);
+            if (filters.annee === 'MASTER') {
+                if(selection.masterBranche) query = query.eq('semestre', selection.masterBranche);
+            } else {
+                if (filters.semestre) query = query.eq('semestre', filters.semestre);
             }
-
-            const { data: docs, error } = await query;
-
-            if (error) {
-                container.innerHTML = `<p class="text-red-500 text-center py-10">Erreur de connexion : ${error.message}</p>`;
-                return;
-            }
-
-            if (!docs || docs.length === 0) {
-                container.innerHTML = `<div class="text-center py-10"><p class="opacity-50">Aucun volume trouvé dans cette section.</p></div>`;
-                return;
-            }
-
-            return docs;
+            const { data, error } = await query;
+            if (error) return null;
+            return data;
         }
 
         async function afficherMatieresEtFiches() {
             const container = document.getElementById('grid-matieres');
-            const docs = await fetchAndRender({
-                annee: selection.annee,
-                semestre: selection.semestre,
-                type: selection.type
-            });
-
+            const docs = await fetchAndRender({ annee: selection.annee, semestre: selection.semestre, type: selection.type });
             if (!docs) return;
-
             const listeMatieres = matieresConfig[selection.annee]?.[selection.semestre] || [];
             container.innerHTML = '';
-
             listeMatieres.forEach(nom => {
                 const section = document.createElement('div');
                 section.innerHTML = `<h4 class="matiere-titre">${nom}</h4>`;
                 const grid = document.createElement('div');
                 grid.className = "grid md:grid-cols-2 gap-4 mb-10";
-
                 const filt = docs.filter(d => d.matiere.trim().toLowerCase() === nom.trim().toLowerCase());
-
                 if (filt.length > 0) {
                     filt.forEach(d => {
-                        grid.innerHTML += `
-                            <div class="bg-white p-5 border flex justify-between items-center hover:border-gold-500 transition shadow-sm">
-                                <span class="fiche-item-text">${d.titre}</span>
-                                <a href="${d.url_pdf}" target="_blank" class="text-gold-600 text-[11px] font-bold uppercase tracking-widest" style="color:var(--luxury-gold)">Ouvrir</a>
-                            </div>`;
+                        grid.innerHTML += `<div class="bg-white p-5 border flex justify-between items-center hover:border-gold-500 transition shadow-sm"><span class="fiche-item-text">${d.titre}</span><a href="${d.url_pdf}" target="_blank" class="text-gold-600 text-[11px] font-bold uppercase tracking-widest" style="color:var(--luxury-gold)">Ouvrir</a></div>`;
                     });
                 } else {
                     grid.innerHTML = `<p class="text-gray-300 italic text-sm">Aucune archive disponible.</p>`;
@@ -667,37 +628,20 @@
 
         async function afficherFichesMaster() {
             const container = document.getElementById('grid-matieres');
-            // On récupère TOUS les docs Master pour la branche sélectionnée
-            const docs = await fetchAndRender({
-                type: selection.type,
-                annee: 'MASTER',
-                // Important : on s'assure que la base de données filtre par la branche (Santé Publique ou Bio)
-                // Si ta colonne en base s'appelle autrement, ajuste ici.
-            });
-
+            const docs = await fetchAndRender({ type: selection.type, annee: 'MASTER' });
             if (!docs) return;
-
             const listeUEs = matieresConfig["MASTER"][selection.masterBranche] || [];
             container.innerHTML = '';
-
             listeUEs.forEach(nomUE => {
                 const section = document.createElement('div');
                 section.className = "mb-12";
                 section.innerHTML = `<h4 class="matiere-titre">${nomUE}</h4>`;
-
                 const grid = document.createElement('div');
                 grid.className = "grid md:grid-cols-2 gap-4";
-
-                // Filtrage local pour chaque UE du listing
                 const filt = docs.filter(d => d.matiere && d.matiere.trim().toLowerCase() === nomUE.trim().toLowerCase());
-
                 if (filt.length > 0) {
                     filt.forEach(d => {
-                        grid.innerHTML += `
-                            <div class="bg-white p-5 border flex justify-between items-center hover:border-gold-500 transition shadow-sm">
-                                <span class="fiche-item-text">${d.titre}</span>
-                                <a href="${d.url_pdf}" target="_blank" class="text-gold-600 text-[11px] font-bold uppercase tracking-widest" style="color:var(--luxury-gold)">Ouvrir</a>
-                            </div>`;
+                        grid.innerHTML += `<div class="bg-white p-5 border flex justify-between items-center hover:border-gold-500 transition shadow-sm"><span class="fiche-item-text">${d.titre}</span><a href="${d.url_pdf}" target="_blank" class="text-gold-600 text-[11px] font-bold uppercase tracking-widest" style="color:var(--luxury-gold)">Ouvrir</a></div>`;
                     });
                 } else {
                     grid.innerHTML = `<p class="text-gray-300 italic text-sm px-2">Aucun volume disponible pour cette UE.</p>`;
@@ -709,23 +653,13 @@
 
         async function afficherMethodologie() {
             const container = document.getElementById('grid-matieres');
-            const docs = await fetchAndRender({
-                type: 'Méthodologie',
-                matiere: selection.brancheMethodo
-            });
-
+            const docs = await fetchAndRender({ type: 'Méthodologie' });
             if (!docs) return;
-
             container.innerHTML = `<h4 class="matiere-titre">${selection.brancheMethodo}</h4>`;
             const grid = document.createElement('div');
             grid.className = "grid md:grid-cols-2 gap-4 mb-10";
-
-            docs.forEach(d => {
-                grid.innerHTML += `
-                    <div class="bg-white p-5 border flex justify-between items-center shadow-sm">
-                        <span class="fiche-item-text">${d.titre}</span>
-                        <a href="${d.url_pdf}" target="_blank" class="text-gold-600 text-[11px] font-bold uppercase tracking-widest" style="color:var(--luxury-gold)">Ouvrir</a>
-                    </div>`;
+            docs.filter(d => d.matiere === selection.brancheMethodo).forEach(d => {
+                grid.innerHTML += `<div class="bg-white p-5 border flex justify-between items-center shadow-sm"><span class="fiche-item-text">${d.titre}</span><a href="${d.url_pdf}" target="_blank" class="text-gold-600 text-[11px] font-bold uppercase tracking-widest" style="color:var(--luxury-gold)">Ouvrir</a></div>`;
             });
             container.appendChild(grid);
         }
@@ -741,25 +675,22 @@
                 navInfo.classList.remove('hidden');
                 navRes.classList.remove('hidden');
 
-                // On récupère le profil
                 const { data: p } = await sb.from('profils').select('*').eq('email', user.email).maybeSingle();
-
                 if (p) {
-                    // Mise à jour du texte dans la nav
+                    userProfile = p;
                     const navName = document.getElementById('profil-prenom-nom');
                     if (navName) navName.innerText = `${p.prenom} ${p.nom} — ${p.promo}`;
 
-                    // Remplissage automatique des champs de la page profil
-                    if (document.getElementById('prof-prenom')) {
-                        document.getElementById('prof-prenom').value = p.prenom || "";
-                        document.getElementById('prof-nom').value = p.nom || "";
-                        document.getElementById('prof-promo').value = p.promo || "P2";
-                    }
+                    // Remplissage automatique du formulaire profil
+                    if(document.getElementById('prof-prenom')) document.getElementById('prof-prenom').value = p.prenom;
+                    if(document.getElementById('prof-nom')) document.getElementById('prof-nom').value = p.nom;
+                    if(document.getElementById('prof-promo')) document.getElementById('prof-promo').value = p.promo;
                 }
             } else {
                 navAuth.classList.remove('hidden');
                 navInfo.classList.add('hidden');
                 navRes.classList.add('hidden');
+                userProfile = null;
             }
         }
 
@@ -774,67 +705,45 @@
         }
 
         async function handleSignup(e) {
-    e.preventDefault();
-    const email = document.getElementById('ins-email').value;
-    const password = document.getElementById('ins-mdp').value;
+            e.preventDefault();
+            const email = document.getElementById('ins-email').value;
+            const password = document.getElementById('ins-mdp').value;
+            const { data: authData, error: authError } = await sb.auth.signUp({ email, password });
+            if (authError) { alert(authError.message); return; }
 
-    // 1. Création du compte
-    const { data: authData, error: authError } = await sb.auth.signUp({
-        email,
-        password
-    });
+            const { error: profileError } = await sb.from('profils').insert([{
+                prenom: document.getElementById('ins-prenom').value,
+                nom: document.getElementById('ins-nom').value,
+                promo: document.getElementById('ins-promo').value,
+                email: email,
+                est_valide: false
+            }]);
 
-    if (authError) {
-        alert("Erreur Auth: " + authError.message);
-        return;
-    }
+            if (profileError) alert(profileError.message);
+            else {
+                document.getElementById('form-inscription').classList.add('hidden');
+                document.getElementById('success-msg').classList.remove('hidden');
+            }
+        }
 
-    // 2. Insertion dans la table profils
-    const { error: profileError } = await sb.from('profils').insert([{
-        prenom: document.getElementById('ins-prenom').value,
-        nom: document.getElementById('ins-nom').value,
-        promo: document.getElementById('ins-promo').value,
-        email: email,
-        est_valide: false
-    }]);
+        async function handleUpdateProfil(e) {
+            e.preventDefault();
+            const btn = document.getElementById('btn-update-profil');
+            btn.innerText = "Mise à jour...";
+            btn.disabled = true;
+            const { data: { user } } = await sb.auth.getUser();
+            const updates = {
+                prenom: document.getElementById('prof-prenom').value,
+                nom: document.getElementById('prof-nom').value,
+                promo: document.getElementById('prof-promo').value
+            };
+            const { error } = await sb.from('profils').update(updates).eq('email', user.email);
+            if (error) alert(error.message);
+            else { alert("Profil mis à jour !"); await updateUI(); }
+            btn.innerText = "Enregistrer les modifications";
+            btn.disabled = false;
+        }
 
-    if (profileError) {
-        console.error("Erreur Profil:", profileError);
-        alert("Le compte est créé mais les infos de profil n'ont pu être enregistrées : " + profileError.message);
-    } else {
-        document.getElementById('form-inscription').classList.add('hidden');
-        document.getElementById('success-msg').classList.remove('hidden');
-    }
-}
-    async function handleUpdateProfil(e) {
-    e.preventDefault();
-    const btn = document.getElementById('btn-update-profil');
-    btn.innerText = "Mise à jour...";
-    btn.disabled = true;
-
-    const { data: { user } } = await sb.auth.getUser();
-
-    const updates = {
-        prenom: document.getElementById('prof-prenom').value,
-        nom: document.getElementById('prof-nom').value,
-        promo: document.getElementById('prof-promo').value
-    };
-
-    const { error } = await sb
-        .from('profils')
-        .update(updates)
-        .eq('email', user.email);
-
-    if (error) {
-        alert("Erreur : " + error.message);
-    } else {
-        alert("Profil mis à jour !");
-        await updateUI(); // Pour mettre à jour le nom dans la barre de navigation
-    }
-
-    btn.innerText = "Enregistrer les modifications";
-    btn.disabled = false;
-}
         async function handleLogout() { await sb.auth.signOut(); window.location.reload(); }
         window.onload = updateUI;
     </script>
