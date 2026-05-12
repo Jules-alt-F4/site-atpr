@@ -9,6 +9,14 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600&display=swap');
 
+        @keyframes pulseSlow {
+        0%, 100% { opacity: 0.8; }
+        50% { opacity: 1; }
+        }
+        .animate-pulse-slow {
+        animation: pulseSlow 6s infinite ease-in-out;
+        }
+        
         :root {
             --forest-green: #052e16;
             --pharma-green: #064e3b;
@@ -506,6 +514,47 @@
                 </div>
             </div>
         </section>
+
+        <section>
+        <div class="max-w-4xl mx-auto mb-16 animate-pulse-slow">
+    <div class="border border-[#c5a059]/30 bg-white/5 backdrop-blur-sm p-8 relative">
+        <div class="absolute top-0 left-4 bottom-0 w-[1px] bg-[#c5a059]/20"></div>
+        <div class="absolute top-0 right-4 bottom-0 w-[1px] bg-[#c5a059]/20"></div>
+
+        <h3 class="font-heritage italic text-3xl text-[#c5a059] mb-6 text-center">Prochaines Conférences</h3>
+
+        <div class="grid gap-4">
+            <div class="flex items-center justify-between border-b border-[#c5a059]/10 pb-3 group">
+                <div class="text-left">
+                    <span class="text-[10px] tracking-widest uppercase opacity-50 block">Lundi 18 Mai — 18h00</span>
+                    <span class="font-heritage italic text-xl group-hover:text-[#c5a059] transition-colors">Pharmacologie Cardiaque (P3)</span>
+                </div>
+                <span class="text-[10px] border border-[#c5a059] px-3 py-1 rounded-full text-[#c5a059]">Amphi A</span>
+            </div>
+
+            <div class="flex items-center justify-between border-b border-[#c5a059]/10 pb-3 group">
+                <div class="text-left">
+                    <span class="text-[10px] tracking-widest uppercase opacity-50 block">Mardi 19 Mai — 17h30</span>
+                    <span class="font-heritage italic text-xl group-hover:text-[#c5a059] transition-colors">Chimie Organique : Réactivités (P2)</span>
+                </div>
+                <span class="text-[10px] border border-[#c5a059] px-3 py-1 rounded-full text-[#c5a059]">Amphi B</span>
+            </div>
+
+            <div class="flex items-center justify-between border-b border-[#c5a059]/10 pb-3 group">
+                <div class="text-left">
+                    <span class="text-[10px] tracking-widest uppercase opacity-50 block">Jeudi 21 Mai — 12h30</span>
+                    <span class="font-heritage italic text-xl group-hover:text-[#c5a059] transition-colors">Séance de Méthodologie : Les Oraux</span>
+                </div>
+                <span class="text-[10px] border border-[#c5a059] px-3 py-1 rounded-full text-[#c5a059]">Salle 12</span>
+            </div>
+        </div>
+
+        <p class="text-[9px] uppercase tracking-[0.2em] opacity-40 mt-6 text-center italic">
+            * Les horaires et salles sont sujets à modification par le bureau.
+        </p>
+    </div>
+</div>
+        </section>
     </main>
 
     <main id="tut-team" class="page section-parchment py-24 px-6">
@@ -625,7 +674,7 @@
             </div>
         </div>
     </main>
-    
+
 <main id="connexion" class="page py-24 px-6">
     <div class="max-w-4xl mx-auto flex flex-col md:flex-row shadow-2xl relative auth-frame-gold">
 
