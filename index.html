@@ -16,7 +16,7 @@
         .animate-pulse-slow {
         animation: pulseSlow 6s infinite ease-in-out;
         }
-        
+
         :root {
             --forest-green: #052e16;
             --pharma-green: #064e3b;
@@ -154,7 +154,36 @@
     font-weight: 700;   /* Augmentation de l'épaisseur (Gras) */
     text-transform: none; /* Désactive la mise en majuscule automatique si elle était présente */
 }
+/* Cache la scrollbar de la nav sur mobile pour garder l'esthétique */
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+.no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
 
+/* Correction Android : Évite que le contenu soit caché sous la barre de navigation */
+main.page {
+    padding-top: 80px; /* Hauteur de la nav + marge */
+}
+
+/* Optimisation Mobile OS */
+@media (max-width: 640px) {
+    .nav-link {
+        letter-spacing: 0.1em;
+        font-weight: 700;
+    }
+    h2.text-6xl {
+        font-size: 3rem !important;
+    }
+}
+
+/* Force le rendu propre sur les navigateurs Android/Samsung */
+input, select, button {
+    -webkit-appearance: none;
+    border-radius: 0;
+}
 
         .btn-gold {
             border: 1px solid var(--luxury-gold); padding: 14px 35px;
