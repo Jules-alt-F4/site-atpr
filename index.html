@@ -496,7 +496,7 @@ input, select, button {
         </div>
 
         <div class="hidden lg:flex items-center space-x-10">
-            <button onclick="showPage('accueil')" class="nav-link">L'Institution</button>
+            <button onclick="scrollToInstitution()" class="nav-link">L'Institution</button>
             <button id="nav-ressources" class="hidden nav-link !opacity-100 text-[#c5a059]" onclick="showPage('ressources')">Ressources</button>
             <button onclick="showPage('tut-team')" class="nav-link">Le Bureau</button>
             </div>
@@ -521,9 +521,6 @@ input, select, button {
                     <div class="greek-column column-left"></div>
             <div class="greek-column column-right"></div>
         <section class="min-h-screen flex flex-col items-center justify-center relative py-24">
-
-
-
             <div class="hero-container text-center px-6 z-10 max-w-7xl mx-auto">
                 <span class="text-[11px] tracking-[0.8em] uppercase mb-8 block animate-pulse" style="color:var(--luxury-gold)">
                 Association du tutorat de pharmacie rennais
@@ -1581,6 +1578,22 @@ function checkPasswordStrength(password) {
     bar.style.backgroundColor = currentLevel.color;
     text.innerText = currentLevel.label;
     text.style.color = currentLevel.color;
+}
+function scrollToInstitution() {
+    // 1. On s'assure d'afficher la page d'accueil si on est ailleurs
+    showPage('accueil');
+
+    // 2. On laisse un court instant pour que la page devienne visible
+    // puis on fait défiler vers la section
+    setTimeout(() => {
+        const section = document.getElementById('presentation-association');
+        if (section) {
+            section.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+    }, 100); // Délai de 100ms pour laisser l'animation showPage se lancer
 }
     </script>
 <footer class="bg-[#000000] border-t border-[#c5a059]/20 py-12 px-6 mt-20">
