@@ -483,6 +483,48 @@ input, select, button {
 .absolute.bottom-8, .absolute.bottom-10 {
     bottom: calc(2rem + env(safe-area-inset-bottom)) !important;
 }
+/* Overlay pour les informations au survol */
+.member-card {
+    position: relative; /* Nécessaire pour positionner l'overlay */
+}
+
+.member-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 320px; /* Doit correspondre à la hauteur de .member-photo */
+    background: rgba(5, 46, 22, 0.9); /* Vert forêt profond avec opacité */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    opacity: 0; /* Caché par défaut */
+    transition: opacity 0.4s ease;
+    z-index: 10;
+}
+
+.member-card:hover .member-overlay {
+    opacity: 1; /* Apparaît au survol */
+}
+
+.overlay-desc {
+    font-size: 0.8rem;
+    line-height: 1.6;
+    color: var(--parchment);
+    margin-bottom: 1.5rem;
+    font-style: italic;
+}
+
+.overlay-contact {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--luxury-gold);
+    border-top: 1px solid rgba(197, 160, 89, 0.3);
+    padding-top: 10px;
+}
     </style>
 </head>
 
@@ -714,6 +756,32 @@ input, select, button {
 
             <div class="grid md:grid-cols-3 gap-8">
                 <div class="member-card">
+                    <div class="member-overlay">
+                        <p class="overlay-desc">
+            "Engagé pour l'excellence et l'accompagnement de chaque étudiant vers la réussite."
+                        </p>
+                        <p class="overlay-contact">
+                        📧 malaika.holfeld@atpr.fr
+                            
+                        </p>
+                    </div>
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=400" alt="Président" class="member-photo">
+                    <div class="member-info">
+                        <span class="member-role">Président</span>
+                        <h3 class="font-heritage text-2xl italic mb-2">Malaika Holfeld</h3>
+                        <p class="text-[10px] uppercase tracking-widest opacity-40">Étudiant en 3ème Année</p>
+                    </div>
+                </div>
+
+                <div class="member-card">
+                    <div class="member-overlay">
+                        <p class="overlay-desc">
+            "Engagé pour l'excellence et l'accompagnement de chaque étudiant vers la réussite."
+                        </p>
+                        <p class="overlay-contact">
+                        📧 malaika.holfeld@atpr.fr
+                        </p>
+                    </div>
                     <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=400" alt="Président" class="member-photo">
                     <div class="member-info">
                         <span class="member-role">Président</span>
@@ -722,43 +790,131 @@ input, select, button {
                     </div>
                 </div>
                 <div class="member-card">
-                    <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=400" alt="Secrétaire Générale" class="member-photo">
-                    <div class="member-info">
-                        <span class="member-role">Secrétaire Générale</span>
-                        <h3 class="font-heritage text-2xl italic mb-2">Ilona Abit</h3>
-                        <p class="text-[10px] uppercase tracking-widest opacity-40">Étudiante en 4ème Année</p>
+                    <div class="member-overlay">
+                        <p class="overlay-desc">
+            "Engagé pour l'excellence et l'accompagnement de chaque étudiant vers la réussite."
+                        </p>
+                        <p class="overlay-contact">
+                        📧 malaika.holfeld@atpr.fr
+                        </p>
                     </div>
-                </div>
-                <div class="member-card">
-                    <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=400" alt="Trésorier" class="member-photo">
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=400" alt="Président" class="member-photo">
                     <div class="member-info">
-                        <span class="member-role">Trésorier</span>
-                        <h3 class="font-heritage text-2xl italic mb-2">Maxime Leroux</h3>
-                        <p class="text-[10px] uppercase tracking-widest opacity-40">Étudiant en 4ème Année</p>
-                    </div>
-                </div>
-                <div class="member-card">
-                    <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&q=80&w=400" alt="V-P Pédagogie" class="member-photo">
-                    <div class="member-info">
-                        <span class="member-role">V-P Methodologie</span>
-                        <h3 class="font-heritage text-2xl italic mb-2">El Grande Juanito</h3>
-                        <p class="text-[10px] uppercase tracking-widest opacity-40">Étudiante en 3ème Année</p>
-                    </div>
-                </div>
-                <div class="member-card">
-                    <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=400" alt="V-P Communication" class="member-photo">
-                    <div class="member-info">
-                        <span class="member-role">V-P Site & Communication</span>
-                        <h3 class="font-heritage text-2xl italic mb-2">Jules Martin</h3>
+                        <span class="member-role">Président</span>
+                        <h3 class="font-heritage text-2xl italic mb-2">Malaika Holfeld</h3>
                         <p class="text-[10px] uppercase tracking-widest opacity-40">Étudiant en 3ème Année</p>
                     </div>
                 </div>
                 <div class="member-card">
-                    <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=400" alt="V-P Événementiel" class="member-photo">
+                    <div class="member-overlay">
+                        <p class="overlay-desc">
+            "Engagé pour l'excellence et l'accompagnement de chaque étudiant vers la réussite."
+                        </p>
+                        <p class="overlay-contact">
+                        📧 malaika.holfeld@atpr.fr
+                        </p>
+                    </div>
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=400" alt="Président" class="member-photo">
                     <div class="member-info">
-                        <span class="member-role">V-P Événementiel</span>
-                        <h3 class="font-heritage text-2xl italic mb-2">Clara Roux</h3>
-                        <p class="text-[10px] uppercase tracking-widest opacity-40">Étudiante en 2ème Année</p>
+                        <span class="member-role">Président</span>
+                        <h3 class="font-heritage text-2xl italic mb-2">Malaika Holfeld</h3>
+                        <p class="text-[10px] uppercase tracking-widest opacity-40">Étudiant en 3ème Année</p>
+                    </div>
+                </div>
+                <div class="member-card">
+                    <div class="member-overlay">
+                        <p class="overlay-desc">
+            "Engagé pour l'excellence et l'accompagnement de chaque étudiant vers la réussite."
+                        </p>
+                        <p class="overlay-contact">
+                        📧 malaika.holfeld@atpr.fr
+                        </p>
+                    </div>
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=400" alt="Président" class="member-photo">
+                    <div class="member-info">
+                        <span class="member-role">Président</span>
+                        <h3 class="font-heritage text-2xl italic mb-2">Malaika Holfeld</h3>
+                        <p class="text-[10px] uppercase tracking-widest opacity-40">Étudiant en 3ème Année</p>
+                    </div>
+                </div>
+                <div class="member-card">
+                    <div class="member-overlay">
+                        <p class="overlay-desc">
+            "Engagé pour l'excellence et l'accompagnement de chaque étudiant vers la réussite."
+                        </p>
+                        <p class="overlay-contact">
+                        📧 malaika.holfeld@atpr.fr
+                        </p>
+                    </div>
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=400" alt="Président" class="member-photo">
+                    <div class="member-info">
+                        <span class="member-role">Président</span>
+                        <h3 class="font-heritage text-2xl italic mb-2">Malaika Holfeld</h3>
+                        <p class="text-[10px] uppercase tracking-widest opacity-40">Étudiant en 3ème Année</p>
+                    </div>
+                </div>
+                <div class="member-card">
+                    <div class="member-overlay">
+                        <p class="overlay-desc">
+            "Engagé pour l'excellence et l'accompagnement de chaque étudiant vers la réussite."
+                        </p>
+                        <p class="overlay-contact">
+                        📧 malaika.holfeld@atpr.fr
+                        </p>
+                    </div>
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=400" alt="Président" class="member-photo">
+                    <div class="member-info">
+                        <span class="member-role">Président</span>
+                        <h3 class="font-heritage text-2xl italic mb-2">Malaika Holfeld</h3>
+                        <p class="text-[10px] uppercase tracking-widest opacity-40">Étudiant en 3ème Année</p>
+                    </div>
+                </div>
+                <div class="member-card">
+                    <div class="member-overlay">
+                        <p class="overlay-desc">
+            "Engagé pour l'excellence et l'accompagnement de chaque étudiant vers la réussite."
+                        </p>
+                        <p class="overlay-contact">
+                        📧 malaika.holfeld@atpr.fr
+                        </p>
+                    </div>
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=400" alt="Président" class="member-photo">
+                    <div class="member-info">
+                        <span class="member-role">Président</span>
+                        <h3 class="font-heritage text-2xl italic mb-2">Malaika Holfeld</h3>
+                        <p class="text-[10px] uppercase tracking-widest opacity-40">Étudiant en 3ème Année</p>
+                    </div>
+                </div>
+                <div class="member-card">
+                    <div class="member-overlay">
+                        <p class="overlay-desc">
+            "Engagé pour l'excellence et l'accompagnement de chaque étudiant vers la réussite."
+                        </p>
+                        <p class="overlay-contact">
+                        📧 malaika.holfeld@atpr.fr
+                        </p>
+                    </div>
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=400" alt="Président" class="member-photo">
+                    <div class="member-info">
+                        <span class="member-role">Président</span>
+                        <h3 class="font-heritage text-2xl italic mb-2">Malaika Holfeld</h3>
+                        <p class="text-[10px] uppercase tracking-widest opacity-40">Étudiant en 3ème Année</p>
+                    </div>
+                </div>
+                <div class="member-card">
+                    <div class="member-overlay">
+                        <p class="overlay-desc">
+            "Engagé pour l'excellence et l'accompagnement de chaque étudiant vers la réussite."
+                        </p>
+                        <p class="overlay-contact">
+                        📧 malaika.holfeld@atpr.fr
+                        </p>
+                    </div>
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=400" alt="Président" class="member-photo">
+                    <div class="member-info">
+                        <span class="member-role">Président</span>
+                        <h3 class="font-heritage text-2xl italic mb-2">Malaika Holfeld</h3>
+                        <p class="text-[10px] uppercase tracking-widest opacity-40">Étudiant en 3ème Année</p>
                     </div>
                 </div>
             </div>
