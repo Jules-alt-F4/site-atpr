@@ -1,0 +1,435 @@
+<style>
+        html {
+            scroll-behavior: smooth;
+        }
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600&display=swap');
+
+        :root {
+            --forest-green: #052e16;
+            --pharma-green: #064e3b;
+            --luxury-gold: #c5a059;
+            --elegant-black: #1a1a1a;
+            --parchment: #f5f2e8;
+        }
+
+        .font-heritage { font-family: 'Cormorant Garamond', serif; }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--forest-green);
+            color: var(--parchment);
+            margin: 0;
+            overflow-x: hidden;
+            overflow-y: scroll;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+
+        /* En mode MPA, on ne cache plus les sections .page */
+        .section-parchment {
+            background-color: var(--parchment);
+            color: var(--elegant-black);
+        }
+
+        nav.nav-fixed{
+            background-color: white !important;
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 1200px;
+            height: 75px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between; /* Espace entre les 3 blocs */
+            padding: 0 40px;
+            border-radius: 100px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            z-index: 1000;
+        }
+
+        /* Centrage mathématique parfait du menu */
+        .nav-center {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-link {
+            color: #1a1a1a !important; /* Force le noir sur fond blanc */
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            text-decoration: none;
+        }
+
+        #nav-auth-buttons .btn-gold {
+            /* Taille et Épaisseur */
+            font-size: 11px !important;
+            font-weight: 800 !important;
+            padding: 8px 24px !important;
+
+            /* Couleur Doré Royal */
+            background-color: #FFFFFF !important; /* Fond doré par défaut */
+            color: #c5a059 !important;
+            border: 1px solid #c5a059 !important;
+
+            /* Effets */
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 15px rgba(197, 160, 89, 0.2); /* Lueur dorée discrète */
+        }
+
+        #nav-auth-buttons .btn-gold:hover {
+            background-color: #052e16 !important; /* Devient vert forêt au survol */
+            border-color: #052e16 !important;
+            color: #c5a059 !important;            /* Le texte repasse en doré */
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+            transform: translateY(-1px);          /* Léger soulèvement */
+        }
+        .nav-link:hover {
+            color: #c5a059 !important;
+        }
+
+        .logo-text {
+            color: #1a1a1a !important;
+        }
+
+        /* Boutons de droite spécifiques */
+        .nav-auth-group {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        /* Style du nom dans la barre de navigation */
+        #profil-prenom-nom {
+            color: #000000;
+            opacity: 0.9;
+            font-style: italic; /* Mise en italique */
+            font-weight: 700;   /* Augmentation de l'épaisseur (Gras) */
+            text-transform: none; /* Désactive la mise en majuscule automatique si elle était présente */
+        }
+
+        .greek-column {
+            position: absolute;
+            top: 10%;
+            bottom : 60%;
+            width: 2px;
+            height: 100vh;
+            background: linear-gradient(to bottom, transparent, var(--luxury-gold), transparent);
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.1), 10px 0 30px rgba(0,0,0,0.2);
+            z-index: 10; /* Derrière la nav (50) mais devant le fond */
+            pointer-events: none; /* Indispensable : le clic passe "à travers" la colonne */
+        }
+
+        .column-left {
+            left: 5%;
+        }
+
+        .column-right {
+            right: 5%;
+        }
+
+        /* Ajout de cannelures (les traits verticaux des colonnes) */
+        .greek-column::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -4px;
+            right: -4px;
+            height: 100%;
+            border-left: 1px solid var(--luxury-gold);
+            border-right: 1px solid var(--luxury-gold);
+            opacity: 0.3;
+        }
+
+        /* Chapiteau minimaliste en haut de la bande */
+        .greek-column::after {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: -15px;
+            width: 32px;
+            height: 2px;
+            background: var(--luxury-gold);
+            box-shadow: 0 5px 0 var(--luxury-gold);
+        }
+
+        .greek-column {
+            animation: goldGlow 4s infinite ease-in-out;
+        }
+        /* Animation subtile de lueur sur les colonnes */
+        @keyframes goldGlow {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.6; }
+        }
+
+        .greek-column {
+            animation: goldGlow 4s infinite ease-in-out;
+        }
+        /* Cache la scrollbar de la nav sur mobile pour garder l'esthétique */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        /* Verrouillage des pop-ups pour un affichage figé */
+        .modal-overlay .max-w-4xl,
+        .modal-overlay .max-w-5xl {
+            overflow: hidden !important; /* Empêche tout défilement de contenu */
+            touch-action: none;         /* Désactive le défilement tactile sur mobile */
+        }
+
+        /* Optionnel : Empêcher le scroll de la page en arrière-plan quand une modale est ouverte */
+        body.modal-open {
+            overflow: hidden;
+        }
+
+        /* Style pour "Qui sommes-nous" (Lien simple) */
+        .btn-text-simple {
+            color: white !important;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            text-decoration: none;
+            transition: color 0.4s ease;
+            padding: 10px 20px;
+        }
+
+        .btn-text-simple:hover {
+            color: var(--luxury-gold) !important;
+        }
+
+        /* Style pour "Explorer le bureau" et "Nous rejoindre" (Bordures dorées) */
+        .btn-outline-gold {
+            display: inline-block;
+            background-color: transparent; /* Pas de remplissage */
+            color: white !important;
+            padding: 16px 35px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            border: 1px solid var(--luxury-gold); /* Bordure fine dorée */
+            border-radius: 2px;
+            transition: all 0.4s ease;
+            text-decoration: none;
+            text-align: center;
+        }
+
+        .btn-outline-gold:hover {
+            background-color: rgba(197, 160, 89, 0.1); /* Très léger voile au survol */
+            box-shadow: 0 0 15px rgba(197, 160, 89, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .gold-divider {
+            height: 1px;
+            width: 80px;
+            background: linear-gradient(90deg, transparent, var(--luxury-gold), transparent);
+            margin: 1.5rem auto;
+        }
+
+        /* Styles Modales Connexion */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-active { display: flex !important; }
+
+
+        /* Cadre style Colonne Grecque pour les Pop-ups */
+        /* --- STYLE GRÈCE ANTIQUE POUR POP-UPS --- */
+
+        /* Cadre doré structurel (Fût de colonne) */
+        .auth-frame-gold {
+            border: 2px solid var(--luxury-gold);
+            box-shadow: 0 0 20px rgba(197, 160, 89, 0.2);
+            position: relative;
+            z-index: 10;
+            background-color: var(--parchment);
+        }
+
+        /* Coins décoratifs héritage */
+        .auth-frame-gold::before {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: -5px;
+            right: -5px;
+            bottom: -5px;
+            border: 1px solid var(--luxury-gold);
+            opacity: 0.3;
+            pointer-events: none;
+        }
+
+        /* Petites colonnes dorées internes avec dégradé */
+        .auth-column {
+            position: absolute;
+            top: 5%;
+            bottom: 5%;
+            width: 1px;
+            background: linear-gradient(to bottom, transparent, var(--luxury-gold), transparent);
+            opacity: 0.5;
+            animation: goldGlow 4s infinite ease-in-out;
+        }
+
+        .auth-column-left { left: 15px; }
+        .auth-column-right { right: 15px; }
+
+        /* Animation de lueur dorée pour les colonnes */
+        @keyframes goldGlow {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.6; }
+        }
+
+        /* Style des titres en Cormorant Garamond */
+        .auth-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            font-size: 2.5rem;
+            color: var(--elegant-black);
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        /* Inputs style Parchemin Pur */
+        .auth-input {
+            width: 100%;
+            padding: 15px 20px !important;
+            margin-bottom: 20px;
+            border: 1px solid #e5e7eb !important;
+            border-radius: 0px !important;
+            background: #f9fafb !important;
+            color: var(--elegant-black) !important;
+            font-size: 0.9rem !important;
+            transition: all 0.3s ease;
+        }
+
+        .auth-input:focus {
+            border-color: var(--luxury-gold) !important;
+            background: white !important;
+            box-shadow: 0 0 0 1px var(--luxury-gold);
+        }
+
+        /* Style des boutons de validation (Modales) */
+        .auth-submit-btn {
+            font-family: 'Montserrat', sans-serif !important;
+            font-size: 11px !important;
+            font-weight: 700 !important;
+            text-transform: uppercase !important;
+            letter-spacing: 0.3em !important;
+
+            /* État Initial : Cadre doré, pas de remplissage, texte noir */
+            background-color: transparent !important;
+            border: 1px solid var(--luxury-gold) !important;
+            color: var(--elegant-black) !important;
+
+            padding: 18px 0;
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* État au Survol : Remplissage vert forêt, texte doré */
+        .auth-submit-btn:hover {
+            background-color: var(--forest-green) !important;
+            color: var(--luxury-gold) !important;
+            border-color: var(--forest-green) !important;
+            box-shadow: 0 10px 20px rgba(5, 46, 22, 0.2);
+            transform: translateY(-2px);
+        }
+
+        /* On s'assure que le conteneur de la modale centre bien le tout avec un peu d'espace */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background-color: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(5px);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .auth-column {
+            position: absolute;
+            top: 0;
+            width: 2px;
+            height: 100%;
+            background: linear-gradient(to bottom, transparent, var(--luxury-gold), transparent);
+            opacity: 0.3;
+        }
+        .auth-column-left { left: 15px; }
+        .auth-column-right { right: 15px; }
+
+        .auth-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.5rem;
+            font-style: italic;
+            color: var(--elegant-black);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        /* Harmonisation des boutons de formulaire */
+        .auth-submit-btn {
+            font-family: 'Montserrat', sans-serif !important;
+            font-size: 11px !important;
+            font-weight: 700 !important;
+            text-transform: uppercase !important;
+            letter-spacing: 0.3em !important; /* Espacement large type luxe */
+            transition: all 0.5s ease-in-out;
+        }
+
+        .auth-input {
+            width: 100%;
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+            padding: 10px 0;
+            font-size: 13px;
+            outline: none;
+            transition: border-color 0.3s;
+            color: var(--elegant-black);
+            margin-bottom: 1.5rem;
+        }
+
+        .auth-input:focus {
+            border-bottom-color: var(--luxury-gold);
+        }
+
+        /* On s'assure que les modales prennent bien toute la place nécessaire */
+        .modal-overlay .max-w-4xl, .modal-overlay .max-w-5xl {
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        #presentation-association {
+            scroll-margin-top: 110px; /* Aligne la section juste en dessous de la barre flottante */
+        }
+
+        footer {
+            flex-shrink: 0;
+        }
+    </style>
