@@ -20,9 +20,12 @@
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-    <script>
-        // 2. Initialisation Supabase (Doit être identique à index.html)
-        const supabase = supabase.createClient('TON_URL_SUPABASE', 'TA_CLE_ANON');
+   <script>
+    const supabaseUrl = 'https://zcueonuffhzrvnktxzpl.supabase.co';
+    const supabaseKey = 'sb_publishable_yeSb-vYs5ibken1ypPAliQ_L07lvC9a';
+
+    // En utilisant window.supabase, on rend l'objet accessible à TOUS les autres fichiers JS
+    window.supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
         // 3. Sécurité : Vérifier l'accès immédiatement
         async function checkAccess() {
@@ -36,6 +39,26 @@
     </script>
 
     <script src="nav.js"></script>
+
+    <script>
+        async function checkSecurity() {
+            // 1. On attend que Supabase soit disponible (si chargé via CDN)
+            if (typeof supabase === 'undefined') return;
+
+            const { data: { session } } = await supabase.auth.getSession();
+
+            if (!session) {
+                // 2. Si pas de session, on stocke une info pour dire à l'index d'afficher l'erreur
+                sessionStorage.setItem('showLibraryError', 'true');
+                // 3. Redirection immédiate vers l'accueil
+                window.location.href = 'index.html';
+            }
+        }
+
+        // On lance la vérification dès que possible
+        // Note : assure-toi que l'init de Supabase est fait avant cet appel
+    </script>
+
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             loadNavbar(); // Cette fonction vient de nav.js
