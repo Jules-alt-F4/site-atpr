@@ -1576,30 +1576,27 @@ const logicRessources = {
 };
 
 function showPage(pageId) {
-        // 1. Récupérer toutes les sections avec la classe 'page'
-        const pages = document.querySelectorAll('.page');
+    // 1. Gestion de l'affichage des sections
+    const pages = document.querySelectorAll('.page');
+    pages.forEach(page => {
+        page.classList.remove('page-active');
+    });
 
-        // 2. Masquer toutes les pages et retirer la classe active
-        pages.forEach(page => {
-            page.style.display = 'none';
-            page.classList.remove('page-active');
-        });
+    const activePage = document.getElementById(pageId);
+    if (activePage) {
+        activePage.classList.add('page-active');
+        window.scrollTo(0, 0);
 
-        // 3. Afficher la page demandée
-        const activePage = document.getElementById(pageId);
-        if (activePage) {
-            activePage.style.display = 'block';
-            // Petit délai pour permettre l'animation CSS luxuryReveal
-            setTimeout(() => {
-                activePage.classList.add('page-active');
-            }, 10);
+        // 2. MISE À JOUR DYNAMIQUE DE L'URL
+        // On définit le chemin (ex: /ressources ou /accueil)
+        const path = pageId === 'accueil' ? '/' : '/' + pageId;
 
-            // 4. Remonter en haut de la page automatiquement
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        } else {
-            console.error("La page avec l'ID '" + pageId + "' n'existe pas.");
+        // On vérifie si l'URL actuelle est déjà la bonne pour éviter de doubler l'historique
+        if (window.location.pathname !== path) {
+            history.pushState({ pageId: pageId }, '', path);
         }
     }
+}
 
     // Fonction optionnelle pour le bouton "L'Institution" (scroll vers la section)
     function scrollToInstitution() {
@@ -1782,9 +1779,13 @@ async function chargerPlanning() {
 
 // --- GESTION DU BOUTON PRÉCÉDENT (NAVIGATEUR) ---
 window.onpopstate = function(event) {
-    if (event.state && event.state.page) {
-        showPage(event.state.page);
+    if (event.state && event.state.pageId) {
+        // On change de page sans appeler pushState (car on y est déjà via l'historique)
+        const pages = document.querySelectorAll('.page');
+        pages.forEach(p => p.classList.remove('page-active'));
+        document.getElementById(event.state.pageId).classList.add('page-active');
     } else {
+        // Retour par défaut à l'accueil
         showPage('accueil');
     }
 };
@@ -1870,13 +1871,15 @@ function rafraichirAffichageRessources() {
     btn.disabled = false;
 }
 
-    window.onload = async () => {
-        await updateUI();
-        if (typeof chargerPlanning === 'function') await chargerPlanning();
-        if (typeof detectOS === 'function') detectOS();
-        const hash = window.location.hash.replace('#', '');
-        showPage(hash && document.getElementById(hash) ? hash : 'accueil', false);
-    };
+    window.onload = function() {
+    // Permet de charger la bonne page si l'URL contient déjà un chemin (ex: /ressources)
+    const path = window.location.pathname.replace('/', '');
+    if (path && document.getElementById(path)) {
+        showPage(path);
+    } else {
+        showPage('accueil');
+    }
+};
 
 </script>
 
