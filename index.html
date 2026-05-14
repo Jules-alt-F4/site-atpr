@@ -376,5 +376,28 @@
         </div>
     </div>
 </footer>
+
+<div id="modal-library-error" class="modal-overlay hidden" onclick="if(event.target === this) toggleModal('modal-library-error')">
+    <div class="max-w-md mx-auto bg-[#f5f2e8] p-12 auth-frame-gold relative text-center">
+        <div class="auth-column auth-column-left"></div>
+        <div class="auth-column auth-column-right"></div>
+
+        <div class="mb-6 text-[#c5a059] text-4xl">
+            <i class="fas fa-lock"></i>
+        </div>
+
+        <h3 class="font-heritage italic text-3xl text-[#052e16] mb-4">Accès Restreint</h3>
+
+        <p class="text-[11px] uppercase tracking-widest leading-loose opacity-70 mb-8 text-black">
+            La consultation des archives et ressources de l'institution est exclusivement réservée aux membres de l'ATPr.
+        </p>
+
+        <div class="flex flex-col gap-4">
+            <button onclick="switchFromErrorTo('modal-login')" class="auth-submit-btn w-full">S'identifier</button>
+            <button onclick="switchFromErrorTo('modal-inscription')" class="text-[10px] uppercase font-bold tracking-widest text-[#c5a059] hover:underline">Devenir membre</button>
+        </div>
+    </div>
+</div>
+
 </body>
 </html>
