@@ -1,6 +1,89 @@
 // Variable pour éviter les clics multiples
 let isProcessingLibrary = false;
 
+function injectGlobalModals() {
+
+    // Évite les doublons
+    if (document.getElementById('modal-login')) return;
+
+    const modalsHTML = `
+
+    <div id="modal-login" class="modal-overlay hidden" onclick="if(event.target === this) toggleModal('modal-login')">
+        <div class="max-w-md mx-auto bg-[#f5f2e8] p-10 auth-frame-gold relative text-center">
+            <h3 class="font-heritage italic text-3xl text-[#052e16] mb-6">Connexion</h3>
+
+            <form onsubmit="handleLogin(event)" class="space-y-4">
+                <input type="email" id="login-email" class="auth-input" placeholder="Email" required>
+                <input type="password" id="login-password" class="auth-input" placeholder="Mot de passe" required>
+
+                <button type="submit" class="auth-submit-btn w-full">
+                    Se connecter
+                </button>
+            </form>
+
+            <button
+                onclick="switchModal('modal-login', 'modal-inscription')"
+                class="mt-6 text-[10px] uppercase tracking-widest text-[#c5a059] hover:underline">
+                Créer un compte
+            </button>
+        </div>
+    </div>
+
+    <div id="modal-inscription" class="modal-overlay hidden" onclick="if(event.target === this) toggleModal('modal-inscription')">
+        <div class="max-w-md mx-auto bg-[#f5f2e8] p-10 auth-frame-gold relative text-center">
+            <h3 class="font-heritage italic text-3xl text-[#052e16] mb-6">Inscription</h3>
+
+            <form onsubmit="handleSignup(event)" class="space-y-4">
+                <input type="text" class="auth-input" placeholder="Prénom" required>
+                <input type="text" class="auth-input" placeholder="Nom" required>
+                <input type="email" class="auth-input" placeholder="Email" required>
+                <input type="password" class="auth-input" placeholder="Mot de passe" required>
+
+                <button type="submit" class="auth-submit-btn w-full">
+                    S'inscrire
+                </button>
+            </form>
+
+            <button
+                onclick="switchModal('modal-inscription', 'modal-login')"
+                class="mt-6 text-[10px] uppercase tracking-widest text-[#c5a059] hover:underline">
+                Déjà membre ?
+            </button>
+        </div>
+    </div>
+
+    <div id="modal-library-error" class="modal-overlay hidden" onclick="if(event.target === this) toggleModal('modal-library-error')">
+        <div class="max-w-md mx-auto bg-[#f5f2e8] p-12 auth-frame-gold relative text-center">
+
+            <div class="mb-6 text-[#c5a059] text-4xl">
+                <i class="fas fa-lock"></i>
+            </div>
+
+            <h3 class="font-heritage italic text-3xl text-[#052e16] mb-4">
+                Accès Restreint
+            </h3>
+
+            <p class="text-[11px] uppercase tracking-widest leading-loose opacity-70 mb-8 text-black">
+                Cette section est réservée aux membres.
+            </p>
+
+            <div class="flex flex-col gap-4">
+                <button onclick="switchModal('modal-library-error', 'modal-login')" class="auth-submit-btn w-full">
+                    S'identifier
+                </button>
+
+                <button onclick="switchModal('modal-library-error', 'modal-inscription')" class="text-[10px] uppercase font-bold tracking-widest text-[#c5a059] hover:underline">
+                    Devenir membre
+                </button>
+            </div>
+
+        </div>
+    </div>
+    `;
+
+    document.body.insertAdjacentHTML('beforeend', modalsHTML);
+}
+
 function loadNavbar() {
     const navHTML = `
     <nav class="nav-floating">
@@ -28,6 +111,8 @@ function loadNavbar() {
     `;
 
     document.body.insertAdjacentHTML('afterbegin', navHTML);
+
+    injectGlobalModals();
 
     // Initialisation des fonctionnalités
     updateUI();
@@ -62,14 +147,11 @@ async function updateUI() {
 async function handleLibraryAccess(event) {
     if (event) event.preventDefault();
     if (isProcessingLibrary) return;
+
     isProcessingLibrary = true;
 
-    const { data: { session } } = await supabase.auth.getSession();
-    if (session) {
-        window.location.href = 'bibliotheque.html';
-    } else {
-        if (typeof toggleModal === 'function') toggleModal('modal-library-error');
-    }
+    window.location.href = 'bibliotheque.html';
+
     isProcessingLibrary = false;
 }
 
