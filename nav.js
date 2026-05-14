@@ -7,15 +7,23 @@ function loadNavbar() {
         </div>
 
         <div class="hidden md:flex space-x-8">
-            <a href="index.html" class="text-[10px] uppercase tracking-widest">L'Institution</a>
-            <a href="bureau.html" class="text-[10px] uppercase tracking-widest">Le Bureau</a>
+            <a href="index.html#presentation-association" class="text-[13px] uppercase tracking-[0.2em] text-[#052e16] hover:text-[#c5a059] transition-colors no-underline font-medium">L'Institution</a>
+            <a href="bureau.html" class="text-[13px] uppercase tracking-widest">Le Bureau</a>
             <a href="bibliotheque.html" id="nav-biblio" class="hidden text-[10px] uppercase tracking-widest">Bibliothèque</a>
         </div>
 
         <div class="flex items-center space-x-4">
-            <div id="auth-guest">
-                <button onclick="toggleModal('modal-login')" class="text-[10px] uppercase tracking-widest mr-4">Connexion</button>
-                <button onclick="toggleModal('modal-inscription')" style="background: #052e16; color: white !important; padding: 10px 25px; border-radius: 50px; font-size: 10px; text-transform: uppercase; cursor: pointer; border: none;">S'inscrire</button>
+        <div id="auth-guest">
+            <button onclick="toggleModal('modal-login')" 
+                class="text-[13px] uppercase tracking-widest mr-6 text-[#052e16] hover:text-[#c5a059] transition-colors bg-transparent border-none cursor-pointer font-medium">
+                Connexion
+            </button>
+            
+            <button onclick="toggleModal('modal-inscription')" 
+                style="background: #052e16; color: white !important; padding: 12px 28px; border-radius: 50px; font-size: 13px; text-transform: uppercase; cursor: pointer; border: none; letter-spacing: 0.1em; font-weight: 500;">
+                S'inscrire
+            </button>
+        </div>
             </div>
             <div id="auth-user" class="hidden">
                 <a href="compte.html" class="text-[10px] uppercase tracking-widest mr-4">Mon Compte</a>
