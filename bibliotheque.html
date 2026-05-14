@@ -60,9 +60,23 @@
     </script>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            loadNavbar(); // Cette fonction vient de nav.js
-        });
+        // On attend que le DOM et Supabase soient chargés
+document.addEventListener('DOMContentLoaded', async () => {
+    // 1. Charger la navigation
+    if (typeof loadNavbar === 'function') loadNavbar();
+
+    // 2. Vérifier la session immédiatement
+    const { data: { session }, error } = await supabase.auth.getSession();
+
+    if (error || !session) {
+        // Redirection vers l'accueil avec signal d'erreur
+        sessionStorage.setItem('showLibraryError', 'true');
+        window.location.href = 'index.html';
+    } else {
+        // Optionnel : Afficher le contenu une fois la session confirmée
+        document.body.style.opacity = "1";
+    }
+});
     </script>
 </body>
 </html>
