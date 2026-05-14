@@ -15,7 +15,7 @@ function loadNavbar() {
         <div class="flex items-center space-x-4">
             <div id="auth-guest">
                 <button onclick="toggleModal('modal-login')" class="text-[10px] uppercase tracking-widest mr-4">Connexion</button>
-                <a href="#presentation-association" style="background: #052e16; color: white !important; padding: 10px 20px; border-radius: 50px; font-size: 10px; text-transform: uppercase;">Rejoindre</a>
+                <button onclick="toggleModal('modal-inscription')" style="background: #052e16; color: white !important; padding: 10px 25px; border-radius: 50px; font-size: 10px; text-transform: uppercase; cursor: pointer; border: none;">S'inscrire</button>
             </div>
             <div id="auth-user" class="hidden">
                 <a href="compte.html" class="text-[10px] uppercase tracking-widest mr-4">Mon Compte</a>
