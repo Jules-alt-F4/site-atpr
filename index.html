@@ -446,39 +446,6 @@
 
 <body>
 
-    <nav class="nav-fixed">
-        <div class="flex-shrink-0">
-            <a href="index.html" class="flex flex-col no-underline">
-                <span class="font-heritage text-2xl tracking-widest text-[#1a1a1a] leading-tight">ATPR</span>
-                <span class="text-[9px] tracking-[0.4em] text-[#c5a059] leading-none">Association du Tutorat de Pharmacie rennais</span>
-            </a>
-        </div>
-
-        <div class="hidden md:flex nav-center">
-            <a href="index.html" class="nav-link">Accueil</a>
-            <a href="#presentation-association" class="nav-link">L'Institution</a>
-            <a href="bureau.html" class="nav-link">Le Bureau</a>
-            <a href="bibliothèque.html" id="nav-biblio" class="nav-link hidden">Bibliothèque</a>
-        </div>
-
-        <div class="hidden md:flex items-center space-x-6">
-            <div id="auth-guest" class="flex items-center space-x-6">
-                <button onclick="toggleModal('modal-login')" class="text-[10px] uppercase tracking-[0.2em] hover:text-[#c5a059] transition-colors">Connexion</button>
-                <span class="btn-gold px-12 py-4 text-[10px]"><a href="#presentation-association" class="nav-link">Rejoindre</a></span>
-            </div>
-
-            <div id="auth-user" class="hidden flex items-center space-x-6">
-                <a href="compte.html" class="text-[10px] uppercase tracking-[0.2em] hover:text-[#c5a059]">Mon Compte</a>
-                <button onclick="handleLogout()" class="border border-[#c5a059] px-6 py-2 text-[10px] uppercase tracking-[0.2em] text-[#c5a059] hover:bg-[#c5a059] hover:text-black transition-all">Déconnexion</button>
-            </div>
-        </div>
-
-        <div id="auth-buttons" class="flex items-center gap-4">
-            <button onclick="toggleModal('modal-login')" class="px-5 py-2 bg-[#1a1a1a] text-[10px] uppercase tracking-widest text-white rounded-full hover:bg-[#c5a059] transition-all shadow-md">Connexion</button>
-            <button onclick="toggleModal('modal-inscription')" class="px-5 py-2 border border-[#c5a059] text-[10px] uppercase tracking-widest text-[#c5a059] rounded-full hover:bg-[#c5a059] hover:text-white transition-all">S'inscrire</button>
-        </div>
-    </nav>
-
 <main id="accueil" class="page page-active">
         <div class="greek-column column-left"></div>
         <div class="greek-column column-right"></div>
@@ -816,7 +783,6 @@
             // Au lieu de showPage, on ferme la modale et on rafraîchit
             toggleModal('modal-login');
             window.location.reload();
-            window.location.href = 'bibliotheque.html'
         }
     }
 
@@ -942,6 +908,13 @@
     });
 
 </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        const supabase = supabase.createClient('VOTRE_URL', 'VOTRE_CLE');
+    </script>
+
+    <script src="nav.js"></script>
 
 <footer class="bg-[#000000] border-t border-[#c5a059]/20 py-12 px-6 mt-20">
     <div class="max-w-6xl mx-auto">
