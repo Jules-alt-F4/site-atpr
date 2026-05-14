@@ -1,3 +1,5 @@
+let isProcessingLibrary = false; // Verrou anti-spam
+
 function loadNavbar() {
     const navHTML = `
     <nav class="nav-floating">
@@ -9,7 +11,7 @@ function loadNavbar() {
             <a href="index.html#presentation-association" class="text-[13px] uppercase tracking-[0.2em] text-[#052e16] hover:text-[#c5a059] transition-colors no-underline font-medium">L'Institution</a>
             <a href="bureau.html" class="text-[13px] uppercase tracking-widest text-[#052e16] no-underline font-medium">Le Bureau</a>
             
-            <a href="bibliotheque.html" 
+            <a href="javascript:void(0)" 
                onclick="handleLibraryAccess(event)" 
                class="text-[13px] uppercase tracking-widest text-[#052e16] hover:text-[#c5a059] transition-colors no-underline font-medium cursor-pointer">
                Bibliothèque
@@ -36,10 +38,10 @@ function loadNavbar() {
                 Le contenu de la bibliothèque est exclusivement réservé aux membres de l'ATPr.
             </p>
             <div class="flex flex-col space-y-4">
-                <button onclick="switchFromErrorTo('modal-login')" class="bg-[#052e16] text-white py-4 rounded-full text-[13px] uppercase tracking-widest font-bold">Se Connecter</button>
-                <button onclick="switchFromErrorTo('modal-inscription')" class="bg-[#052e16] text-white py-4 rounded-full text-[13px] uppercase tracking-widest font-bold">S'inscrire</button>
+                <button onclick="switchFromErrorTo('modal-login')" class="bg-[#052e16] text-white py-4 rounded-full text-[13px] uppercase tracking-widest font-bold cursor-pointer">Se Connecter</button>
+                <button onclick="switchFromErrorTo('modal-inscription')" class="bg-[#052e16] text-white py-4 rounded-full text-[13px] uppercase tracking-widest font-bold cursor-pointer">S'inscrire</button>
             </div>
-            <button onclick="toggleModal('modal-library-error')" class="mt-8 text-[10px] uppercase tracking-widest text-[#052e16]/40">Fermer</button>
+            <button onclick="toggleModal('modal-library-error')" class="mt-8 text-[10px] uppercase tracking-widest text-[#052e16]/40 hover:text-[#c5a059] cursor-pointer">Fermer</button>
         </div>
     </div>
     `;
@@ -50,10 +52,14 @@ function loadNavbar() {
 
 // 2. Gestion de l'accès Bibliothèque
 async function handleLibraryAccess(event) {
-    if (event) event.preventDefault(); // Empêche la navigation immédiate
+    if (event) event.preventDefault();
+    if (isProcessingLibrary) return; // Bloque si un clic est déjà en cours
+
+    isProcessingLibrary = true;
 
     try {
         const { data: { session } } = await supabase.auth.getSession();
+
         if (session) {
             window.location.href = 'bibliotheque.html';
         } else {
@@ -61,7 +67,9 @@ async function handleLibraryAccess(event) {
         }
     } catch (error) {
         console.error("Erreur d'accès:", error);
-        toggleModal('modal-library-error');
+    } finally {
+        // On libère le verrou après un court délai pour éviter le spam
+        setTimeout(() => { isProcessingLibrary = false; }, 500);
     }
 }
 
@@ -85,28 +93,34 @@ async function updateUI() {
 // 4. Modales
 function toggleModal(modalId) {
     const modal = document.getElementById(modalId);
-    if (!modal) return;
-    
-    if (modal.classList.contains('hidden')) {
+    if (!modal) {
+        console.error("La modale " + modalId + " n'existe pas dans le DOM.");
+        return;
+    }
+
+    const isHidden = modal.classList.contains('hidden');
+    if (isHidden) {
         modal.classList.remove('hidden');
         modal.style.display = 'flex';
-        document.body.style.overflow = 'hidden';
+        document.body.style.overflow = 'hidden'; // Bloque le scroll derrière
     } else {
         modal.classList.add('hidden');
         modal.style.display = 'none';
-        document.body.style.overflow = 'auto';
+        document.body.style.overflow = 'auto'; // Libère le scroll
     }
 }
 
+// La fonction magique qui fait le pont entre les modales
 function switchFromErrorTo(targetModalId) {
+    // 1. Ferme la modale d'erreur
     toggleModal('modal-library-error');
-    setTimeout(() => toggleModal(targetModalId), 300);
+
+    // 2. Attend 300ms (fin de transition) pour ouvrir la suivante
+    setTimeout(() => {
+        toggleModal(targetModalId);
+    }, 300);
 }
 
-async function handleLogout() {
-    await supabase.auth.signOut();
-    window.location.href = 'index.html';
-}
 
 // 5. Déconnexion
 async function handleLogout() {
@@ -115,4 +129,16 @@ async function handleLogout() {
 }
 
 // Lancement au chargement de la page
-document.addEventListener('DOMContentLoaded', loadNavbar);
+
+document.addEventListener('DOMContentLoaded', () => {
+    loadNavbar();
+
+    // --- NOUVEAU : Vérification de la redirection forcée ---
+    if (sessionStorage.getItem('showLibraryError') === 'true') {
+        // On attend un tout petit peu que la navbar soit bien injectée
+        setTimeout(() => {
+            toggleModal('modal-library-error');
+            sessionStorage.removeItem('showLibraryError'); // On nettoie pour ne pas l'avoir en boucle
+        }, 500);
+    }
+});
