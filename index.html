@@ -915,17 +915,18 @@
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script>
-        // Votre config Supabase doit être ici
-        const supabase = supabase.createClient('URL', 'KEY');
-    </script>
+<script>
+    // Utilisez 'createClient' depuis l'objet global 'supabase'
+    // Et assurez-vous de nommer votre variable exactement comme dans nav.js (ex: supabase)
+    const supabaseUrl = 'https://zcueonuffhzrvnktxzpl.supabase.co';
+    const supabaseKey = 'sb_publishable_yeSb-vYs5ibken1ypPAliQ_L07lvC9a';
 
-    <script src="nav.js"></script>
+    // Initialisation
+    const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+</script>
 
-    <script>
-        function toggleModal(id) { ... }
-        // etc.
-    </script>
+<script src="nav.js"></script>
+
 </body>
 
 <footer class="bg-[#000000] border-t border-[#c5a059]/20 py-12 px-6 mt-20">
