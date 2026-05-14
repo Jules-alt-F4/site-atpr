@@ -8,15 +8,10 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
+        html {
+            scroll-behavior: smooth;
+        }
         @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600&display=swap');
-
-        @keyframes pulseSlow {
-        0%, 100% { opacity: 0.8; }
-        50% { opacity: 1; }
-        }
-        .animate-pulse-slow {
-        animation: pulseSlow 6s infinite ease-in-out;
-        }
 
         :root {
             --forest-green: #052e16;
@@ -25,6 +20,8 @@
             --elegant-black: #1a1a1a;
             --parchment: #f5f2e8;
         }
+
+        .font-heritage { font-family: 'Cormorant Garamond', serif; }
 
         body {
             font-family: 'Montserrat', sans-serif;
@@ -38,202 +35,292 @@
             min-height: 100vh;
         }
 
-        main.page-active {
-            flex: 1 0 auto;
+
+        /* En mode MPA, on ne cache plus les sections .page */
+        .section-parchment {
+            background-color: var(--parchment);
+            color: var(--elegant-black);
         }
 
-        footer {
-            flex-shrink: 0;
+        nav.nav-fixed{
+            background-color: white !important;
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 1200px;
+            height: 75px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between; /* Espace entre les 3 blocs */
+            padding: 0 40px;
+            border-radius: 100px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            z-index: 1000;
         }
 
-        #accueil {
-            margin-bottom: 100px;
+        /* Centrage mathématique parfait du menu */
+        .nav-center {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 30px;
         }
 
-        .font-heritage { font-family: 'Cormorant Garamond', serif; }
-
-        .page { display: none; opacity: 0; min-height: 85vh; }
-        .page-active {
-            display: block;
-            animation: luxuryReveal 1.2s ease-out forwards;
-            padding-left: env(safe-area-inset-left);
-            padding-right: env(safe-area-inset-right);
-            padding-bottom: env(safe-area-inset-bottom);
-        }
-
-        @keyframes luxuryReveal {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        nav {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 9999;
-    /* Couleur de fond blanche avec une légère transparence pour l'élégance */
-    background: rgba(255, 255, 255, 0.98);
-    backdrop-filter: blur(10px);
-    /* Bordure dorée très fine pour le rappel de charte */
-    border-bottom: 1px solid rgba(197, 160, 89, 0.3);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Ombre pour le contraste */
-    padding-top: env(safe-area-inset-top);
-    padding-left: env(safe-area-inset-left);
-    padding-right: env(safe-area-inset-right);
-}
-
-.nav-container {
-    max-width: 90rem;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 2rem;
-    height: 55px;
-}
-
-/* --- POLICES EN NOIR --- */
-
-.nav-brand-text {
-    font-family: 'Cormorant Garamond', serif;
-    font-style: italic;
-    letter-spacing: 0.1em;
-    color: #000000 !important; /* Force le noir */
-}
-
-.nav-slogan {
-    font-family: 'Cormorant Garamond', serif;
-    font-style: italic;
-    text-transform: uppercase;
-    letter-spacing: 0.25em;
-    font-size: 14px;
-    color: #000000;
-    opacity: 0.6;
-}
-.nav-link {
-    font-size: 14px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.15em;
-    color: #000000 !important;
-    opacity: 0.8;
-    transition: all 0.3s ease;
-    background: none;
-    border: none;
-    cursor: pointer;
-}
-#nav-auth-buttons .btn-gold {
-    /* Taille et Épaisseur */
-    font-size: 11px !important;
-    font-weight: 800 !important;
-    padding: 8px 24px !important;
-
-    /* Couleur Doré Royal */
-    background-color: #FFFFFF !important; /* Fond doré par défaut */
-    color: #c5a059 !important;
-    border: 1px solid #c5a059 !important;
-
-    /* Effets */
-    text-transform: uppercase;
-    letter-spacing: 0.15em;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 4px 15px rgba(197, 160, 89, 0.2); /* Lueur dorée discrète */
-}
-
-#nav-auth-buttons .btn-gold:hover {
-    background-color: #052e16 !important; /* Devient vert forêt au survol */
-    border-color: #052e16 !important;
-    color: #c5a059 !important;            /* Le texte repasse en doré */
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-    transform: translateY(-1px);          /* Léger soulèvement */
-}
-.nav-link:hover {
-    opacity: 1;
-    color: var(--luxury-gold) !important; /* Devient doré au survol */
-}
-
-/* Boutons de droite spécifiques */
-#nav-auth-buttons button:first-child {
-    color: #000000; /* Bouton S'identifier en noir */
-}
-
-/* Style du nom dans la barre de navigation */
-#profil-prenom-nom {
-    color: #000000;
-    opacity: 0.9;
-    font-style: italic; /* Mise en italique */
-    font-weight: 700;   /* Augmentation de l'épaisseur (Gras) */
-    text-transform: none; /* Désactive la mise en majuscule automatique si elle était présente */
-}
-/* Cache la scrollbar de la nav sur mobile pour garder l'esthétique */
-.no-scrollbar::-webkit-scrollbar {
-    display: none;
-}
-.no-scrollbar {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-}
-
-/* Correction Android : Évite que le contenu soit caché sous la barre de navigation */
-main.page {
-    padding-top: 80px; /* Hauteur de la nav + marge */
-}
-
-/* Optimisation Mobile OS */
-@media (max-width: 640px) {
-    .nav-link {
-        letter-spacing: 0.1em;
-        font-weight: 700;
-    }
-    h2.text-6xl {
-        font-size: 3rem !important;
-    }
-}
-
-/* Force le rendu propre sur les navigateurs Android/Samsung */
-input, select, button {
-    -webkit-appearance: none;
-    border-radius: 0;
-}
-
-        .btn-gold {
-            border: 1px solid var(--luxury-gold); padding: 14px 35px;
-            letter-spacing: 0.1em; text-transform: uppercase;
-            font-size: 0.85rem;
-            font-weight: 700;
-            color: var(--luxury-gold); background: transparent; transition: 0.5s;
-            cursor: pointer;
-        }
-        .btn-gold:hover { background: var(--luxury-gold); color: white; }
-
-        .section-parchment { background-color: var(--parchment); color: var(--elegant-black); }
-        .gold-divider { height: 1px; background: var(--luxury-gold); width: 100px; margin: 30px auto; opacity: 0.6; }
-
-        .matiere-titre {
-            font-size: 0.95rem;
+        .nav-link {
+            color: #1a1a1a !important; /* Force le noir sur fond blanc */
+            font-size: 11px;
+            font-weight: 600;
             text-transform: uppercase;
-            letter-spacing: 0.3em;
-            color: #444;
-            border-bottom: 1px solid rgba(0,0,0,0.05);
-            padding-bottom: 0.6rem;
-            margin-bottom: 1.5rem;
+            letter-spacing: 0.1em;
+            text-decoration: none;
         }
 
-        .fiche-item-text {
-            font-size: 0.95rem;
-            font-weight: 500;
-            color: var(--elegant-black);
+        #nav-auth-buttons .btn-gold {
+            /* Taille et Épaisseur */
+            font-size: 11px !important;
+            font-weight: 800 !important;
+            padding: 8px 24px !important;
+
+            /* Couleur Doré Royal */
+            background-color: #FFFFFF !important; /* Fond doré par défaut */
+            color: #c5a059 !important;
+            border: 1px solid #c5a059 !important;
+
+            /* Effets */
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 15px rgba(197, 160, 89, 0.2); /* Lueur dorée discrète */
         }
 
-        .auth-card {
-            background: white;
-            border-radius: 2px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+        #nav-auth-buttons .btn-gold:hover {
+            background-color: #052e16 !important; /* Devient vert forêt au survol */
+            border-color: #052e16 !important;
+            color: #c5a059 !important;            /* Le texte repasse en doré */
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+            transform: translateY(-1px);          /* Léger soulèvement */
+        }
+        .nav-link:hover {
+            color: #c5a059 !important;
+        }
+
+        .logo-text {
+            color: #1a1a1a !important;
+        }
+
+        /* Boutons de droite spécifiques */
+        .nav-auth-group {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        /* Style du nom dans la barre de navigation */
+        #profil-prenom-nom {
+            color: #000000;
+            opacity: 0.9;
+            font-style: italic; /* Mise en italique */
+            font-weight: 700;   /* Augmentation de l'épaisseur (Gras) */
+            text-transform: none; /* Désactive la mise en majuscule automatique si elle était présente */
+        }
+
+        .greek-column {
+            position: absolute;
+            top: 10%;
+            bottom : 60%;
+            width: 2px;
+            height: 100vh;
+            background: linear-gradient(to bottom, transparent, var(--luxury-gold), transparent);
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.1), 10px 0 30px rgba(0,0,0,0.2);
+            z-index: 10; /* Derrière la nav (50) mais devant le fond */
+            pointer-events: none; /* Indispensable : le clic passe "à travers" la colonne */
+        }
+
+        .column-left {
+            left: 5%;
+        }
+
+        .column-right {
+            right: 5%;
+        }
+
+        /* Ajout de cannelures (les traits verticaux des colonnes) */
+        .greek-column::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -4px;
+            right: -4px;
+            height: 100%;
+            border-left: 1px solid var(--luxury-gold);
+            border-right: 1px solid var(--luxury-gold);
+            opacity: 0.3;
+        }
+
+        /* Chapiteau minimaliste en haut de la bande */
+        .greek-column::after {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: -15px;
+            width: 32px;
+            height: 2px;
+            background: var(--luxury-gold);
+            box-shadow: 0 5px 0 var(--luxury-gold);
+        }
+
+        .greek-column {
+            animation: goldGlow 4s infinite ease-in-out;
+        }
+        /* Animation subtile de lueur sur les colonnes */
+        @keyframes goldGlow {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.6; }
+        }
+
+        .greek-column {
+            animation: goldGlow 4s infinite ease-in-out;
+        }
+        /* Cache la scrollbar de la nav sur mobile pour garder l'esthétique */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        /* Verrouillage des pop-ups pour un affichage figé */
+        .modal-overlay .max-w-4xl,
+        .modal-overlay .max-w-5xl {
+            overflow: hidden !important; /* Empêche tout défilement de contenu */
+            touch-action: none;         /* Désactive le défilement tactile sur mobile */
+        }
+
+        /* Optionnel : Empêcher le scroll de la page en arrière-plan quand une modale est ouverte */
+        body.modal-open {
             overflow: hidden;
-            color: var(--elegant-black);
         }
 
+        /* Style pour "Qui sommes-nous" (Lien simple) */
+        .btn-text-simple {
+            color: white !important;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            text-decoration: none;
+            transition: color 0.4s ease;
+            padding: 10px 20px;
+        }
+
+        .btn-text-simple:hover {
+            color: var(--luxury-gold) !important;
+        }
+
+        /* Style pour "Explorer le bureau" et "Nous rejoindre" (Bordures dorées) */
+        .btn-outline-gold {
+            display: inline-block;
+            background-color: transparent; /* Pas de remplissage */
+            color: white !important;
+            padding: 16px 35px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            border: 1px solid var(--luxury-gold); /* Bordure fine dorée */
+            border-radius: 2px;
+            transition: all 0.4s ease;
+            text-decoration: none;
+            text-align: center;
+        }
+
+        .btn-outline-gold:hover {
+            background-color: rgba(197, 160, 89, 0.1); /* Très léger voile au survol */
+            box-shadow: 0 0 15px rgba(197, 160, 89, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .gold-divider {
+            height: 1px;
+            width: 80px;
+            background: linear-gradient(90deg, transparent, var(--luxury-gold), transparent);
+            margin: 1.5rem auto;
+        }
+
+        /* Styles Modales Connexion */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-active { display: flex !important; }
+
+
+        /* Cadre style Colonne Grecque pour les Pop-ups */
+        /* --- STYLE GRÈCE ANTIQUE POUR POP-UPS --- */
+
+        /* Cadre doré structurel (Fût de colonne) */
+        .auth-frame-gold {
+            border: 2px solid var(--luxury-gold);
+            box-shadow: 0 0 20px rgba(197, 160, 89, 0.2);
+            position: relative;
+            z-index: 10;
+            background-color: var(--parchment);
+        }
+
+        /* Coins décoratifs héritage */
+        .auth-frame-gold::before {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: -5px;
+            right: -5px;
+            bottom: -5px;
+            border: 1px solid var(--luxury-gold);
+            opacity: 0.3;
+            pointer-events: none;
+        }
+
+        /* Petites colonnes dorées internes avec dégradé */
+        .auth-column {
+            position: absolute;
+            top: 5%;
+            bottom: 5%;
+            width: 1px;
+            background: linear-gradient(to bottom, transparent, var(--luxury-gold), transparent);
+            opacity: 0.5;
+            animation: goldGlow 4s infinite ease-in-out;
+        }
+
+        .auth-column-left { left: 15px; }
+        .auth-column-right { right: 15px; }
+
+        /* Animation de lueur dorée pour les colonnes */
+        @keyframes goldGlow {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.6; }
+        }
+
+        /* Style des titres en Cormorant Garamond */
+        .auth-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            font-size: 2.5rem;
+            color: var(--elegant-black);
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        /* Inputs style Parchemin Pur */
         .auth-input {
             width: 100%;
             padding: 15px 20px !important;
@@ -252,848 +339,377 @@ input, select, button {
             box-shadow: 0 0 0 1px var(--luxury-gold);
         }
 
-        select.auth-input {
-            appearance: none;
+        /* Style des boutons de validation (Modales) */
+        .auth-submit-btn {
+            font-family: 'Montserrat', sans-serif !important;
+            font-size: 11px !important;
+            font-weight: 700 !important;
+            text-transform: uppercase !important;
+            letter-spacing: 0.3em !important;
+
+            /* État Initial : Cadre doré, pas de remplissage, texte noir */
+            background-color: transparent !important;
+            border: 1px solid var(--luxury-gold) !important;
+            color: var(--elegant-black) !important;
+
+            padding: 18px 0;
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
             cursor: pointer;
-        }
-
-        .archive-card {
-            border: 1px solid rgba(5, 46, 22, 0.1);
-            transition: all 0.4s ease;
-            background: white;
-            overflow: hidden;
             position: relative;
-        }
-        .archive-card:hover {
-            border-color: var(--luxury-gold);
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-        }
-        .archive-card img {
-            width: 100%; height: 100%; object-fit: cover;
-            opacity: 0.4; transition: opacity 0.5s ease;
-        }
-
-        .card-label {
-            position: absolute;
-            z-index: 10;
-            background: rgba(255,255,255,0.9);
-            padding: 10px 20px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            font-size: 0.75rem;
-            color: var(--elegant-black);
-            border: 1px solid var(--luxury-gold);
-        }
-
-        .member-card {
-            background: white;
-            padding: 0;
-            border: 1px solid rgba(0,0,0,0.05);
-            text-align: center;
-            transition: all 0.4s;
             overflow: hidden;
         }
-        .member-card:hover {
-            border-color: var(--luxury-gold);
-            transform: translateY(-5px);
+
+        /* État au Survol : Remplissage vert forêt, texte doré */
+        .auth-submit-btn:hover {
+            background-color: var(--forest-green) !important;
+            color: var(--luxury-gold) !important;
+            border-color: var(--forest-green) !important;
+            box-shadow: 0 10px 20px rgba(5, 46, 22, 0.2);
+            transform: translateY(-2px);
         }
-        .member-info {
-            padding: 30px 20px;
+
+        /* On s'assure que le conteneur de la modale centre bien le tout avec un peu d'espace */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background-color: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(5px);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
         }
-        .member-photo {
+
+        .auth-column {
+            position: absolute;
+            top: 0;
+            width: 2px;
+            height: 100%;
+            background: linear-gradient(to bottom, transparent, var(--luxury-gold), transparent);
+            opacity: 0.3;
+        }
+        .auth-column-left { left: 15px; }
+        .auth-column-right { right: 15px; }
+
+        .auth-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.5rem;
+            font-style: italic;
+            color: var(--elegant-black);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        /* Harmonisation des boutons de formulaire */
+        .auth-submit-btn {
+            font-family: 'Montserrat', sans-serif !important;
+            font-size: 11px !important;
+            font-weight: 700 !important;
+            text-transform: uppercase !important;
+            letter-spacing: 0.3em !important; /* Espacement large type luxe */
+            transition: all 0.5s ease-in-out;
+        }
+
+        .auth-input {
             width: 100%;
-            height: 320px;
-            background-color: #f3f4f6;
-            object-fit: cover;
-            border-bottom: 1px solid rgba(0,0,0,0.05);
-            filter: grayscale(100%);
-            transition: filter 0.5s ease;
-        }
-        .member-card:hover .member-photo {
-            filter: grayscale(0%);
-        }
-        .member-role {
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            letter-spacing: 0.3em;
-            color: var(--luxury-gold);
-            font-weight: 700;
-            margin-bottom: 10px;
-            display: block;
-        }
-/* Styles pour les colonnes de la Grèce Antique */
-.hero-container {
-    position: relative;
-    width: 100%;
-    max-width: 1400px;
-    margin: 0 auto;
-    overflow: hidden;
-}
-
-.greek-column {
-    position: absolute;
-    top: 5%;
-    bottom: 60%;
-    width: 2px; /* La bande principale */
-    background: linear-gradient(to bottom, transparent, var(--luxury-gold), transparent);
-    opacity: 0.4;
-    z-index: 1;
-}
-
-/* La colonne de gauche avec ses détails (chapiteau et base stylisés) */
-.column-left {
-    left: 5%;
-}
-
-/* La colonne de droite */
-.column-right {
-    right: 5%;
-}
-
-/* Ajout de cannelures (les traits verticaux des colonnes) */
-.greek-column::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -4px;
-    right: -4px;
-    height: 100%;
-    border-left: 1px solid var(--luxury-gold);
-    border-right: 1px solid var(--luxury-gold);
-    opacity: 0.3;
-}
-
-/* Chapiteau minimaliste en haut de la bande */
-.greek-column::after {
-    content: '';
-    position: absolute;
-    top: -10px;
-    left: -15px;
-    width: 32px;
-    height: 2px;
-    background: var(--luxury-gold);
-    box-shadow: 0 5px 0 var(--luxury-gold);
-}
-
-/* Animation subtile de lueur sur les colonnes */
-@keyframes goldGlow {
-    0%, 100% { opacity: 0.3; }
-    50% { opacity: 0.6; }
-}
-
-.greek-column {
-    animation: goldGlow 4s infinite ease-in-out;
-}
-/* Animation subtile de lueur sur les colonnes */
-@keyframes goldGlow {
-    0%, 100% { opacity: 0.3; }
-    50% { opacity: 0.6; }
-}
-
-.greek-column {
-    animation: goldGlow 4s infinite ease-in-out;
-}
-/* Décoration spécifique pour les cartes d'authentification */
-.auth-container {
-    position: relative;
-    padding: 2rem;
-    border: 1px solid rgba(197, 160, 89, 0.2);
-    background: white;
-}
-
-/* Petites colonnes dorées pour les formulaires */
-.auth-column {
-    position: absolute;
-    top: 5%;
-    bottom: 5%;
-    width: 1px;
-    background: linear-gradient(to bottom, transparent, var(--luxury-gold), transparent);
-    opacity: 0.5;
-}
-
-.auth-column-left { left: 15px; }
-.auth-column-right { right: 15px; }
-
-/* Style des titres de formulaires */
-.auth-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-style: italic;
-    font-size: 2.5rem;
-    color: var(--elegant-black);
-    text-align: center;
-    margin-bottom: 2rem;
-}
-        .archive-card:hover img { opacity: 0.9; }
-        /* Cadre doré pour les formulaires d'authentification */
-            .auth-frame-gold {
-                border: 2px solid var(--luxury-gold);
-                box-shadow: 0 0 20px rgba(197, 160, 89, 0.2); /* Lueur subtile */
-                position: relative;
-                z-index: 10;
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+            padding: 10px 0;
+            font-size: 13px;
+            outline: none;
+            transition: border-color 0.3s;
+            color: var(--elegant-black);
+            margin-bottom: 1.5rem;
         }
 
-/* Optionnel : ajout de coins décoratifs "héritage" */
-            .auth-frame-gold::before {
-                content: '';
-                position: absolute;
-                top: -5px;
-                left: -5px;
-                right: -5px;
-                bottom: -5px;
-                border: 1px solid var(--luxury-gold);
-                opacity: 0.3;
-                pointer-events: none;
+        .auth-input:focus {
+            border-bottom-color: var(--luxury-gold);
         }
-            /* --- ADAPTATIONS POUR IOS (iPhone/iPad) --- */
-.os-ios {
-    /* Utilise la police système San Francisco d'Apple */
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-}
-.os-ios .btn-gold {
-    border-radius: 20px; /* Bords plus arrondis typiques d'iOS */
-    letter-spacing: 0.1em;
-}
 
-/* --- ADAPTATIONS POUR ANDROID --- */
-.os-android {
-    /* Utilise la police Roboto de Google */
-    font-family: "Roboto", sans-serif;
-}
-.os-android .btn-gold {
-    border-radius: 4px; /* Bords plus carrés style Material Design */
-    text-transform: uppercase;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
-}
+        /* On s'assure que les modales prennent bien toute la place nécessaire */
+        .modal-overlay .max-w-4xl, .modal-overlay .max-w-5xl {
+            max-height: 90vh;
+            overflow-y: auto;
+        }
 
-/* --- ADAPTATIONS POUR MACOS --- */
-.os-macos .font-heritage {
-    font-weight: 500; /* Le rendu des polices est plus fin sur Mac, on compense légèrement */
-}
+        #presentation-association {
+            scroll-margin-top: 110px; /* Aligne la section juste en dessous de la barre flottante */
+        }
 
-/* --- ADAPTATIONS POUR WINDOWS --- */
-.os-windows ::-webkit-scrollbar {
-    width: 12px; /* Barre de défilement plus présente sur Windows */
-}
-.os-windows ::-webkit-scrollbar-thumb {
-    background: var(--luxury-gold);
-    border: 3px solid var(--forest-green);
-    border-radius: 10px;
-}
-.absolute.bottom-8, .absolute.bottom-10 {
-    bottom: calc(2rem + env(safe-area-inset-bottom)) !important;
-}
-/* Overlay pour les informations au survol */
-.member-card {
-    position: relative; /* Nécessaire pour positionner l'overlay */
-}
-
-.member-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 320px; /* Doit correspondre à la hauteur de .member-photo */
-    background: rgba(5, 46, 22, 0.9); /* Vert forêt profond avec opacité */
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-    opacity: 0; /* Caché par défaut */
-    transition: opacity 0.4s ease;
-    z-index: 10;
-}
-
-.member-card:hover .member-overlay {
-    opacity: 1; /* Apparaît au survol */
-}
-
-.overlay-desc {
-    font-size: 0.8rem;
-    line-height: 1.6;
-    color: var(--parchment);
-    margin-bottom: 1.5rem;
-    font-style: italic;
-}
-
-.overlay-contact {
-    font-size: 0.7rem;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--luxury-gold);
-    border-top: 1px solid rgba(197, 160, 89, 0.3);
-    padding-top: 10px;
-}
+        footer {
+            flex-shrink: 0;
+        }
     </style>
 </head>
 
 <body>
-    <nav>
-    <div class="nav-container">
-        <div class="flex items-center space-x-6 cursor-pointer" onclick="showPage('accueil')">
-            <span class="text-2xl nav-brand-text text-[#c5a059]">ATPr</span>
-            <div class="h-6 w-[1px] bg-[#c5a059]/20 hidden md:block"></div>
-            <span class="nav-slogan hidden md:block">Excellence & Tradition</span>
+
+    <nav class="nav-fixed">
+        <div class="flex-shrink-0">
+            <a href="index.html" class="flex flex-col no-underline">
+                <span class="font-heritage text-2xl tracking-widest text-[#1a1a1a] leading-tight">ATPR</span>
+                <span class="text-[9px] tracking-[0.4em] text-[#c5a059] leading-none">Association du Tutorat de Pharmacie rennais</span>
+            </a>
         </div>
 
-        <div class="hidden lg:flex items-center space-x-10">
-            <button onclick="scrollToInstitution()" class="nav-link">L'Institution</button>
-            <button id="nav-ressources" class="hidden nav-link !opacity-100 text-[#c5a059]" onclick="showPage('ressources')">Ressources</button>
-            <button onclick="showPage('tut-team')" class="nav-link">Le Bureau</button>
+        <div class="hidden md:flex nav-center">
+            <a href="index.html" class="nav-link">Accueil</a>
+            <a href="#presentation-association" class="nav-link">L'Institution</a>
+            <a href="bureau.html" class="nav-link">Le Bureau</a>
+            <a href="bibliothèque.html" id="nav-biblio" class="nav-link hidden">Bibliothèque</a>
+        </div>
+
+        <div class="hidden md:flex items-center space-x-6">
+            <div id="auth-guest" class="flex items-center space-x-6">
+                <button onclick="toggleModal('modal-login')" class="text-[10px] uppercase tracking-[0.2em] hover:text-[#c5a059] transition-colors">Connexion</button>
+                <span class="btn-gold px-12 py-4 text-[10px]"><a href="#presentation-association" class="nav-link">Rejoindre</a></span>
             </div>
 
-        <div class="flex items-center space-x-6">
-            <div id="nav-auth-buttons" class="flex items-center space-x-6">
-                <button onclick="showPage('connexion')" class="text-[10px] uppercase tracking-[0.2em] hover:text-[#c5a059] transition-colors">S'identifier</button>
-                <button onclick="showPage('inscription')" class="btn-gold px-6 py-1.5 text-[9px] !text-black border-black">
-                    Adhérer
-                </button>
-            </div>
-
-            <div id="nav-user-info" class="hidden flex items-center space-x-6">
-                <span id="profil-prenom-nom" class="text-[10px] uppercase tracking-[0.2em] opacity-60 font-light" onclick="showPage('mon-profil')" style="cursor:pointer"></span>
-                <button onclick="handleLogout()" class="text-[10px] uppercase tracking-[0.2em] text-red-400/50 hover:text-red-400 transition-colors">Quitter</button>
+            <div id="auth-user" class="hidden flex items-center space-x-6">
+                <a href="compte.html" class="text-[10px] uppercase tracking-[0.2em] hover:text-[#c5a059]">Mon Compte</a>
+                <button onclick="handleLogout()" class="border border-[#c5a059] px-6 py-2 text-[10px] uppercase tracking-[0.2em] text-[#c5a059] hover:bg-[#c5a059] hover:text-black transition-all">Déconnexion</button>
             </div>
         </div>
-    </div>
-</nav>
 
-    <main id="accueil" class="page page-active">
-                    <div class="greek-column column-left"></div>
-            <div class="greek-column column-right"></div>
-        <section class="min-h-screen flex flex-col items-center justify-center relative py-24">
-            <div class="hero-container text-center px-6 z-10 max-w-7xl mx-auto">
-                <span class="text-[11px] tracking-[0.8em] uppercase mb-8 block animate-pulse" style="color:var(--luxury-gold)">
-                Association du tutorat de pharmacie rennais
-                </span>
+        <div id="auth-buttons" class="flex items-center gap-4">
+            <button onclick="toggleModal('modal-login')" class="px-5 py-2 bg-[#1a1a1a] text-[10px] uppercase tracking-widest text-white rounded-full hover:bg-[#c5a059] transition-all shadow-md">Connexion</button>
+            <button onclick="toggleModal('modal-inscription')" class="px-5 py-2 border border-[#c5a059] text-[10px] uppercase tracking-widest text-[#c5a059] rounded-full hover:bg-[#c5a059] hover:text-white transition-all">S'inscrire</button>
+        </div>
+    </nav>
 
-                <div class="relative inline-block mb-8">
-                    <h2 class="text-6xl md:text-[8rem] font-heritage italic leading-[1.1]">
-                        Tradition, <br>
-                        <span class="italic text-white opacity-90">Savoir & Exigence</span>
-                    </h2>
-                    <div class="flex justify-center items-center space-x-4 mt-6">
-                        <div class="h-[1px] w-20 bg-[#c5a059]/30"></div>
-                        <span class="text-[#c5a059] text-xl">◈</span>
-                        <div class="h-[1px] w-20 bg-[#c5a059]/30"></div>
+<main id="accueil" class="page page-active">
+        <div class="greek-column column-left"></div>
+        <div class="greek-column column-right"></div>
+    <section class="min-h-screen flex flex-col items-center justify-center relative py-24">
+        <div class="hero-container text-center px-6 z-10 max-w-7xl mx-auto">
+            <div class="relative inline-block mb-8">
+                <h2 class="text-6xl md:text-[8rem] font-heritage italic leading-[1.1]">
+                     Tradition, <br>
+                    <span class="italic text-white opacity-90">Savoir & Exigence</span>
+                </h2>
+
+                <div class="flex justify-center items-center space-x-4 mt-6">
+                    <div class="h-[1px] w-20 bg-[#c5a059]/30"></div>
+                    <span class="text-[#c5a059] text-xl">◈</span>
+                    <div class="h-[1px] w-20 bg-[#c5a059]/30"></div>
+                </div>
+            </div>
+                <p class="max-w-5xl mx-auto text-[13px] tracking-[0.25em] uppercase opacity-70 leading-[2.8] mb-12 font-light px-4">
+                   L'Association du tutorat de pharmacie rennais (ATPr) est une institution étudiante historique dédiée à l'apport d'un soutien logistique, moral et intellectuel constant aux étudiants de l'UFR Pharmacie de Rennes.
+                   <br>
+                   <span class="inline-block mt-4">L'association érige en principes fondamentaux l'égalité des chances, la rigueur dans le travail et la réussite académique de chaque membre de notre faculté.</span>
+                </p>
+
+                <div class="flex flex-col md:flex-row items-center justify-center gap-40 mb-12">
+                    <a href="bureau.html" class="btn-outline-gold">Explorer le Bureau</a>
+                    <button onclick="toggleModal('modal-inscription')" class="btn-outline-gold">Devenir membre</button>
+                </div>
+         </div>
+
+        <div class="absolute bottom-8 left-1/2 -translate-x-1/2 cursor-pointer group z-20" onclick="window.scrollBy({top: window.innerHeight, behavior: 'smooth'})">
+            <div class="flex flex-col items-center">
+                <a href="#presentation-association" class="btn-text-simple">Qui Sommes-Nous ?</a>
+                <div class="w-[1px] h-16 bg-gradient-to-b from-[#c5a059] to-transparent opacity-60"></div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="max-w-4xl mx-auto mb-16">
+            <div class="border border-[#c5a059]/30 bg-white/5 backdrop-blur-sm p-8 relative">
+                <div class="absolute top-0 left-4 bottom-0 w-[1px] bg-[#c5a059]/20"></div>
+                <div class="absolute top-0 right-4 bottom-0 w-[1px] bg-[#c5a059]/20"></div>
+
+                <h3 class="font-heritage italic text-3xl text-[#c5a059] mb-6 text-center">Prochaines Conférences</h3>
+
+                <div id="conference-list" class="grid gap-4">
+                    <div class="py-8 text-center">
+                        <p class="text-[10px] uppercase tracking-[0.3em] opacity-40 italic animate-pulse">
+                            Consultation des archives en cours...
+                        </p>
                     </div>
                 </div>
 
-                    <p class="max-w-5xl mx-auto text-[13px] tracking-[0.25em] uppercase opacity-70 leading-[2.8] mb-12 font-light px-4">
-                        L'Association du tutorat de pharmacie rennais (ATPr) est une institution étudiante historique dédiée à l'apport d'un soutien logistique, moral et intellectuel constant aux étudiants de l'UFR Pharmacie de Rennes.
-                        <br>
-                        <span class="inline-block mt-4">L'association érige en principes fondamentaux l'égalité des chances, la rigueur dans le travail et la réussite académique de chaque membre de notre faculté.</span>
-                    </p>
-
-                <div class="flex flex-col md:flex-row items-center justify-center gap-8 mb-12">
-                    <button onclick="showPage('tut-team')" class="btn-gold px-12 py-4 text-[10px]">
-                    Explorer le Bureau
-                    </button>
-                    <button id="btn-hero-inscription" onclick="showPage('inscription')" class="text-[10px] uppercase tracking-[0.3em] text-white/50 hover:text-[#c5a059] transition-colors">
-                    Devenir membre →
-                    </button>
-                </div>
-            </div>
-
-            <div class="absolute bottom-8 left-1/2 -translate-x-1/2 cursor-pointer group z-20" onclick="window.scrollBy({top: window.innerHeight, behavior: 'smooth'})">
-                <div class="flex flex-col items-center">
-                    <span class="text-[9px] tracking-[0.4em] uppercase mb-4 opacity-40 group-hover:opacity-100 transition-opacity">Découvrir</span>
-                    <div class="w-[1px] h-16 bg-gradient-to-b from-[#c5a059] to-transparent opacity-60"></div>
-                </div>
-            </div>
-        </section>
-
-        <section>
-<div class="max-w-4xl mx-auto mb-16">
-    <div class="border border-[#c5a059]/30 bg-white/5 backdrop-blur-sm p-8 relative">
-        <div class="absolute top-0 left-4 bottom-0 w-[1px] bg-[#c5a059]/20"></div>
-        <div class="absolute top-0 right-4 bottom-0 w-[1px] bg-[#c5a059]/20"></div>
-
-        <h3 class="font-heritage italic text-3xl text-[#c5a059] mb-6 text-center">Prochaines Conférences</h3>
-
-        <div id="conference-list" class="grid gap-4">
-            <div class="py-8 text-center">
-                <p class="text-[10px] uppercase tracking-[0.3em] opacity-40 italic animate-pulse">
-                    Consultation des archives en cours...
+                <p class="text-[9px] uppercase tracking-[0.2em] opacity-40 mt-6 text-center italic">
+                    * Les horaires et salles sont sujets à modification par le bureau.
                 </p>
             </div>
         </div>
+    </section>
 
-        <p class="text-[9px] uppercase tracking-[0.2em] opacity-40 mt-6 text-center italic">
-            * Les horaires et salles sont sujets à modification par le bureau.
-        </p>
-    </div>
-</div>
-</section>
+    <section id="presentation-association" class="py-24 px-6 relative overflow-hidden">
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-px h-24 bg-gradient-to-b from-[#c5a059] to-transparent opacity-30"></div>
+        <div class="max-w-6xl mx-auto">
+            <div class="grid lg:grid-cols-2 gap-16 items-center">
 
-<section id="presentation-association" class="py-24 px-6 relative overflow-hidden">
-
-    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-px h-24 bg-gradient-to-b from-[#c5a059] to-transparent opacity-30"></div>
-
-    <div class="max-w-6xl mx-auto">
-        <div class="grid lg:grid-cols-2 gap-16 items-center">
-
-            <div class="space-y-8">
-                <div>
-                    <span class="text-[10px] tracking-[0.5em] uppercase text-[#c5a059] block mb-4">Depuis 2025</span>
-                    <h2 class="text-5xl font-heritage italic leading-tight">L'Institution au service du <span class="text-white/90">Savoir</span></h2>
-                    <div class="h-[1px] w-24 bg-[#c5a059] mt-6"></div>
-                </div>
-
-                <div class="space-y-6 text-sm leading-relaxed opacity-80 font-light tracking-wide">
-                    <p>
-                        L'Association du Tutorat de Pharmacie Rennais est bien plus qu'une simple structure d'entraide. Elle incarne le trait d'union entre les générations d'étudiants, perpétuant une tradition d'excellence au sein de la Faculté de Pharmacie de Rennes.
-                    </p>
-                    <p>
-                        Notre mission repose sur trois piliers fondamentaux : l'<strong>accompagnement pédagogique</strong> rigoureux, le <strong>soutien moral</strong> indéfectible et la promotion d'une <strong>éthique professionnelle</strong> dès les premières années de cursus.
-                    </p>
-                </div>
-
-                <div class="grid grid-cols-2 gap-8 pt-6">
+                <div class="space-y-8">
                     <div>
-                        <span class="text-2xl font-heritage text-[#c5a059]">30+</span>
-                        <p class="text-[9px] uppercase tracking-widest opacity-50 mt-2">Tuteurs engagés chaque année</p>
+                        <span class="text-[10px] tracking-[0.5em] uppercase text-[#c5a059] block mb-4">Depuis 2025</span>
+                        <h2 class="text-5xl font-heritage italic leading-tight">L'Institution au service du <span class="text-white/90">Savoir</span></h2>
+                        <div class="h-[1px] w-24 bg-[#c5a059] mt-6"></div>
                     </div>
-                    <div>
-                        <span class="text-2xl font-heritage text-[#c5a059]">100%</span>
-                        <p class="text-[9px] uppercase tracking-widest opacity-50 mt-2">Gratuité des supports de cours</p>
+
+                    <div class="space-y-6 text-sm leading-relaxed opacity-80 font-light tracking-wide">
+                        <p>
+                            L'Association du Tutorat de Pharmacie Rennais est bien plus qu'une simple structure d'entraide. Elle incarne le trait d'union entre les générations d'étudiants, perpétuant une tradition d'excellence au sein de la Faculté de Pharmacie de Rennes.
+                        </p>
+                        <p>
+                            Notre mission repose sur trois piliers fondamentaux : l'<strong>accompagnement pédagogique</strong> rigoureux, le <strong>soutien moral</strong> indéfectible et la promotion d'une <strong>éthique professionnelle</strong> dès les premières années de cursus.
+                        </p>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-8 pt-6">
+                        <div>
+                            <span class="text-2xl font-heritage text-[#c5a059]">30+</span>
+                            <p class="text-[9px] uppercase tracking-widest opacity-50 mt-2">Tuteurs engagés chaque année</p>
+                        </div>
+                        <div>
+                            <span class="text-2xl font-heritage text-[#c5a059]">100%</span>
+                            <p class="text-[9px] uppercase tracking-widest opacity-50 mt-2">Gratuité des supports de cours</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="relative">
+                    <div class="aspect-[4/5] border border-[#c5a059]/30 relative z-10 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1576086213369-97a306d36557?auto=format&fit=crop&q=80&w=800"
+                             alt="Laboratoire Pharmacie"
+                             class="w-full h-full object-cover opacity-60 grayscale hover:grayscale-0 transition-all duration-1000">
+                    </div>
+                    <div class="absolute -bottom-6 -right-6 w-full h-full border border-[#c5a059]/10 -z-0"></div>
+
+                    <div class="absolute -top-4 -left-4 bg-[#052e16] border border-[#c5a059] p-6 shadow-2xl z-20">
+                        <p class="font-heritage italic text-[#c5a059] text-lg text-center">Égalité <br> <span class="text-white text-xs uppercase tracking-widest not-italic opacity-60">des chances</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="mot-fondatrice" class="py-24 px-6 bg-[#042612]/50 relative">
+        <div class="absolute inset-0 flex items-center justify-center opacity-[0.03] pointer-events-none">
+            <span class="font-heritage text-[25vw] leading-none">ATPr</span>
+        </div>
+
+        <div class="max-w-4xl mx-auto relative z-10">
+            <div class="text-center mb-16">
+                <div class="inline-block w-12 h-[1px] bg-[#c5a059] mb-6"></div>
+                <h2 class="text-4xl font-heritage italic text-white mb-2">Une Vision pour l'Avenir</h2>
+                <p class="text-[10px] uppercase tracking-[0.3em] text-[#c5a059]">Le mot de la Présidente-Fondatrice</p>
+            </div>
+
+            <div class="relative bg-[#052e16] p-12 md:p-20 border border-[#c5a059]/20 shadow-2xl">
+                <div class="absolute top-8 left-8 text-6xl font-heritage text-[#c5a059] opacity-20">"</div>
+
+                <div class="space-y-8 italic font-heritage text-xl md:text-2xl leading-relaxed text-white/90">
+                    <p>
+                        « Lorsque j'ai posé les premières pierres de l'ATPr, mon ambition était de créer un sanctuaire de savoir où l'excellence ne serait jamais synonyme d'exclusion. »
+                    </p>
+                    <p>
+                        « Aujourd'hui, voir cette communauté grandir, s'entraider et porter haut les valeurs de notre profession est ma plus grande fierté. Nous ne formons pas seulement des pharmaciens, nous forgeons l'avenir de la santé publique avec rigueur et humanité. »
+                    </p>
+                </div>
+
+                <div class="mt-16 flex flex-col items-end">
+                    <div class="text-right">
+                        <p class="font-heritage text-2xl text-[#c5a059] mb-1">Malaika Holfeld</p>
+                        <p class="text-[9px] uppercase tracking-widest opacity-50">Présidente Fondatrice — ATPr</p>
+                    </div>
+                    <div class="mt-4 opacity-40 grayscale contrast-125">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/3/3a/Jon_Kirsch_Signature.png" alt="Signature" class="h-12 w-auto invert">
                     </div>
                 </div>
             </div>
 
-            <div class="relative">
-                <div class="aspect-[4/5] border border-[#c5a059]/30 relative z-10 overflow-hidden">
-                    <img src="https://images.unsplash.com/photo-1576086213369-97a306d36557?auto=format&fit=crop&q=80&w=800"
-                         alt="Laboratoire Pharmacie"
-                         class="w-full h-full object-cover opacity-60 grayscale hover:grayscale-0 transition-all duration-1000">
-                </div>
-                <div class="absolute -bottom-6 -right-6 w-full h-full border border-[#c5a059]/10 -z-0"></div>
-
-                <div class="absolute -top-4 -left-4 bg-[#052e16] border border-[#c5a059] p-6 shadow-2xl z-20">
-                    <p class="font-heritage italic text-[#c5a059] text-lg text-center">Égalité <br> <span class="text-white text-xs uppercase tracking-widest not-italic opacity-60">des chances</span></p>
-                </div>
-            </div>
-
-        </div>
-
-    </div>
-</section>
-
-<section id="mot-fondatrice" class="py-24 px-6 bg-[#042612]/50 relative">
-    <div class="absolute inset-0 flex items-center justify-center opacity-[0.03] pointer-events-none">
-        <span class="font-heritage text-[25vw] leading-none">ATPr</span>
-    </div>
-
-    <div class="max-w-4xl mx-auto relative z-10">
-        <div class="text-center mb-16">
-            <div class="inline-block w-12 h-[1px] bg-[#c5a059] mb-6"></div>
-            <h2 class="text-4xl font-heritage italic text-white mb-2">Une Vision pour l'Avenir</h2>
-            <p class="text-[10px] uppercase tracking-[0.3em] text-[#c5a059]">Le mot de la Présidente-Fondatrice</p>
-        </div>
-
-        <div class="relative bg-[#052e16] p-12 md:p-20 border border-[#c5a059]/20 shadow-2xl">
-            <div class="absolute top-8 left-8 text-6xl font-heritage text-[#c5a059] opacity-20">"</div>
-
-            <div class="space-y-8 italic font-heritage text-xl md:text-2xl leading-relaxed text-white/90">
-                <p>
-                    « Lorsque j'ai posé les premières pierres de l'ATPr, mon ambition était de créer un sanctuaire de savoir où l'excellence ne serait jamais synonyme d'exclusion. »
-                </p>
-                <p>
-                    « Aujourd'hui, voir cette communauté grandir, s'entraider et porter haut les valeurs de notre profession est ma plus grande fierté. Nous ne formons pas seulement des pharmaciens, nous forgeons l'avenir de la santé publique avec rigueur et humanité. »
+            <div class="mt-12 text-center">
+                <p class="text-[11px] font-light italic opacity-40 tracking-wider">
+                    "Servir la science, soutenir l'étudiant, honorer la profession."
                 </p>
             </div>
-
-            <div class="mt-16 flex flex-col items-end">
-                <div class="text-right">
-                    <p class="font-heritage text-2xl text-[#c5a059] mb-1">Malaika Holfeld</p>
-                    <p class="text-[9px] uppercase tracking-widest opacity-50">Présidente Fondatrice — ATPr</p>
-                </div>
-                <div class="mt-4 opacity-40 grayscale contrast-125">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/3/3a/Jon_Kirsch_Signature.png" alt="Signature" class="h-12 w-auto invert">
-                </div>
-            </div>
         </div>
+    </section>
 
-        <div class="mt-12 text-center">
-            <p class="text-[11px] font-light italic opacity-40 tracking-wider">
-                "Servir la science, soutenir l'étudiant, honorer la profession."
-            </p>
-        </div>
-    </div>
-</section>
-
-        <section>
-            <div class="grid md:grid-cols-3 gap-12 mt-32 border-t border-white/5 pt-16">
+    <section>
+        <div class="grid md:grid-cols-3 gap-12 mt-32 border-t border-white/5 pt-16">
             <div class="text-center group">
                 <div class="mb-4 text-[#c5a059] text-2xl transition-transform group-hover:scale-110 duration-500">📜</div>
                 <h4 class="font-heritage italic text-xl mb-3">Pédagogie</h4>
                 <p class="text-[11px] opacity-50 leading-loose uppercase tracking-tighter">Rédaction de fiches de synthèse, concours blancs et entraînements réguliers pour chaque UE.</p>
             </div>
+
             <div class="text-center group">
                 <div class="mb-4 text-[#c5a059] text-2xl transition-transform group-hover:scale-110 duration-500">⚖️</div>
                 <h4 class="font-heritage italic text-xl mb-3">Équité</h4>
                 <p class="text-[11px] opacity-50 leading-loose uppercase tracking-tighter">Garantir à chaque étudiant, quels que soient ses moyens, l'accès aux meilleures ressources.</p>
             </div>
+
             <div class="text-center group">
                 <div class="mb-4 text-[#c5a059] text-2xl transition-transform group-hover:scale-110 duration-500">🤝</div>
                 <h4 class="font-heritage italic text-xl mb-3">Solidarité</h4>
                 <p class="text-[11px] opacity-50 leading-loose uppercase tracking-tighter">Un système de parrainage et un soutien moral pour briser l'isolement des étudiants.</p>
             </div>
         </div>
-        </section>
-
-    </main>
-
-<main id="tut-team" class="page section-parchment py-24 px-6">
-    <div class="max-w-6xl mx-auto">
-            <button onclick="showPage('accueil')" class="mb-8 flex items-center text-[10px] uppercase tracking-[0.2em] opacity-50 hover:opacity-100 transition-opacity">
-                <i class="fas fa-arrow-left mr-2"></i> Retour à l'accueil
-            </button>
-        <header class="text-center mb-16">
-            <span class="text-[10px] tracking-[0.5em] uppercase opacity-50 block mb-4">Gouvernance 2024-2025</span>
-            <h2 class="text-5xl font-heritage italic mb-6">Le Bureau Exécutif</h2>
-            <div class="gold-divider"></div>
-        </header>
-
-        <div class="flex flex-col md:flex-row items-center justify-center gap-8 mb-20">
-
-            <div class="member-card group overflow-hidden w-full max-w-[240px]">
-                <div class="relative h-64 overflow-hidden">
-                    <div class="member-overlay flex flex-col items-center justify-center p-4 text-center">
-                        <p class="overlay-desc italic mb-4 text-[11px] leading-relaxed">"Engagé pour l'excellence et l'accompagnement de chaque étudiant."</p>
-                        <div class="flex space-x-4">
-                            <a href="https://www.instagram.com/pseudo_secretaire" target="_blank" class="text-[#c5a059] hover:scale-125 transition-transform text-lg"><i class="fab fa-instagram"></i></a>
-                            <a href="https://m.me/id_messenger_secretaire" target="_blank" class="text-[#c5a059] hover:scale-125 transition-transform text-lg"><i class="fab fa-facebook"></i></a>
-                        </div>
-                    </div>
-                    <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=300" class="w-full h-full object-cover">
-                </div>
-                <div class="member-info py-4">
-                    <span class="member-role">Secrétaire</span>
-                    <h3 class="font-heritage text-lg italic">Ilona Abit</h3>
-                </div>
-            </div>
-
-            <div class="member-card w-full max-w-xs shadow-xl border-2 border-[#c5a059]/20 group overflow-hidden order-first md:order-none">
-                <div class="relative h-80 overflow-hidden">
-                    <div class="member-overlay flex flex-col items-center justify-center p-6 text-center">
-                        <p class="overlay-desc italic mb-6 text-sm">"Mon rôle est de gérer les backstages en coordonnant les différentes équipes et donnant le mot de la fin"</p>
-                        <div class="flex space-x-6">
-                            <a href="https://www.instagram.com/pseudo_president" target="_blank" class="text-[#c5a059] hover:scale-125 transition-transform text-2xl"><i class="fab fa-instagram"></i></a>
-                            <a href="https://m.me/id_messenger_president" target="_blank" class="text-[#c5a059] hover:scale-125 transition-transform text-2xl"><i class="fab fa-facebook"></i></a>
-                        </div>
-                    </div>
-                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=400" class="w-full h-full object-cover">
-                </div>
-                <div class="member-info bg-white/50 py-4">
-                    <span class="member-role text-base text-[#c5a059]">Présidente</span>
-                    <h3 class="font-heritage text-xl italic">Malaika Holfeld</h3>
-                </div>
-            </div>
-
-            <div class="member-card group overflow-hidden w-full max-w-[240px]">
-                <div class="relative h-64 overflow-hidden">
-                    <div class="member-overlay flex flex-col items-center justify-center p-4 text-center">
-                        <p class="overlay-desc italic mb-4 text-[11px] leading-relaxed">"Engagé pour l'excellence et l'accompagnement de chaque étudiant."</p>
-                        <div class="flex space-x-4">
-                            <a href="https://www.instagram.com/pseudo_tresorier" target="_blank" class="text-[#c5a059] hover:scale-125 transition-transform text-lg"><i class="fab fa-instagram"></i></a>
-                            <a href="https://m.me/id_messenger_tresorier" target="_blank" class="text-[#c5a059] hover:scale-125 transition-transform text-lg"><i class="fab fa-facebook"></i></a>
-                        </div>
-                    </div>
-                    <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=300" class="w-full h-full object-cover">
-                </div>
-                <div class="member-info py-4">
-                    <span class="member-role">Trésorier</span>
-                    <h3 class="font-heritage text-lg italic">Maxime Leroux</h3>
-                </div>
-            </div>
-        </div>
-
-        <header class="text-center mb-16">
-            <h2 class="text-5xl font-heritage italic mb-10">Les Vices-Présidents</h2>
-        </header>
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-24">
-            <div class="member-card group overflow-hidden">
-                <div class="relative h-64 overflow-hidden">
-                    <div class="member-overlay flex flex-col items-center justify-center p-4 text-center">
-                        <p class="overlay-desc italic mb-4 text-[11px]">"Engagé pour l'excellence."</p>
-                        <div class="flex space-x-4">
-                            <a href="https://www.instagram.com/atpr_asso" target="_blank" class="text-[#c5a059] hover:scale-125 transition-transform text-lg"><i class="fab fa-instagram"></i></a>
-                            <a href="https://m.me/atpr_asso" target="_blank" class="text-[#c5a059] hover:scale-125 transition-transform text-lg"><i class="fab fa-facebook"></i></a>
-                        </div>
-                    </div>
-                    <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=300" class="w-full h-full object-cover">
-                </div>
-                <div class="member-info py-4">
-                    <span class="member-role">V-P Site & Communication</span>
-                    <h3 class="font-heritage text-lg italic">Jules Martin</h3>
-                </div>
-            </div>
-            <div class="member-card group overflow-hidden">
-                <div class="relative h-64 overflow-hidden">
-                    <div class="member-overlay flex flex-col items-center justify-center p-4 text-center">
-                        <p class="overlay-desc italic mb-4 text-[11px]">"Engagé pour l'excellence."</p>
-                        <div class="flex space-x-4">
-                            <a href="https://www.instagram.com/atpr_asso" target="_blank" class="text-[#c5a059] hover:scale-125 transition-transform text-lg"><i class="fab fa-instagram"></i></a>
-                            <a href="https://m.me/atpr_asso" target="_blank" class="text-[#c5a059] hover:scale-125 transition-transform text-lg"><i class="fab fa-facebook"></i></a>
-                        </div>
-                    </div>
-                    <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=300" class="w-full h-full object-cover">
-                </div>
-                <div class="member-info py-4">
-                    <span class="member-role">V-P Methodologie</span>
-                    <h3 class="font-heritage text-lg italic">Nom Prénom</h3>
-                </div>
-            </div>
-            <div class="member-card group overflow-hidden">
-                <div class="relative h-64 overflow-hidden">
-                    <div class="member-overlay flex flex-col items-center justify-center p-4 text-center">
-                        <p class="overlay-desc italic mb-4 text-[11px]">"Engagé pour l'excellence."</p>
-                        <div class="flex space-x-4">
-                            <a href="https://www.instagram.com/atpr_asso" target="_blank" class="text-[#c5a059] hover:scale-125 transition-transform text-lg"><i class="fab fa-instagram"></i></a>
-                            <a href="https://m.me/atpr_asso" target="_blank" class="text-[#c5a059] hover:scale-125 transition-transform text-lg"><i class="fab fa-facebook"></i></a>
-                        </div>
-                    </div>
-                    <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=300" class="w-full h-full object-cover">
-                </div>
-                <div class="member-info py-4">
-                    <span class="member-role">V-P Partenariats</span>
-                    <h3 class="font-heritage text-lg italic">Nom Prénom</h3>
-                </div>
-            </div>
-            <div class="member-card group overflow-hidden">
-                <div class="relative h-64 overflow-hidden">
-                    <div class="member-overlay flex flex-col items-center justify-center p-4 text-center">
-                        <p class="overlay-desc italic mb-4 text-[11px]">"Engagé pour l'excellence."</p>
-                        <div class="flex space-x-4">
-                            <a href="https://www.instagram.com/atpr_asso" target="_blank" class="text-[#c5a059] hover:scale-125 transition-transform text-lg"><i class="fab fa-instagram"></i></a>
-                            <a href="https://m.me/atpr_asso" target="_blank" class="text-[#c5a059] hover:scale-125 transition-transform text-lg"><i class="fab fa-facebook"></i></a>
-                        </div>
-                    </div>
-                    <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=300" class="w-full h-full object-cover">
-                </div>
-                <div class="member-info py-4">
-                    <span class="member-role">V-P Partenariats</span>
-                    <h3 class="font-heritage text-lg italic">Nom Prénom</h3>
-                </div>
-            </div>
-        </div>
-
-        <div class="w-full h-px bg-gradient-to-r from-transparent via-[#c5a059] to-transparent my-24 opacity-35"></div>
-
-        <header class="text-center mb-16">
-            <h2 class="text-5xl font-heritage italic mb-10">Les Tuteurs</h2>
-        </header>
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-            <div class="member-card group overflow-hidden">
-                <div class="relative h-64 overflow-hidden">
-                    <div class="member-overlay flex flex-col items-center justify-center p-4 text-center">
-                        <p class="overlay-desc italic mb-4 text-[11px]">"Engagé pour l'excellence."</p>
-                        <div class="flex space-x-4">
-                            <a href="https://www.instagram.com/atpr_asso" target="_blank" class="text-[#c5a059] hover:scale-125 transition-transform text-lg"><i class="fab fa-instagram"></i></a>
-                            <a href="https://m.me/atpr_asso" target="_blank" class="text-[#c5a059] hover:scale-125 transition-transform text-lg"><i class="fab fa-facebook"></i></a>
-                        </div>
-                    </div>
-                    <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&q=80&w=300" class="w-full h-full object-cover grayscale">
-                </div>
-                <div class="member-info py-4">
-                    <span class="member-role">Bactériologie & Virologie & Anti-Infectieux</span>
-                    <h3 class="font-heritage text-lg italic">Maxime Leroux</h3>
-                </div>
-            </div>
-            <div class="member-card group overflow-hidden">
-                <div class="relative h-64 overflow-hidden">
-                    <div class="member-overlay flex flex-col items-center justify-center p-4 text-center">
-                        <p class="overlay-desc italic mb-4 text-[11px]">"Engagé pour l'excellence."</p>
-                        <div class="flex space-x-4">
-                            <a href="https://www.instagram.com/atpr_asso" target="_blank" class="text-[#c5a059] hover:scale-125 transition-transform text-lg"><i class="fab fa-instagram"></i></a>
-                            <a href="https://m.me/atpr_asso" target="_blank" class="text-[#c5a059] hover:scale-125 transition-transform text-lg"><i class="fab fa-facebook"></i></a>
-                        </div>
-                    </div>
-                    <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&q=80&w=300" class="w-full h-full object-cover grayscale">
-                </div>
-                <div class="member-info py-4">
-                    <span class="member-role">Bactériologie & Virologie & Anti-Infectieux</span>
-                    <h3 class="font-heritage text-lg italic">Garance Wacapou</h3>
-                </div>
-            </div>
-            <div class="member-card group overflow-hidden">
-                <div class="relative h-64 overflow-hidden">
-                    <div class="member-overlay flex flex-col items-center justify-center p-4 text-center">
-                        <p class="overlay-desc italic mb-4 text-[11px]">"Engagé pour l'excellence."</p>
-                        <div class="flex space-x-4">
-                            <a href="https://www.instagram.com/atpr_asso" target="_blank" class="text-[#c5a059] hover:scale-125 transition-transform text-lg"><i class="fab fa-instagram"></i></a>
-                            <a href="https://m.me/atpr_asso" target="_blank" class="text-[#c5a059] hover:scale-125 transition-transform text-lg"><i class="fab fa-facebook"></i></a>
-                        </div>
-                    </div>
-                    <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&q=80&w=300" class="w-full h-full object-cover grayscale">
-                </div>
-                <div class="member-info py-4">
-                    <span class="member-role">Mathématiques, Chimie Organique & Biophysique</span>
-                    <h3 class="font-heritage text-lg italic">Jules Martin</h3>
-                </div>
-            </div>
-            <div class="member-card group overflow-hidden">
-                <div class="relative h-64 overflow-hidden">
-                    <div class="member-overlay flex flex-col items-center justify-center p-4 text-center">
-                        <p class="overlay-desc italic mb-4 text-[11px]">"Engagé pour l'excellence."</p>
-                        <div class="flex space-x-4">
-                            <a href="https://www.instagram.com/atpr_asso" target="_blank" class="text-[#c5a059] hover:scale-125 transition-transform text-lg"><i class="fab fa-instagram"></i></a>
-                            <a href="https://m.me/atpr_asso" target="_blank" class="text-[#c5a059] hover:scale-125 transition-transform text-lg"><i class="fab fa-facebook"></i></a>
-                        </div>
-                    </div>
-                    <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&q=80&w=300" class="w-full h-full object-cover grayscale">
-                </div>
-                <div class="member-info py-4">
-                    <span class="member-role">Mathématiques & Biophysique</span>
-                    <h3 class="font-heritage text-lg italic">Malaika Holfeld</h3>
-                </div>
-            </div>
-            <div class="member-card group overflow-hidden">
-                <div class="relative h-64 overflow-hidden">
-                    <div class="member-overlay flex flex-col items-center justify-center p-4 text-center">
-                        <p class="overlay-desc italic mb-4 text-[11px]">"Engagé pour l'excellence."</p>
-                        <div class="flex space-x-4">
-                            <a href="https://www.instagram.com/atpr_asso" target="_blank" class="text-[#c5a059] hover:scale-125 transition-transform text-lg"><i class="fab fa-instagram"></i></a>
-                            <a href="https://m.me/atpr_asso" target="_blank" class="text-[#c5a059] hover:scale-125 transition-transform text-lg"><i class="fab fa-facebook"></i></a>
-                        </div>
-                    </div>
-                    <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&q=80&w=300" class="w-full h-full object-cover grayscale">
-                </div>
-                <div class="member-info py-4">
-                    <span class="member-role">Chimie Organique</span>
-                    <h3 class="font-heritage text-lg italic">Elian Simoes</h3>
-                </div>
-            </div>
-        </div>
-    </div>
+    </section>
 </main>
 
-<main id="ressources" class="page hidden section-parchment py-24 px-6">
-    <div class="max-w-5xl mx-auto">
-        <header class="text-center mb-20">
-            <h2 id="titre-ressources" class="text-6xl font-heritage italic mb-6">Bibliothèque Privée</h2>
-            <div class="gold-divider mx-auto"></div>
-            <button id="btn-retour-ressources" onclick="logicRessources.retour()" class="hidden mt-6 text-[12px] uppercase border-b border-gold-500 pb-1" style="border-color: var(--luxury-gold); color: var(--elegant-black);">
-                ← Retour à la sélection
-            </button>
-        </header>
-
-        <div id="grid-types" class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <div onclick="logicRessources.choisirType('Fiches')" class="archive-card aspect-[4/5] flex items-center justify-center cursor-pointer group relative overflow-hidden border border-black/5 shadow-lg">
-                <img src="https://images.unsplash.com/photo-1532012197267-da84d127e765?auto=format&fit=crop&q=80&w=400" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="Fiches">
-                <div class="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors"></div>
-                <div class="relative z-10 font-heritage text-white text-3xl italic">Fiches</div>
-            </div>
-            <div onclick="logicRessources.choisirType('Conférences')" class="archive-card aspect-[4/5] flex items-center justify-center cursor-pointer group relative overflow-hidden border border-black/5 shadow-lg">
-                <img src="https://xtctlebciarjrhbbptgu.supabase.co/storage/v1/object/public/image-atpr/Conferences_photo.jpg" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="Conférences">
-                <div class="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors"></div>
-                <div class="relative z-10 font-heritage text-white text-3xl italic">Conférences</div>
-            </div>
-            <div onclick="logicRessources.choisirType('Conférences classées')" class="archive-card aspect-[4/5] flex items-center justify-center cursor-pointer group relative overflow-hidden border border-black/5 shadow-lg">
-                <img src="https://xtctlebciarjrhbbptgu.supabase.co/storage/v1/object/public/image-atpr/equipe-etudiants-collegiens-travaillant-projet-lie-gestion-entreprise_482257-118389.avif" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="Classées">
-                <div class="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors"></div>
-                <div class="relative z-10 font-heritage text-white text-3xl italic text-center px-4">Conférences Classées</div>
-            </div>
-            <div onclick="logicRessources.choisirType('Méthodologie')" class="archive-card aspect-[4/5] flex items-center justify-center cursor-pointer group relative overflow-hidden border border-black/5 shadow-lg">
-                <img src="https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?auto=format&fit=crop&q=80&w=400" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="Méthodologie">
-                <div class="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors"></div>
-                <div class="relative z-10 font-heritage text-white text-3xl italic">Méthodologie</div>
-            </div>
-        </div>
-
-        <div id="section-choix-detail" class="space-y-6 mt-10">
-            <div id="grid-annees" class="hidden grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8">
-                <button id="btn-p2" onclick="logicRessources.choisirAnnee('P2')" class="btn-gold !text-black border-black hover:!bg-black hover:!text-white">P2</button>
-                <button id="btn-p3" onclick="logicRessources.choisirAnnee('P3')" class="btn-gold !text-black border-black hover:!bg-black hover:!text-white">P3</button>
-                <button id="btn-p4" onclick="logicRessources.choisirAnnee('P4')" class="btn-gold !text-black border-black hover:!bg-black hover:!text-white">P4</button>
-                <button id="btn-p5" onclick="logicRessources.choisirAnnee('P5')" class="btn-gold !text-black border-black hover:!bg-black hover:!text-white">P5</button>
-                <button id="btn-master" onclick="logicRessources.choisirAnnee('MASTER')" class="btn-gold !text-black border-black hover:!bg-black hover:!text-white">Masters</button>
-            </div>
-
-            <div id="grid-semestres" class="hidden grid grid-cols-1 md:grid-cols-2 gap-10">
-                <button onclick="logicRessources.choisirSemestre(1)" class="h-40 border border-black/10 font-heritage text-3xl italic hover:bg-[#052e16] hover:text-white transition-all shadow-sm">Premier Semestre</button>
-                <button onclick="logicRessources.choisirSemestre(2)" class="h-40 border border-black/10 font-heritage text-3xl italic hover:bg-[#052e16] hover:text-white transition-all shadow-sm">Second Semestre</button>
-            </div>
-
-            <div id="grid-methodo-branches" class="hidden grid grid-cols-1 md:grid-cols-2 gap-10">
-                <button onclick="logicRessources.finaliser('Méthodologie Oraux')" class="h-40 border border-black/10 font-heritage text-3xl italic hover:bg-[#052e16] hover:text-white transition-all">Méthodologie Oraux</button>
-                <button onclick="logicRessources.finaliser('Méthodologie Écrit')" class="h-40 border border-black/10 font-heritage text-3xl italic hover:bg-[#052e16] hover:text-white transition-all">Méthodologie Écrit</button>
-            </div>
-
-            <div id="grid-masters-branches" class="hidden grid grid-cols-1 md:grid-cols-2 gap-10">
-                <button onclick="logicRessources.finaliser('Santé Publique')" class="h-40 border border-black/10 font-heritage text-3xl italic hover:bg-[#052e16] hover:text-white transition-all">Santé Publique</button>
-                <button onclick="logicRessources.finaliser('Biologie Santé')" class="h-40 border border-black/10 font-heritage text-3xl italic hover:bg-[#052e16] hover:text-white transition-all">Biologie Santé</button>
-            </div>
-
-            <div id="grid-matieres" class="hidden space-y-16 text-left animate-fadeIn"></div>
-        </div>
-    </div>
-</main>
-
-
-<main id="connexion" class="page py-24 px-6">
-    <div class="max-w-4xl mx-auto flex flex-col md:flex-row shadow-2xl relative auth-frame-gold">
+<div id="modal-login" class="modal-overlay" onclick="if(event.target === this) toggleModal('modal-login')">
+    <div class="max-w-4xl mx-auto flex flex-col md:flex-row auth-frame-gold w-full mx-4">
+        <div class="auth-column auth-column-left"></div>
+        <div class="auth-column auth-column-right"></div>
+        <button onclick="toggleModal('modal-login')" class="absolute top-4 right-4 z-50 text-black/40 hover:text-black"></button>
 
         <div class="md:w-1/3 bg-[#052e16] p-12 text-white flex flex-col justify-center relative overflow-hidden">
             <div class="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/marble-white.png')]"></div>
             <span class="text-[10px] tracking-[0.5em] uppercase text-[#c5a059] mb-4 block z-10">Authentification</span>
-            <h2 class="text-4xl font-heritage italic mb-6 z-10">Accès <br>Membres</h2>
+            <h2 class="text-4xl font-heritage italic mb-6 z-10 leading-tight">Accès <br>Membres</h2>
             <div class="h-[1px] w-20 bg-[#c5a059] mb-6 z-10"></div>
-            <p class="text-[9px] leading-loose opacity-60 z-10 tracking-[0.2em] uppercase">Entrez dans l'espace privé de l'institution.</p>
+            <p class="text-[12px] leading-loose opacity-60 z-10 tracking-[0.2em] uppercase">Entrez dans l'espace privé de l'institution.</p>
         </div>
 
-        <div class="md:w-2/3 p-12 relative" style="background-color: var(--parchment)">
+        <div class="md:w-2/3 p-12 relative bg-[#f5f2e8]">
             <div class="auth-column auth-column-left"></div>
             <div class="auth-column auth-column-right"></div>
 
             <div class="relative z-10">
                 <h3 class="auth-title">Connexion</h3>
-
                 <form onsubmit="handleLogin(event)" class="space-y-6">
                     <div>
-                        <label class="text-[10px] uppercase font-bold tracking-widest mb-2 opacity-50 block">Email Académique</label>
+                        <label class="text-[10px] uppercase font-bold tracking-widest mb-1 opacity-50 block text-black">Email Académique</label>
                         <input type="email" id="login-email" class="auth-input" placeholder="prenom.nom@etudiant.univ-rennes.fr" required>
                     </div>
-
                     <div>
-                        <label class="text-[10px] uppercase font-bold tracking-widest mb-2 opacity-50 block">Mot de passe</label>
+                        <label class="text-[10px] uppercase font-bold tracking-widest mb-1 opacity-50 block text-black">Mot de passe</label>
                         <input type="password" id="login-password" class="auth-input" placeholder="••••••••" required>
                     </div>
-
-                    <button type="submit" class="btn-gold w-full !text-black border-black hover:!bg-black hover:!text-white transition-all duration-700 py-4">
-                        Se connecter au portail
-                    </button>
+                    <button type="submit" class="auth-submit-btn w-full shadow-sm">Se connecter au portail</button>
                 </form>
-
-                <div class="mt-10 text-center border-t border-gray-200 pt-8">
-                    <p class="text-[9px] uppercase tracking-[0.2em] opacity-40 mb-4">Pas encore membre de l'ATPr ?</p>
-                    <button onclick="showPage('inscription')" class="text-[10px] font-bold text-[#c5a059] uppercase tracking-widest hover:underline">
-                        Créer un compte adhésion
-                    </button>
+                <div class="mt-10 text-center border-t border-black/5 pt-8">
+                    <p class="text-[9px] uppercase tracking-[0.2em] opacity-40 mb-2 text-black">Pas encore membre de l'ATPr ?</p>
+                    <button onclick="toggleModal('modal-login'); toggleModal('modal-inscription')" class="text-[10px] font-bold text-[#c5a059] uppercase tracking-widest hover:underline">Créer un compte adhésion</button>
                 </div>
             </div>
         </div>
     </div>
-</main>
+</div>
 
-<main id="inscription" class="page py-20 px-6">
-    <div class="max-w-5xl mx-auto flex flex-col md:flex-row shadow-2xl relative auth-frame-gold">
+<div id="modal-inscription" class="modal-overlay" onclick="if(event.target === this) toggleModal('modal-inscription')">
+    <div class="max-w-5xl mx-auto flex flex-col md:flex-row shadow-2xl relative auth-frame-gold w-full mx-4">
+        <button onclick="toggleModal('modal-inscription')" class="absolute top-4 right-4 z-50 text-black/40 hover:text-black">✕</button>
 
         <div class="md:w-5/12 bg-[#052e16] p-12 text-white flex flex-col justify-between relative overflow-hidden">
             <div class="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/marble-white.png')]"></div>
             <div class="relative z-10">
-                <h2 class="text-5xl font-heritage italic mb-8">Rejoindre l'Excellence</h2>
-                <p class="text-sm opacity-70 leading-loose">L'adhésion à l'ATPr est exclusivement réservée aux étudiants et personnels de l'UFR Pharmacie de Rennes.</p>
+                <h2 class="text-5xl font-heritage italic mb-8 leading-tight">Rejoindre l'Excellence</h2>
+                <p class="text-[12px] leading-loose opacity-60 z-10 tracking-[0.2em] uppercase">L'adhésion à l'ATPr est exclusivement réservée aux étudiants et personnels de l'UFR Pharmacie de Rennes.</p>
             </div>
             <div class="mt-12 pt-8 border-t border-white/10 relative z-10">
                 <p class="text-[9px] uppercase tracking-[0.3em] opacity-50">Association du tutorat de pharmacie rennais</p>
             </div>
         </div>
 
-        <div class="md:w-7/12 p-12 relative" style="background-color: var(--parchment)">
+        <div class="md:w-7/12 p-12 relative bg-[#f5f2e8]">
             <div class="auth-column auth-column-left"></div>
             <div class="auth-column auth-column-right"></div>
 
@@ -1102,16 +718,16 @@ input, select, button {
                     <h3 class="auth-title col-span-2">Adhésion</h3>
 
                     <div class="col-span-1">
-                        <label class="text-[10px] uppercase font-bold tracking-widest mb-2 opacity-50 block">Prénom</label>
+                        <label class="text-[10px] uppercase font-bold tracking-widest mb-1 opacity-50 block text-black">Prénom</label>
                         <input type="text" id="ins-prenom" class="auth-input" placeholder="Jean" required>
                     </div>
                     <div class="col-span-1">
-                        <label class="text-[10px] uppercase font-bold tracking-widest mb-2 opacity-50 block">Nom</label>
+                        <label class="text-[10px] uppercase font-bold tracking-widest mb-1 opacity-50 block text-black">Nom</label>
                         <input type="text" id="ins-nom" class="auth-input" placeholder="Dupont" required>
                     </div>
 
                     <div class="col-span-2">
-                        <label class="text-[10px] uppercase font-bold tracking-widest mb-2 opacity-50 block">Cursus / Promotion</label>
+                        <label class="text-[10px] uppercase font-bold tracking-widest mb-1 opacity-50 block text-black">Cursus / Promotion</label>
                         <select id="ins-promo" class="auth-input" required>
                             <option value="">Sélectionnez votre promotion</option>
                             <option value="P2">Deuxième Année (P2)</option>
@@ -1119,767 +735,211 @@ input, select, button {
                             <option value="P4">Quatrième Année (P4)</option>
                             <option value="P5">Cinquième Année (P5)</option>
                             <option value="P6">Sixième Année (P6)</option>
-                            <option value="MASTER">Étudiant en Master (Hors Pharma)</option>
+                            <option value="MASTER">Étudiant en Master</option>
                         </select>
                     </div>
 
                     <div class="col-span-2">
-                        <label class="text-[10px] uppercase font-bold tracking-widest mb-2 opacity-50 block">Email Académique</label>
-                        <input
-                            type="email"
-                            id="ins-email"
-                            class="auth-input"
-                            placeholder="prenom.nom@etudiant.univ-rennes.fr"
-                            pattern=".+@(.*univ-rennes\.fr)"
-                            title="Veuillez utiliser votre adresse @etudiant.univ-rennes.fr ou @univ-rennes.fr"
-                            required
-                        >
+                        <label class="text-[10px] uppercase font-bold tracking-widest mb-1 opacity-50 block text-black">Email Académique</label>
+                        <input type="email" id="ins-email" class="auth-input" placeholder="prenom.nom@etudiant.univ-rennes.fr" required>
                     </div>
 
-                        <div class="col-span-1">
-                            <label class="text-[10px] uppercase font-bold tracking-widest mb-2 opacity-50 block">Mot de passe</label>
-                            <input type="password" id="ins-mdp" class="auth-input !mb-2" placeholder="••••••••" required oninput="checkPasswordStrength(this.value)">
-
-                        <div class="flex items-center space-x-2 mt-2 px-1">
-                            <div class="flex-1 h-1 bg-gray-200 rounded-full overflow-hidden">
-                            <div id="strength-bar" class="h-full w-0 transition-all duration-500 bg-red-500"></div>
-                        </div>
-                        <span id="strength-text" class="text-[8px] uppercase tracking-widest opacity-60 font-bold">Faible</span>
-                    </div>
-            </div>
                     <div class="col-span-1">
-                        <label class="text-[10px] uppercase font-bold tracking-widest mb-2 opacity-50 block">Confirmation</label>
+                        <label class="text-[10px] uppercase font-bold tracking-widest mb-1 opacity-50 block text-black">Mot de passe</label>
+                        <input type="password" id="ins-mdp" class="auth-input" placeholder="••••••••" required oninput="checkPasswordStrength(this.value)">
+                        <div class="flex items-center space-x-2 px-1 mb-4">
+                            <div class="flex-1 h-1 bg-black/10 rounded-full overflow-hidden">
+                                <div id="strength-bar" class="h-full w-0 transition-all duration-500 bg-red-500"></div>
+                            </div>
+                            <span id="strength-text" class="text-[7px] uppercase tracking-widest opacity-60 font-bold text-black">Faible</span>
+                        </div>
+                    </div>
+
+                    <div class="col-span-1">
+                        <label class="text-[10px] uppercase font-bold tracking-widest mb-1 opacity-50 block text-black">Confirmation</label>
                         <input type="password" id="ins-mdp-conf" class="auth-input" placeholder="••••••••" required>
                     </div>
 
-                    <button type="submit" class="btn-gold !text-black border-black hover:!bg-black hover:!text-white col-span-2 py-4 mt-4 transition-all duration-700">
-                        Soumettre la demande d'adhésion
-                    </button>
+                    <button type="submit" class="auth-submit-btn w-full shadow-sm col-span-2 mt-4">Soumettre la demande</button>
 
-                    <p class="text-[9px] text-center col-span-2 mt-6 uppercase tracking-[0.2em] opacity-40 cursor-pointer hover:text-[#c5a059]" onclick="showPage('connexion')">
+                    <p class="text-[9px] text-center col-span-2 mt-6 uppercase tracking-[0.2em] opacity-40 cursor-pointer hover:text-[#c5a059] text-black" onclick="toggleModal('modal-inscription'); toggleModal('modal-login')">
                         Déjà membre ? S'identifier
                     </p>
                 </form>
 
                 <div id="success-msg" class="hidden py-12 text-center">
                     <div class="w-16 h-16 border border-emerald-500 text-emerald-500 rounded-full flex items-center justify-center mx-auto mb-6 text-2xl">✓</div>
-                    <h3 class="font-heritage text-3xl italic mb-4">Demande Transmise</h3>
-                    <p class="text-sm opacity-60">Le bureau étudiera vos informations et validera votre accès sous 24 à 48 heures.</p>
-                    <button onclick="showPage('accueil')" class="mt-8 text-[10px] uppercase tracking-widest border-b border-black">Retour à l'accueil</button>
+                    <h3 class="auth-title">Demande Transmise</h3>
+                    <p class="text-sm opacity-60 text-black">Le bureau étudiera vos informations sous 24 à 48 heures.</p>
                 </div>
             </div>
         </div>
     </div>
-</main>
-    <main id="mon-profil" class="page hidden py-24 px-6 text-[#1a1a1a]">
-    <div class="max-w-4xl mx-auto flex flex-col md:flex-row shadow-2xl relative auth-frame-gold">
-
-        <div class="md:w-1/3 bg-[#052e16] p-12 text-white flex flex-col justify-center relative overflow-hidden">
-            <div class="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/marble-white.png')]"></div>
-            <span class="text-[10px] tracking-[0.5em] uppercase text-[#c5a059] mb-4 block z-10">Votre Compte</span>
-            <h2 class="text-4xl font-heritage italic mb-6 z-10">Espace <br>Personnel</h2>
-            <div class="h-[1px] w-20 bg-[#c5a059] mb-6 z-10"></div>
-            <p class="text-[9px] leading-loose opacity-60 z-10 tracking-[0.2em] uppercase">Consultez vos informations et gérez votre sécurité.</p>
-        </div>
-
-        <div class="md:w-2/3 p-12 relative" style="background-color: var(--parchment)">
-            <div class="auth-column auth-column-left"></div>
-            <div class="auth-column auth-column-right"></div>
-
-            <div class="relative z-10">
-                <h3 class="auth-title !mb-10">Profil Membre</h3>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 pb-10 border-b border-gray-200/50">
-                    <div>
-                        <label class="text-[9px] uppercase font-bold tracking-[0.3em] mb-2 opacity-40 block">Prénom & Nom</label>
-                        <p class="font-heritage text-2xl italic"><span id="view-prenom">—</span> <span id="view-nom">—</span></p>
-                    </div>
-                    <div>
-                        <label class="text-[9px] uppercase font-bold tracking-[0.3em] mb-2 opacity-40 block">Promotion</label>
-                        <p id="view-promo" class="font-medium tracking-wide">—</p>
-                    </div>
-                    <div class="md:col-span-2">
-                        <label class="text-[9px] uppercase font-bold tracking-[0.3em] mb-2 opacity-40 block">Email Académique</label>
-                        <p id="view-email" class="font-medium opacity-70">—</p>
-                    </div>
-                </div>
-
-                <div class="mt-10">
-                    <h4 class="text-[11px] uppercase tracking-[0.4em] mb-6 text-[#c5a059] font-bold">Sécurité du compte</h4>
-                    <form onsubmit="handleChangePassword(event)" class="space-y-4">
-                        <div>
-                            <label class="text-[9px] uppercase font-bold tracking-[0.3em] mb-2 opacity-40 block">Nouveau mot de passe</label>
-                            <input type="password" id="new-password" class="auth-input !mb-4" placeholder="••••••••" required>
-                        </div>
-                        <button type="submit" id="btn-update-pass" class="btn-gold w-full !text-black border-black hover:!bg-black hover:!text-white transition-all duration-700">
-                            Mettre à jour la clé d'accès
-                        </button>
-                    </form>
-                </div>
-
-                <div class="mt-12 text-center">
-                    <button onclick="handleLogout()" class="text-[9px] uppercase tracking-[0.3em] opacity-40 hover:opacity-100 hover:text-red-600 transition-all">
-                        — Se déconnecter de la session —
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-</main>
-
-<main id="mentions-legales" class="page section-parchment py-24 px-6">
-    <div class="max-w-4xl mx-auto text-[#1a1a1a]">
-        <div class="text-center mb-16">
-            <span class="text-[10px] tracking-[0.5em] uppercase opacity-50 block mb-4">Informations Obligatoires</span>
-            <h2 class="text-5xl font-heritage italic mb-6">Mentions Légales</h2>
-            <div class="gold-divider"></div>
-        </div>
-
-        <div class="grid md:grid-cols-2 gap-12 text-sm leading-loose opacity-90">
-            <div class="space-y-6">
-                <section>
-                    <h3 class="font-bold uppercase tracking-widest text-[#c5a059] text-[11px] mb-3">Éditeur de l'Institution</h3>
-                    <p>Association du Tutorat de Pharmacie Rennais (ATPr)<br>
-                    UFR des Sciences Pharmaceutiques et Biologiques<br>
-                    2 Avenue du Professeur Léon Bernard, 35043 Rennes.</p>
-                </section>
-                <section>
-                    <h3 class="font-bold uppercase tracking-widest text-[#c5a059] text-[11px] mb-3">Responsabilité</h3>
-                    <p>Directeur de la publication : Le Bureau Exécutif de l'ATPr.</p>
-                </section>
-            </div>
-            <div class="space-y-6">
-                <section>
-                    <h3 class="font-bold uppercase tracking-widest text-[#c5a059] text-[11px] mb-3">Hébergement & Technique</h3>
-                    <p>Infrastructure : Supabase Inc.<br>
-                    Développement : Commission Communication ATPr.</p>
-                </section>
-                <section>
-                    <h3 class="font-bold uppercase tracking-widest text-[#c5a059] text-[11px] mb-3">Propriété Intellectuelle</h3>
-                    <p>L'ensemble des contenus (textes, logos, fiches pédagogiques) est la propriété exclusive de l'ATPr.</p>
-                </section>
-            </div>
-        </div>
-
-        <div class="mt-16 text-center">
-            <button onclick="showPage('accueil')" class="btn-gold !text-black border-black">Retour à l'Institution</button>
-        </div>
-    </div>
-</main>
-
-<main id="politique-confidentialite" class="page section-parchment py-24 px-6">
-    <div class="max-w-4xl mx-auto text-[#1a1a1a]">
-        <div class="text-center mb-16">
-            <span class="text-[10px] tracking-[0.5em] uppercase opacity-50 block mb-4">Protection des Données</span>
-            <h2 class="text-5xl font-heritage italic mb-6">Confidentialité</h2>
-            <div class="gold-divider"></div>
-        </div>
-
-        <div class="prose prose-sm max-w-none text-sm leading-relaxed opacity-80 space-y-8">
-            <p class="italic text-center">Conformément au Règlement Général sur la Protection des Données (RGPD), l'ATPr s'engage à la transparence totale.</p>
-
-            <div class="bg-white/50 p-8 border border-gray-100">
-                <h3 class="font-heritage text-2xl mb-4">Collecte des informations</h3>
-                <p>Dans le cadre de votre adhésion, nous collectons exclusivement : votre nom, prénom, promotion et votre adresse mail académique (@etudiant.univ-rennes.fr). Ces données servent uniquement à valider votre statut d'étudiant et à vous ouvrir les accès à la bibliothèque numérique.</p>
-            </div>
-
-            <div class="grid md:grid-cols-2 gap-8">
-                <section>
-                    <h4 class="font-bold uppercase tracking-widest text-[#c5a059] text-[10px] mb-2">Sécurité</h4>
-                    <p>Vos mots de passe sont chiffrés via le protocole de sécurité de Supabase. Aucun membre du bureau n'a accès à votre mot de passe en clair.</p>
-                </section>
-                <section>
-                    <h4 class="font-bold uppercase tracking-widest text-[#c5a059] text-[10px] mb-2">Vos Droits</h4>
-                    <p>Vous disposez d'un droit d'accès, de rectification et de suppression de vos données via votre espace "Mon Profil" ou par demande mail au Bureau.</p>
-                </section>
-            </div>
-        </div>
-
-        <div class="mt-16 text-center">
-            <button onclick="showPage('accueil')" class="btn-gold !text-black border-black">Retour à l'Institution</button>
-        </div>
-    </div>
-</main>
-
-<main id="cgu" class="page section-parchment py-24 px-6">
-    <div class="max-w-4xl mx-auto text-[#1a1a1a]">
-        <div class="text-center mb-16">
-            <span class="text-[10px] tracking-[0.5em] uppercase opacity-50 block mb-4">Règles de l'Espace Numérique</span>
-            <h2 class="text-5xl font-heritage italic mb-6">Conditions Générales d'Utilisation</h2>
-            <div class="gold-divider"></div>
-        </div>
-
-        <div class="space-y-10 text-sm leading-loose">
-            <section class="border-l-2 border-[#c5a059] pl-6">
-                <h3 class="font-heritage text-2xl italic mb-3">1. Accès aux Ressources</h3>
-                <p>L'accès à la "Bibliothèque Privée" est un privilège réservé aux membres inscrit sur le site de l'ATPr. Le compte est strictement personnel : tout partage d'identifiants pourra entraîner la suspension définitive de l'accès aux ressources.</p>
-            </section>
-
-            <section class="border-l-2 border-[#c5a059] pl-6">
-                <h3 class="font-heritage text-2xl italic mb-3">2. Propriété des Documents</h3>
-                <p>Les fiches de révisions, supports de conférences et examens classés sont le fruit du travail bénévole des tuteurs. Toute reproduction, distribution ou revente des fiches pédagogiques de l'ATPr est strictement interdite. Ces documents sont protégés par le droit d'auteur (Art. L122-4 du CPI). Le non-respect de cette clause peut constituer un délit de contrefaçon ou d'abus de confiance (Art. 314-1 du Code Pénal), passible de poursuites judiciaires et de l'exclusion immédiate de l'association.</p>
-                <p>L'Article L122-4 du Code de la Propriété Intellectuelle :  "Toute représentation ou reproduction intégrale ou partielle faite sans le consentement de l'auteur ou de ses ayants droit ou ayants cause est illicite."</p>
-                <p>L'Article L335-2 (Sanctions) : La contrefaçon (vendre ou diffuser sans autorisation) est un délit puni de 3 ans d'emprisonnement et 300 000 € d'amende.</p>
-                <p>Article 314-1 du Code Pénal : "L'abus de confiance est le fait par une personne de détourner, au préjudice d'autrui, des fonds, des valeurs ou un bien quelconque qui lui ont été remis et qu'elle a acceptés à charge de les rendre, de les représenter ou d'en faire un usage déterminé."</p>
-                <p>Sanction : Jusqu'à 3 ans d'emprisonnement et 375 000 € d'amende.</p>
-                <p>Article 323-1 du Code Pénal : "Le fait d'accéder ou de se maintenir, frauduleusement, dans tout ou partie d'un système de traitement automatisé de données est puni de trois ans d'emprisonnement et de 100 000 € d'amende."</p>
-                <p>L'ATPr se réserve donc le droit d'intenter un recourt en juste en cas d'infraction à La Protection par le Droit d'Auteur et au Code Pénal</p>
-            </section>
-
-            <section class="border-l-2 border-[#c5a059] pl-6">
-                <h3 class="font-heritage text-2xl italic mb-3">3. Éthique & Savoir</h3>
-                <p>L'utilisateur s'engage à utiliser ces outils dans le respect de l'éthique de la faculté de pharmacie et de l'esprit de solidarité qui définit l'ATPr.</p>
-            </section>
-        </div>
-
-        <div class="mt-16 text-center">
-            <button onclick="showPage('accueil')" class="btn-gold !text-black border-black">J'accepte les conditions</button>
-        </div>
-    </div>
-</main>
+</div>
 
 <script>
+    // Logique des Modales
+
+    function toggleModal(modalId) {
+    const modal = document.getElementById(modalId);
+    if (modal) {
+        const isOpening = modal.style.display === 'none' || modal.style.display === '';
+        modal.style.display = isOpening ? 'flex' : 'none';
+
+        // Verrouille ou déverrouille le défilement du corps de la page
+        if (isOpening) {
+            document.body.classList.add('modal-open');
+        } else {
+            document.body.classList.remove('modal-open');
+        }
+    }
+}
+
+    // --- ICI VOTRE CONFIGURATION SUPABASE ---
+
     const _supabaseUrl = 'https://zcueonuffhzrvnktxzpl.supabase.co';
     const _supabaseKey = 'sb_publishable_yeSb-vYs5ibken1ypPAliQ_L07lvC9a';
     const sb = supabase.createClient(_supabaseUrl, _supabaseKey);
 
-    let userProfile = null;
+    // (Gardez votre code existant pour la connexion)
 
-    const matieresConfig = {
-        "P2": {
-                1: ["Chimie Minérale", "Biotechnologie", "ICDM", "Galénique", "Biophysique", "Chimie Analytique", "Biologie Cellulaire", "Biochimie", "Immunologie"],
-                2: ["Chimie Organique", "Pharmacognosie", "Mycologie", "Botanique", "Parasitologie", "Bactériologie & Virologie", "Physiologie & Hématologie", "Pharmacologie", "Outils Mathématiques"]
-            },
-            "P3": {
-                1: ["Bactériologie & Virologie", "Parasitologie", "Biochimie", "Immunologie", "Physiologie", "Toxicologie", "Mycologie", "Pharmacognosie", "Chimie Thérapeutique", "Chimie Analytique", "Pharmacologie", "Sémiologie"],
-                2: ["Pharmacie Clinique", "Nutrition", "Sémiologie", "HTA/Cardio", "Lipides/Diabète", "Anti-Infectieux", "Biopharmacie", "Galénique", "Pharmacocinétique", "Santé Publique"]
-            },
-            "MASTER": {
-                "Biologie Santé": ["UE1A", "UE2A", "UE3A", "UE4A", "UE5A", "UE6A", "UE7A", "UE8A", "UE9A", "UE10A", "UE11A", "UE12A", "UE13A", "UE14A", "UE15A", "UE16A", "UE IB1/IB2", "UE RMSF", "UE GRM", "UE CMNIM", "UE TBM", "UE CS", "UE BTI", "UE GGR", "UE APO"],
-                "Santé Publique": ["UE IMEE1", "UE IMEE2", "UE IMET1", "UE IMET2"]
-            }
-    };
+    async function handleLogin(e) {
+        e.preventDefault();
+        const email = document.getElementById('login-email').value;
+        const password = document.getElementById('login-password').value;
 
-const logicRessources = {
-    // État actuel de la navigation
-    filtres: { type: null, annee: null, semestre: null, detail: null },
+        const { error } = await sb.auth.signInWithPassword({ email, password });
 
-    // Structure fixe des matières (Squelette identique à index.html)
-    structureMatieres: {
-        "P2": {
-            1: ["Santé Publique", "Chimie Organique", "Biochimie", "Biologie Cellulaire", "Physique", "Génétique"],
-            2: ["Physiologie", "Bactériologie", "Virologie", "Immunologie", "Chimie Analytique", "Sémiologie"]
-        },
-        "P3": {
-            1: ["Pharmacologie G", "Toxicologie", "Hématologie", "Parasitologie", "Mycologie", "Viro-Bactério"],
-            2: ["Cardiologie", "Pneumologie", "Néphrologie", "Gastro-entérologie", "Neurologie", "Endocrinologie"]
-        },
-        "P4": {
-            1: ["Maladies Infectieuses", "Oncologie", "Hémostase", "Réanimation", "Dermatologie"],
-            2: ["Gériatrie", "Pédiatrie", "Gynécologie", "Psychiatrie", "Ophtalmologie"]
-        }
-    },
-
-    // ÉTAPE 1 : Choix du type (Fiches, Conférences, etc.)
-    async choisirType(type) {
-        this.filtres.type = type;
-        // On enregistre l'état actuel
-        history.pushState({ page: 'ressources', step: 'ANNEE', type: type }, "", "#ressources");
-
-        this.afficherVueAnnee();
-    },
-
-    afficherVueAnnee() {
-        // Logique visuelle isolée pour être rappelée par le navigateur
-        const type = this.filtres.type;
-        document.getElementById('grid-types').classList.add('hidden');
-        document.getElementById('grid-annees').classList.remove('hidden');
-        document.getElementById('btn-retour-ressources').classList.remove('hidden');
-        document.getElementById('titre-ressources').innerText = type;
-        this.afficherAnneesDisponibles(type);
-    },
-
-    // Gestion des restrictions d'affichage des années
-    afficherAnneesDisponibles(type) {
-        const gridAnnees = document.getElementById('grid-annees');
-        gridAnnees.classList.remove('hidden');
-        const ids = ['btn-p2', 'btn-p3', 'btn-p4', 'btn-p5', 'btn-master'];
-
-        ids.forEach(id => {
-            const btn = document.getElementById(id);
-            if (!btn) return;
-            btn.classList.remove('hidden');
-            // Restriction : Pas de conférences pour P5 et Master
-            if ((type === 'Conférences' || type === 'Conférences classées') && (id === 'btn-p5' || id === 'btn-master')) {
-                btn.classList.add('hidden');
-            }
-        });
-    },
-
-    // ÉTAPE 2 : Choix de l'année
-    async choisirAnnee(annee) {
-        this.filtres.annee = annee;
-        history.pushState({ page: 'ressources', step: 'SEMESTRE', type: this.filtres.type, annee: annee }, "", "#ressources");
-
-        this.afficherVueSemestre();
-    },
-
-    afficherVueSemestre() {
-        const annee = this.filtres.annee;
-        document.getElementById('grid-annees').classList.add('hidden');
-        document.getElementById('titre-ressources').innerText = `${this.filtres.type} — ${annee}`;
-        if (annee === 'MASTER') {
-            document.getElementById('grid-masters-branches').classList.remove('hidden');
+        if (error) {
+            alert("Erreur de connexion : " + error.message);
         } else {
-            document.getElementById('grid-semestres').classList.remove('hidden');
-        }
-    },
-
-    // ÉTAPE 3 : Choix du semestre
-    async choisirSemestre(s) {
-        this.filtres.semestre = s;
-        history.pushState({ page: 'ressources', step: 'LISTING', type: this.filtres.type, annee: this.filtres.annee, semestre: s }, "", "#ressources");
-
-        document.getElementById('grid-semestres').classList.add('hidden');
-        this.chargerFichiers();
-    },
-
-    // ÉTAPE ALTERNATIVE : Choix branche Master ou Méthodo
-    async finaliser(detail) {
-        this.filtres.detail = detail;
-        document.getElementById('grid-methodo-branches').classList.add('hidden');
-        document.getElementById('grid-masters-branches').classList.add('hidden');
-        this.chargerFichiers();
-    },
-
-    // FONCTION RETOUR : Navigation pas à pas
-    retour() {
-        // 1. Si on est sur le listing des matières -> retour vers Semestres ou Branches
-        if (!document.getElementById('grid-matieres').classList.contains('hidden')) {
-            document.getElementById('grid-matieres').classList.add('hidden');
-            if (this.filtres.annee === 'MASTER') {
-                document.getElementById('grid-masters-branches').classList.remove('hidden');
-            } else if (this.filtres.type === 'Méthodologie') {
-                document.getElementById('grid-methodo-branches').classList.remove('hidden');
-            } else {
-                document.getElementById('grid-semestres').classList.remove('hidden');
-            }
-            this.filtres.semestre = null;
-            this.filtres.detail = null;
-            document.getElementById('titre-ressources').innerText = `${this.filtres.type} — ${this.filtres.annee || ''}`;
-        }
-        // 2. Si on est sur Semestres/Branches -> retour vers les Années
-        else if (!document.getElementById('grid-semestres').classList.contains('hidden') ||
-                 !document.getElementById('grid-masters-branches').classList.contains('hidden') ||
-                 !document.getElementById('grid-methodo-branches').classList.contains('hidden')) {
-
-            document.getElementById('grid-semestres').classList.add('hidden');
-            document.getElementById('grid-masters-branches').classList.add('hidden');
-            document.getElementById('grid-methodo-branches').classList.add('hidden');
-
-            this.afficherAnneesDisponibles(this.filtres.type);
-            this.filtres.annee = null;
-            document.getElementById('titre-ressources').innerText = this.filtres.type;
-        }
-        // 3. Si on est sur les Années -> retour vers le menu des Types
-        else if (!document.getElementById('grid-annees').classList.contains('hidden')) {
-            document.getElementById('grid-annees').classList.add('hidden');
-            document.getElementById('grid-types').classList.remove('hidden');
-            document.getElementById('btn-retour-ressources').classList.add('hidden');
-            this.filtres.type = null;
-            document.getElementById('titre-ressources').innerText = "Bibliothèque Privée";
-        }
-    },
-
-    // Reset complet (utilisé quand on change de page de navigation)
-    resetComplet() {
-        const sections = ['grid-annees', 'grid-semestres', 'grid-methodo-branches', 'grid-masters-branches', 'grid-matieres', 'btn-retour-ressources'];
-        sections.forEach(id => {
-            const el = document.getElementById(id);
-            if(el) el.classList.add('hidden');
-        });
-        document.getElementById('grid-types').classList.remove('hidden');
-        document.getElementById('titre-ressources').innerText = "Bibliothèque Privée";
-        this.filtres = { type: null, annee: null, semestre: null, detail: null };
-    },
-
-    // CHARGEMENT FINAL : Récupération Supabase et affichage
-    async chargerFichiers() {
-        const container = document.getElementById('grid-matieres');
-        container.classList.remove('hidden');
-        container.innerHTML = `<div class="text-center py-10 opacity-50">Chargement des volumes...</div>`;
-
-        try {
-            let query = sb.from('ressources').select('*');
-            if (this.filtres.type) query = query.eq('type', this.filtres.type);
-            if (this.filtres.annee) query = query.eq('annee', this.filtres.annee);
-            if (this.filtres.semestre && ['P2', 'P3', 'P4'].includes(this.filtres.annee)) {
-                query = query.eq('semestre', this.filtres.semestre);
-            }
-
-            const { data: fichiers, error } = await query;
-            if (error) throw error;
-
-            // Détermination de la liste des matières à afficher
-            let listeFixe = [];
-            if (this.filtres.annee && this.filtres.semestre && this.structureMatieres[this.filtres.annee]) {
-                listeFixe = [...this.structureMatieres[this.filtres.annee][this.filtres.semestre]];
-            }
-            const matieresSupabase = fichiers.map(f => f.matiere);
-            let toutesLesMatieres = [...new Set([...listeFixe, ...matieresSupabase])];
-
-            let htmlFinal = "";
-
-            toutesLesMatieres.forEach(matiere => {
-                const docs = fichiers.filter(f =>
-                    f.matiere.trim().toLowerCase() === matiere.trim().toLowerCase()
-                );
-
-                if (listeFixe.includes(matiere) || docs.length > 0) {
-                    htmlFinal += `
-                        <div class="border-l border-[#c5a059]/30 pl-8 mb-12">
-                            <h3 class="text-2xl font-heritage italic mb-6 text-black">${matiere}</h3>
-                            <div class="grid gap-4">
-                                ${docs.length > 0 ?
-                                    docs.map(doc => {
-                                        const finalUrl = doc.url_pdf || "#";
-                                        const nomFichier = doc.titre || doc.nom || "Document sans titre";
-                                        return `
-                                        <a href="${finalUrl}" target="_blank" rel="noopener noreferrer"
-                                           class="flex items-center justify-between p-4 bg-white border border-black/5 hover:border-[#c5a059]/50 transition-all group">
-                                            <div class="flex flex-col text-left">
-                                                <span class="text-sm font-medium text-black opacity-80 group-hover:opacity-100">${nomFichier}</span>
-                                                <span class="text-[9px] uppercase tracking-widest text-[#c5a059]">${doc.type}</span>
-                                            </div>
-                                            <div class="flex items-center gap-3">
-                                                <span class="text-[8px] opacity-0 group-hover:opacity-40 uppercase transition-opacity">Consulter</span>
-                                                <i class="fas fa-file-pdf text-[#c5a059] text-sm opacity-50 group-hover:opacity-100 transition-all"></i>
-                                            </div>
-                                        </a>`;
-                                    }).join('')
-                                    :
-                                    `<p class="text-[10px] uppercase tracking-widest opacity-30 italic">Aucune archive disponible pour le moment</p>`
-                                }
-                            </div>
-                        </div>
-                    `;
-                }
-            });
-
-            container.innerHTML = htmlFinal || `<div class="text-center py-20 font-heritage italic opacity-40">Aucun volume trouvé.</div>`;
-
-        } catch (err) {
-            console.error(err);
-            container.innerHTML = `<div class="text-center py-10 text-red-800">Erreur lors de l'accès aux archives.</div>`;
+            // Au lieu de showPage, on ferme la modale et on rafraîchit
+            toggleModal('modal-login');
+            window.location.reload();
+            window.location.href = 'bibliotheque.html'
         }
     }
-};
 
-function showPage(pageId) {
-    // 1. Gestion de l'affichage des sections
-    const pages = document.querySelectorAll('.page');
-    pages.forEach(page => {
-        page.classList.remove('page-active');
-    });
+    async function handleSignup(e) {
+        e.preventDefault();
 
-    const activePage = document.getElementById(pageId);
-    if (activePage) {
-        activePage.classList.add('page-active');
-        window.scrollTo(0, 0);
+        const email = document.getElementById('ins-email').value.trim().toLowerCase();
+        const password = document.getElementById('ins-mdp').value;
+        const passwordConf = document.getElementById('ins-mdp-conf').value;
 
-        // 2. MISE À JOUR DYNAMIQUE DE L'URL
-        // On définit le chemin (ex: /ressources ou /accueil)
-        const path = pageId === 'accueil' ? '/' : '/' + pageId;
+        // Vérification mail universitaire
+        const allowedDomains = ['@etudiant.univ-rennes.fr', '@univ-rennes.fr'];
+        const isUniversityEmail = allowedDomains.some(domain => email.endsWith(domain));
 
-        // On vérifie si l'URL actuelle est déjà la bonne pour éviter de doubler l'historique
-        if (window.location.pathname !== path) {
-            history.pushState({ pageId: pageId }, '', path);
-        }
-    }
-}
-
-    // Fonction optionnelle pour le bouton "L'Institution" (scroll vers la section)
-    function scrollToInstitution() {
-        showPage('accueil'); // S'assure qu'on est sur l'accueil
-        const section = document.getElementById('presentation-association');
-        if (section) {
-            section.scrollIntoView({ behavior: 'smooth' });
-        }
-    }
-async function updateUI() {
-    const { data: { user } } = await sb.auth.getUser();
-
-    const navAuth = document.getElementById('nav-auth-buttons');
-    const navInfo = document.getElementById('nav-user-info');
-    const navRes = document.getElementById('nav-ressources');
-    const btnHero = document.getElementById('btn-hero-inscription');
-
-    if (user) {
-        // Récupération des données depuis la table 'profils'
-        const { data: p } = await sb.from('profils').select('*').eq('email', user.email).maybeSingle();
-        userProfile = p;
-
-        if (p) {
-            // Remplissage des champs de l'espace personnel (IDs correspondant à votre HTML)
-            if (document.getElementById('view-prenom')) document.getElementById('view-prenom').innerText = p.prenom;
-            if (document.getElementById('view-nom')) document.getElementById('view-nom').innerText = p.nom;
-            if (document.getElementById('view-email')) document.getElementById('view-email').innerText = p.email;
-            if (document.getElementById('view-promo')) document.getElementById('view-promo').innerText = p.promo;
-
-            // Mise à jour du petit texte dans la barre de navigation
-            const navName = document.getElementById('profil-prenom-nom');
-            if (navName) {
-                navName.innerText = `${p.prenom} ${p.nom} — ${p.promo}`;
-            }
-        }
-
-        // Affichage des menus réservés aux membres
-        if (navAuth) navAuth.classList.add('hidden');
-        if (navInfo) navInfo.classList.remove('hidden');
-        if (navRes) navRes.classList.remove('hidden');
-        if (btnHero) btnHero.classList.add('hidden');
-
-    } else {
-        // Mode déconnecté
-        if (navAuth) navAuth.classList.remove('hidden');
-        if (navInfo) navInfo.classList.add('hidden');
-        if (navRes) navRes.classList.add('hidden');
-        if (btnHero) btnHero.classList.remove('hidden');
-    }
-}
-
-async function handleLogin(e) {
-    e.preventDefault();
-    const email = document.getElementById('login-email').value;
-    const password = document.getElementById('login-password').value;
-
-    const { error } = await sb.auth.signInWithPassword({ email, password });
-
-    if (error) {
-        alert("Erreur de connexion : " + error.message);
-    } else {
-        await updateUI();
-        showPage('accueil');
-    }
-}
-
-async function handleSignup(e) {
-    e.preventDefault();
-
-    const email = document.getElementById('ins-email').value.trim().toLowerCase();
-    const password = document.getElementById('ins-mdp').value;
-    const passwordConf = document.getElementById('ins-mdp-conf').value;
-
-    // Vérification mail universitaire
-    const allowedDomains = ['@etudiant.univ-rennes.fr', '@univ-rennes.fr'];
-    const isUniversityEmail = allowedDomains.some(domain => email.endsWith(domain));
-
-    if (!isUniversityEmail) {
-        alert("Accès refusé : Utilisez votre adresse académique de l'Université de Rennes.");
-        return;
-    }
-
-    if (password !== passwordConf) {
-        alert("Les mots de passe ne correspondent pas.");
-        return;
-    }
-
-    const { data: authData, error: authError } = await sb.auth.signUp({ email, password });
-
-    if (authError) {
-        alert(authError.message);
-        return;
-    }
-
-    // Création du profil dans la table 'profils'
-    const { error: profileError } = await sb.from('profils').insert([{
-        prenom: document.getElementById('ins-prenom').value,
-        nom: document.getElementById('ins-nom').value,
-        promo: document.getElementById('ins-promo').value,
-        email: email,
-        est_valide: false
-    }]);
-
-    if (profileError) {
-        alert("Erreur profil : " + profileError.message);
-    } else {
-        document.getElementById('form-inscription').classList.add('hidden');
-        document.getElementById('success-msg').classList.remove('hidden');
-    }
-}
-
-async function handleLogout() {
-    await sb.auth.signOut();
-    window.location.reload();
-}
-// --- UTILITAIRES ---
-
-function checkPasswordStrength(password) {
-    const bar = document.getElementById('strength-bar');
-    const text = document.getElementById('strength-text');
-    if(!bar || !text) return;
-
-    let strength = 0;
-    if (password.length >= 6) strength++;
-    if (password.length >= 10) strength++;
-    if (/[A-Z]/.test(password)) strength++;
-    if (/[0-9]/.test(password)) strength++;
-
-    const levels = [
-        { width: '20%', color: '#ef4444', label: 'Trop court' },
-        { width: '50%', color: '#eab308', label: 'Moyen' },
-        { width: '100%', color: '#c5a059', label: 'Excellence' }
-    ];
-
-    const level = strength < 2 ? levels[0] : (strength < 4 ? levels[1] : levels[2]);
-    bar.style.width = level.width;
-    bar.style.backgroundColor = level.color;
-    text.innerText = level.label;
-    text.style.color = level.color;
-}
-
-function detectOS() {
-    const ua = window.navigator.userAgent;
-    const body = document.body;
-    if (/iPad|iPhone|iPod/.test(ua)) body.classList.add('os-ios');
-    else if (/Android/.test(ua)) body.classList.add('os-android');
-}
-// --- CHARGEMENT DU PLANNING (ACCUEIL) ---
-async function chargerPlanning() {
-    const container = document.getElementById('conference-list');
-    if (!container) return;
-
-    try {
-        const { data, error } = await sb
-            .from('planning')
-            .select('*')
-            .order('ordre', { ascending: true });
-
-        if (error) throw error;
-
-        if (!data || data.length === 0) {
-            container.innerHTML = `<div class="text-center py-4 opacity-40 italic border border-dashed border-[#c5a059]/20">Aucune conférence programmée.</div>`;
+        if (!isUniversityEmail) {
+            alert("Accès refusé : Utilisez votre adresse académique de l'Université de Rennes.");
             return;
         }
 
-        container.innerHTML = data.map(conf => `
-            <div class="flex items-center justify-between border-b border-[#c5a059]/10 pb-3 group">
-                <div class="text-left">
-                    <span class="text-[10px] tracking-widest uppercase text-[#c5a059]/70 block">${conf.date_texte}</span>
-                    <span class="font-heritage italic text-xl group-hover:text-[#c5a059] transition-colors">${conf.titre}</span>
-                </div>
-                <span class="text-[9px] border border-[#c5a059]/40 px-3 py-1 rounded-full text-[#c5a059] bg-[#c5a059]/5">${conf.salle}</span>
-            </div>
-        `).join('');
-    } catch (err) {
-        console.error("Erreur planning:", err);
-        container.innerHTML = "<p class='text-[10px] text-center text-red-500/50 uppercase'>Calendrier indisponible</p>";
-    }
-}
+        if (password !== passwordConf) {
+            alert("Les mots de passe ne correspondent pas.");
+            return;
+        }
 
-// --- GESTION DU BOUTON PRÉCÉDENT (NAVIGATEUR) ---
-window.onpopstate = function(event) {
-    if (event.state && event.state.pageId) {
-        // On change de page sans appeler pushState (car on y est déjà via l'historique)
-        const pages = document.querySelectorAll('.page');
-        pages.forEach(p => p.classList.remove('page-active'));
-        document.getElementById(event.state.pageId).classList.add('page-active');
-    } else {
-        // Retour par défaut à l'accueil
-        showPage('accueil');
-    }
-};
+        const { data: authData, error: authError } = await sb.auth.signUp({ email, password });
 
-    if (state && state.page === 'ressources') {
-        // 1. On restaure les filtres
-        logicRessources.filtres.type = state.type || null;
-        logicRessources.filtres.annee = state.annee || null;
-        logicRessources.filtres.semestre = state.semestre || null;
+        if (authError) {
+            alert(authError.message);
+            return;
+        }
 
-        // 2. On cache tout par défaut pour redessiner proprement
-        const sections = ['grid-types', 'grid-annees', 'grid-semestres', 'grid-methodo-branches', 'grid-masters-branches', 'grid-matieres'];
-        sections.forEach(id => document.getElementById(id).classList.add('hidden'));
+        // Création du profil dans la table 'profils'
+        const { error: profileError } = await sb.from('profils').insert([{
+            prenom: document.getElementById('ins-prenom').value,
+            nom: document.getElementById('ins-nom').value,
+            promo: document.getElementById('ins-promo').value,
+            email: email,
+            est_valide: false
+        }]);
 
-        // 3. Gestion de l'affichage des vues (Correction et Optimisation)
-function rafraichirAffichageRessources() {
-    // Sécurité : Si l'état n'existe pas, on reset tout
-    if (!state || !state.step) {
-        logicRessources.resetComplet();
-        return;
+        if (profileError) {
+            alert("Erreur profil : " + profileError.message);
+        } else {
+            document.getElementById('form-inscription').classList.add('hidden');
+            document.getElementById('success-msg').classList.remove('hidden');
+        }
     }
 
-    // IMPORTANT : On commence par cacher toutes les vues pour éviter les superpositions
-    // (Cette méthode doit être définie dans votre objet logicRessources)
-    logicRessources.cacherToutesLesVues();
+    // Vérifier l'état de connexion au chargement
+    document.addEventListener('DOMContentLoaded', async () => {
+        const { data: { session } } = await supabase.auth.getSession();
+        updateUI(session);
 
-    switch (state.step) {
-        case 'ANNEE':
-            logicRessources.afficherVueAnnee();
-            break;
+        // Écouter les changements d'état (connexion/déconnexion)
+        supabase.auth.onAuthStateChange((_event, session) => {
+            updateUI(session);
+        });
+    });
 
-        case 'SEMESTRE':
-            // Sécurité : On ne montre le semestre que si une année est sélectionnée
-            if (state.selectedAnnee) {
-                logicRessources.afficherVueSemestre();
-            } else {
-                state.step = 'ANNEE';
-                logicRessources.afficherVueAnnee();
-            }
-            break;
+    function updateUI(session) {
+        const guestGroup = document.getElementById('auth-guest');
+        const userGroup = document.getElementById('auth-user');
+        const navBiblio = document.getElementById('nav-biblio');
+        const ctaRejoindre = document.querySelector('a[href="#presentation-association"]')?.closest('.btn-gold');
 
-        case 'LISTING':
-            // Sécurité : On ne charge les fichiers que si le semestre est connu
-            if (state.selectedSemestre) {
-                logicRessources.chargerFichiers();
-            } else {
-                state.step = 'SEMESTRE';
-                logicRessources.afficherVueSemestre();
-            }
-            break;
-
-        default:
-            // Si le step est inconnu ou 'ROOT', on revient au départ
-            logicRessources.resetComplet();
-            break;
-    }
-}
-
-    // Gestion normale des autres pages (Accueil, Contact...)
-    const pageId = state ? state.page : 'home';
-    showPage(pageId, false);
-    };
-
-    async function handleChangePassword(e) {
-    e.preventDefault();
-    const newPassword = document.getElementById('new-password').value;
-    const btn = document.getElementById('btn-update-pass');
-
-    if (newPassword.length < 6) {
-        alert("Le mot de passe doit contenir au moins 6 caractères.");
-        return;
+        if (session) {
+            // Utilisateur CONNECTÉ
+            if(guestGroup) guestGroup.classList.add('hidden');
+            if(userGroup) userGroup.classList.remove('hidden');
+            if(navBiblio) navBiblio.classList.remove('hidden');
+            // Masquer le bouton "Nous rejoindre" sur l'accueil
+            if(ctaRejoindre) ctaRejoindre.classList.add('hidden');
+        } else {
+            // Utilisateur DÉCONNECTÉ
+            if(guestGroup) guestGroup.classList.remove('hidden');
+            if(userGroup) userGroup.classList.add('hidden');
+            if(navBiblio) navBiblio.classList.add('hidden');
+            if(ctaRejoindre) ctaRejoindre.classList.remove('hidden');
+        }
     }
 
-    btn.innerText = "Mise à jour...";
-    btn.disabled = true;
-
-    const { error } = await sb.auth.updateUser({ password: newPassword });
-
-    if (error) alert("Erreur : " + error.message);
-    else alert("Mot de passe mis à jour avec succès !");
-
-    btn.innerText = "Mettre à jour le mot de passe";
-    btn.disabled = false;
-}
-
-    window.onload = function() {
-    // Permet de charger la bonne page si l'URL contient déjà un chemin (ex: /ressources)
-    const path = window.location.pathname.replace('/', '');
-    if (path && document.getElementById(path)) {
-        showPage(path);
-    } else {
-        showPage('accueil');
+    async function handleLogout() {
+        const { error } = await supabase.auth.signOut();
+        if (!error) window.location.href = 'index.html';
     }
-};
+
+    // --- UTILITAIRES ---
+
+    function checkPasswordStrength(password) {
+        const bar = document.getElementById('strength-bar');
+        const text = document.getElementById('strength-text');
+        if(!bar || !text) return;
+
+        let strength = 0;
+        if (password.length >= 6) strength++;
+        if (password.length >= 10) strength++;
+        if (/[A-Z]/.test(password)) strength++;
+        if (/[0-9]/.test(password)) strength++;
+
+        const levels = [
+            { width: '20%', color: '#ef4444', label: 'Trop court' },
+            { width: '50%', color: '#eab308', label: 'Moyen' },
+            { width: '100%', color: '#c5a059', label: 'Excellence' }
+        ];
+
+        const level = strength < 2 ? levels[0] : (strength < 4 ? levels[1] : levels[2]);
+        bar.style.width = level.width;
+        bar.style.backgroundColor = level.color;
+        text.innerText = level.label;
+        text.style.color = level.color;
+    }
+
+    // --- ÉCOUTEURS D'ÉVÉNEMENTS ---
+
+    document.addEventListener('DOMContentLoaded', () => {
+        // Lie le formulaire de connexion
+        const loginForm = document.getElementById('form-login'); // Vérifiez que votre <form> a cet ID
+        if (loginForm) loginForm.addEventListener('submit', handleLogin);
+
+        // Lie le formulaire d'inscription
+        const signupForm = document.getElementById('form-inscription');
+        if (signupForm) signupForm.addEventListener('submit', handleSignup);
+    });
 
 </script>
 
@@ -1924,29 +984,5 @@ function rafraichirAffichageRessources() {
         </div>
     </div>
 </footer>
-
-<div id="fb-root"></div>
-<div id="fb-customer-chat" class="fb-customerchat"></div>
-
-<script>
-  var chatbox = document.getElementById('fb-customer-chat');
-  chatbox.setAttribute("page_id", "VOTRE_ID_DE_PAGE_FACEBOOK"); // Remplacez par votre ID
-  chatbox.setAttribute("attribution", "biz_inbox");
-
-  window.fbAsyncInit = function() {
-    FB.init({
-      xfbml            : true,
-      version          : 'v18.0'
-    });
-  };
-
-  (function(d, s, id) {
-    var js, fjs = d.getElementsByTagName(s)[0];
-    if (d.getElementById(id)) return;
-    js = d.createElement(s); js.id = id;
-    js.src = 'https://connect.facebook.net/fr_FR/sdk/xfbml.customerchat.js';
-    fjs.parentNode.insertBefore(js, fjs);
-  }(document, 'script', 'facebook-jssdk'));
-</script>
 </body>
 </html>
