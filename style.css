@@ -32,83 +32,6 @@
             color: var(--elegant-black);
         }
 
-        nav.nav-fixed{
-            background-color: white !important;
-            position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 95%;
-            max-width: 1200px;
-            height: 75px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 40px;
-            border-radius: 100px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
-            z-index: 1000;
-        }
-
-        .nav-center {
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 30px;
-            white-space: nowrap;
-        }
-
-        .nav-link {
-            font-size: 13px !important; /* Agrandissement de la police */
-            text-transform: uppercase;
-            letter-spacing: 0.25em; /* Augmentation légère de l'espacement pour l'élégance */
-            color: var(--elegant-black); /* Ou #052e16 selon votre barre */
-            text-decoration: none;
-            transition: all 0.3s ease;
-            font-weight: 500;
-        }
-
-        #nav-auth-buttons .btn-gold {
-            /* Taille et Épaisseur */
-            font-size: 11px !important;
-            font-weight: 800 !important;
-            padding: 8px 24px !important;
-
-            /* Couleur Doré Royal */
-            background-color: #FFFFFF !important; /* Fond doré par défaut */
-            color: #c5a059 !important;
-            border: 1px solid #c5a059 !important;
-
-            /* Effets */
-            text-transform: uppercase;
-            letter-spacing: 0.15em;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 4px 15px rgba(197, 160, 89, 0.2); /* Lueur dorée discrète */
-        }
-
-        #nav-auth-buttons .btn-gold:hover {
-            background-color: #052e16 !important; /* Devient vert forêt au survol */
-            border-color: #052e16 !important;
-            color: #c5a059 !important;            /* Le texte repasse en doré */
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-            transform: translateY(-1px);          /* Léger soulèvement */
-        }
-        .nav-link:hover {
-            color: #c5a059 !important;
-        }
-
-        .logo-text {
-            color: #1a1a1a !important;
-        }
-
-        /* Boutons de droite spécifiques */
-        .nav-auth-group {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
         /* Style du nom dans la barre de navigation */
         #profil-prenom-nom {
             color: #000000;
@@ -432,41 +355,6 @@
             flex-shrink: 0;
         }
 
-        /* style.css */
-
-        /* La classe pour la barre flottante blanche */
-        .nav-floating {
-            position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 90%;
-            max-width: 1200px;
-            height: 70px;
-            background-color: rgba(255, 255, 255, 0.95); /* Blanc pur avec légère transparence */
-            backdrop-filter: blur(10px); /* Effet flou derrière la barre */
-            border-radius: 100px; /* Bords très arrondis (pilule) */
-            border: 1px solid rgba(197, 160, 89, 0.3); /* Bordure dorée très fine */
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            z-index: 1000;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 40px;
-            transition: all 0.3s ease;
-        }
-
-        /* On force la couleur du texte en vert forêt pour qu'elle soit lisible sur le blanc */
-        .nav-floating a,
-        .nav-floating button {
-            color: #052e16 !important;
-            font-weight: 600;
-            text-decoration: none;
-        }
-
-        .nav-floating a:hover {
-            color: #c5a059 !important; /* Devient doré au survol */
-        }
 
 /* --- STYLE DES CADRES DE MEMBRES (MODÈLE INSTITUTIONNEL) --- */
 
@@ -554,22 +442,140 @@
 
 /* style.css */
 
-.modal-overlay {
-    transition: opacity 0.3s ease, visibility 0.3s ease;
+
+
+#modal-library-error > div {
+    transform: scale(0.95);
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); /* Animation plus fluide (effet rebond) */
+    opacity: 0;
 }
 
-.modal-overlay.hidden {
-    display: none;
-    opacity: 0;
+#modal-library-error:not(.hidden) > div {
+    transform: scale(1);
+    opacity: 1;
+}
+
+/* --- BARRE DE NAVIGATION --- */
+.nav-floating {
+    display: flex !important;
+    position: fixed;
+    top: 25px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 1200px;
+    height: 75px;
+    background-color: #ffffff;
+    border-radius: 50px;
+    z-index: 9999;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 45px;
+    box-sizing: border-box;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    /* Sécurité pour laisser passer les clics si besoin */
+    pointer-events: auto;
+}
+
+.nav-left .logo-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.8rem;
+    font-style: italic;
+    color: #052e16;
+    text-decoration: none;
+}
+
+/* Groupe central parfaitement centré */
+.nav-center-group {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 50px;
+    align-items: center;
+    white-space: nowrap;
+    z-index: 10;
+
+    /* CORRECTIF */
+    width: max-content;
     pointer-events: none;
 }
 
-/* Animation d'apparition de la modale */
-#modal-library-error .bg-[#f5f2e8] {
-    transform: scale(0.95);
-    transition: transform 0.3s ease;
+.nav-center-group .nav-link,
+.nav-center-group #lib-btn {
+    pointer-events: auto;
 }
 
-#modal-library-error:not(.hidden) .bg-[#f5f2e8] {
-    transform: scale(1);
+/* Unification Typo pour les 3 boutons centraux */
+.nav-link, #lib-btn {
+    font-family: 'Montserrat', sans-serif !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.12em !important;
+    color: #052e16 !important;
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+/* On s'assure que les liens captent bien le clic */
+.nav-link, #lib-btn, .nav-link-auth, .btn-join {
+    cursor: pointer !important;
+    position: relative;
+    z-index: 20; /* Passe au dessus de tout */
+    pointer-events: auto !important;
+}
+
+.nav-right {
+    position: relative;
+    z-index: 30;
+    display: flex;
+    align-items: center;
+}
+
+/* Bloc de droite (Connexion / Inscription) */
+.auth-flex {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.nav-link-auth {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: #052e16;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-join {
+    background-color: #052e16;
+    color: white;
+    padding: 10px 22px;
+    border-radius: 50px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    border: none;
+    cursor: pointer;
+}
+
+/* UTILITAIRE CACHAGE */
+.hidden {
+    display: none !important;
+}
+
+
+.modal-overlay.hidden {
+    display: none !important;
+}
+
+.modal-overlay.modal-active {
+    display: flex !important;
 }
