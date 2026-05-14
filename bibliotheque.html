@@ -27,56 +27,50 @@
     // En utilisant window.supabase, on rend l'objet accessible à TOUS les autres fichiers JS
     window.supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
-        // 3. Sécurité : Vérifier l'accès immédiatement
-        async function checkAccess() {
-            const { data: { session } } = await supabase.auth.getSession();
-            if (!session) {
-                // Si pas connecté, retour à l'accueil
-                window.location.href = 'index.html';
-            }
-        }
-        checkAccess();
+
     </script>
 
     <script src="nav.js"></script>
 
     <script>
-        async function checkSecurity() {
-            // 1. On attend que Supabase soit disponible (si chargé via CDN)
-            if (typeof supabase === 'undefined') return;
-
-            const { data: { session } } = await supabase.auth.getSession();
-
-            if (!session) {
-                // 2. Si pas de session, on stocke une info pour dire à l'index d'afficher l'erreur
-                sessionStorage.setItem('showLibraryError', 'true');
-                // 3. Redirection immédiate vers l'accueil
-                window.location.href = 'index.html';
-            }
-        }
-
-        // On lance la vérification dès que possible
-        // Note : assure-toi que l'init de Supabase est fait avant cet appel
-    </script>
-
-    <script>
-        // On attend que le DOM et Supabase soient chargés
 document.addEventListener('DOMContentLoaded', async () => {
-    // 1. Charger la navigation
-    if (typeof loadNavbar === 'function') loadNavbar();
 
-    // 2. Vérifier la session immédiatement
+    // Charger la navbar
+    if (typeof loadNavbar === 'function') {
+        loadNavbar();
+    }
+
+    // Vérification session
     const { data: { session }, error } = await supabase.auth.getSession();
 
     if (error || !session) {
-        // Redirection vers l'accueil avec signal d'erreur
-        sessionStorage.setItem('showLibraryError', 'true');
-        window.location.href = 'index.html';
+
+        // Affiche immédiatement le popup connexion
+        setTimeout(() => {
+            toggleModal('modal-library-error');
+        }, 150);
+
+        // Floute et verrouille la bibliothèque
+        document.body.classList.add('modal-open');
+
+        // Empêche interaction avec le contenu
+        const mainContent = document.querySelector('main');
+
+        if (mainContent) {
+            mainContent.style.filter = 'blur(4px)';
+            mainContent.style.pointerEvents = 'none';
+            mainContent.style.userSelect = 'none';
+            mainContent.style.opacity = '0.6';
+        }
+
     } else {
-        // Optionnel : Afficher le contenu une fois la session confirmée
-        document.body.style.opacity = "1";
+
+        // Session OK
+        document.body.style.opacity = '1';
     }
 });
+
     </script>
+
 </body>
 </html>
