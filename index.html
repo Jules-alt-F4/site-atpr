@@ -316,15 +316,14 @@
     const supabaseUrl = 'https://zcueonuffhzrvnktxzpl.supabase.co';
     const supabaseKey = 'sb_publishable_yeSb-vYs5ibken1ypPAliQ_L07lvC9a';
 
-    // IMPORTANT : On utilise 'window.supabase' pour que le fichier nav.js
-    // puisse reconnaître l'objet 'supabase' globalement.
+    // En utilisant window.supabase, on rend l'objet accessible à TOUS les autres fichiers JS
     window.supabase = supabase.createClient(supabaseUrl, supabaseKey);
 </script>
 
 <script src="nav.js"></script>
 
 <script>
-    // Lancer la création du menu une fois que tout est chargé
+    // On lance la fonction une fois que tout le DOM est prêt
     document.addEventListener('DOMContentLoaded', () => {
         if (typeof loadNavbar === 'function') {
             loadNavbar();
