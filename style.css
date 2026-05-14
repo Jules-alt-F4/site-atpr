@@ -107,6 +107,25 @@
             gap: 15px;
         }
 
+        #accueil {
+    padding-top: 20px;
+}
+
+/* On force la couleur noire/verte pour les liens sur le fond blanc */
+nav a, nav button {
+    color: var(--forest-green);
+}
+
+/* Animation d'apparition douce */
+nav {
+    animation: slideDown 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes slideDown {
+    from { transform: translateY(-100%); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
         /* Style du nom dans la barre de navigation */
         #profil-prenom-nom {
             color: #000000;
