@@ -771,20 +771,25 @@
     // (Gardez votre code existant pour la connexion)
 
     async function handleLogin(e) {
-        e.preventDefault();
-        const email = document.getElementById('login-email').value;
-        const password = document.getElementById('login-password').value;
+    e.preventDefault();
+    const email = document.getElementById('login-email').value;
+    const password = document.getElementById('login-password').value;
 
-        const { error } = await sb.auth.signInWithPassword({ email, password });
+    // On utilise "sb" comme dans ton code
+    const { error } = await sb.auth.signInWithPassword({ email, password });
 
-        if (error) {
-            alert("Erreur de connexion : " + error.message);
-        } else {
-            // Au lieu de showPage, on ferme la modale et on rafraîchit
-            toggleModal('modal-login');
-            window.location.reload();
-        }
+    if (error) {
+        alert("Erreur de connexion : " + error.message);
+    } else {
+        // 1. On ferme la modale
+        toggleModal('modal-login');
+
+        // 2. On recharge la page actuelle
+        // Cela va relancer le script nav.js qui détectera la session
+        // et affichera automatiquement "Bibliothèque" dans le menu.
+        window.location.reload();
     }
+}
 
     async function handleSignup(e) {
         e.preventDefault();
