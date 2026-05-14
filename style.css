@@ -60,11 +60,13 @@
         }
 
         .nav-link {
-            color: #1a1a1a !important;
-            font-size: 11px;
-            font-weight: 600;
+            font-size: 13px !important; /* Agrandissement de la police */
             text-transform: uppercase;
-            letter-spacing: 0.1em;
+            letter-spacing: 0.25em; /* Augmentation légère de l'espacement pour l'élégance */
+            color: var(--elegant-black); /* Ou #052e16 selon votre barre */
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-weight: 500;
         }
 
         #nav-auth-buttons .btn-gold {
@@ -424,9 +426,8 @@
         }
 
         #presentation-association {
-            scroll-margin-top: 110px; /* Aligne la section juste en dessous de la barre flottante */
+            scroll-margin-top: 120px; /* Crée une marge invisible pour ne pas être caché par la nav */
         }
-
         footer {
             flex-shrink: 0;
         }
@@ -467,3 +468,19 @@
             color: #c5a059 !important; /* Devient doré au survol */
         }
 
+        /* Style Portraits Bureau */
+        .aspect-\[3\/4\] {
+            background-color: #e2e0d7; /* Couleur de chargement avant l'image */
+            position: relative;
+        }
+
+        .aspect-\[3\/4\]::after {
+            content: '';
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            right: 15px;
+            bottom: 15px;
+            border: 1px solid rgba(197, 160, 89, 0.3);
+            pointer-events: none;
+        }
