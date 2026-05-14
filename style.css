@@ -38,34 +38,33 @@
             top: 20px;
             left: 50%;
             transform: translateX(-50%);
-            width: 90%;
+            width: 95%;
             max-width: 1200px;
             height: 75px;
             display: flex;
             align-items: center;
-            justify-content: space-between; /* Espace entre les 3 blocs */
+            justify-content: space-between;
             padding: 0 40px;
             border-radius: 100px;
             box-shadow: 0 15px 35px rgba(0,0,0,0.2);
             z-index: 1000;
         }
 
-        /* Centrage mathématique parfait du menu */
         .nav-center {
             position: absolute;
             left: 50%;
             transform: translateX(-50%);
             display: flex;
             gap: 30px;
+            white-space: nowrap;
         }
 
         .nav-link {
-            color: #1a1a1a !important; /* Force le noir sur fond blanc */
+            color: #1a1a1a !important;
             font-size: 11px;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.1em;
-            text-decoration: none;
         }
 
         #nav-auth-buttons .btn-gold {
