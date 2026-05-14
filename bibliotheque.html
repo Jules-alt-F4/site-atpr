@@ -1,12 +1,45 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bibliothèque — ATPR</title>
     <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="nav.js"></script>
 </head>
-<body>
+<body class="bg-[#f5f2e8]">
 
+    <main class="pt-32 px-6">
+        <div class="max-w-7xl mx-auto text-center">
+            <h1 class="font-heritage text-5xl text-[#052e16] italic">La Bibliothèque</h1>
+            <p class="mt-4 text-[#c5a059] uppercase tracking-widest text-xs">Archives & Ressources</p>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <script>
+        // 2. Initialisation Supabase (Doit être identique à index.html)
+        const supabase = supabase.createClient('TON_URL_SUPABASE', 'TA_CLE_ANON');
+
+        // 3. Sécurité : Vérifier l'accès immédiatement
+        async function checkAccess() {
+            const { data: { session } } = await supabase.auth.getSession();
+            if (!session) {
+                // Si pas connecté, retour à l'accueil
+                window.location.href = 'index.html';
+            }
+        }
+        checkAccess();
+    </script>
+
+    <script src="nav.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            loadNavbar(); // Cette fonction vient de nav.js
+        });
+    </script>
 </body>
 </html>
