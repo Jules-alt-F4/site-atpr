@@ -13,7 +13,6 @@ function injectNavbar() {
                 <img src="https://zcueonuffhzrvnktxzpl.supabase.co/storage/v1/object/public/images-atpr/logo-noir-atpr.png"
                      alt="Logo ATPr"
                      style="height:52px;width:auto;object-fit:contain;flex-shrink:0;">
-                ATPr
             </a>
         </div>
         <div class="nav-center-group">
