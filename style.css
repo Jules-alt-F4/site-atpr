@@ -550,16 +550,29 @@
     cursor: pointer;
 }
 
-/* Hover boutons centraux */
 .nav-center-group .nav-link:hover,
 .nav-center-group #lib-btn:hover {
 
-    background: rgba(197,160,89,0.12);
+    background: #052e16;
 
-    transform: translateY(-1px);
+    color: #f5f2e8 !important;
+
+    border-color: #052e16;
+
+    transform: translateY(-2px);
 
     box-shadow:
-        0 4px 12px rgba(197,160,89,0.12);
+        0 8px 20px rgba(5,46,22,0.18);
+}
+
+.nav-center-group .nav-link,
+.nav-center-group #lib-btn {
+    transition:
+        background 0.35s ease,
+        color 0.35s ease,
+        border-color 0.35s ease,
+        transform 0.35s ease,
+        box-shadow 0.35s ease;
 }
 
 /* Bloc droite */
