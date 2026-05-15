@@ -46,7 +46,7 @@ async function handleLogin(event) {
 
     try {
 
-        const { data, error } = await supabase.auth.signInWithPassword({
+        const { data, error } = await window.supabase.auth.signInWithPassword({
             email,
             password
         });
@@ -57,22 +57,20 @@ async function handleLogin(event) {
         }
 
         // Force récupération session
-        const { data: sessionData } = await supabase.auth.getSession();
+        const { data: sessionData } = await window.supabase.auth.getSession();
 
         if (sessionData.session) {
 
-            // Ferme popup
-            const modal = document.getElementById('modal-login');
-
-            if (modal) {
-                modal.classList.add('hidden');
-                modal.classList.remove('modal-active');
+            // Ferme popup proprement via toggleModal
+            if (typeof window.toggleModal === 'function') {
+                const modal = document.getElementById('modal-login');
+                if (modal && !modal.classList.contains('hidden')) {
+                    window.toggleModal('modal-login');
+                }
             }
 
-            document.body.classList.remove('modal-open');
-
-            // Update navbar
-            await updateUI();
+            // Update navbar (défini dans nav.js)
+            if (typeof window.updateUI === 'function') window.updateUI();
         }
 
     } catch (err) {
@@ -92,7 +90,7 @@ async function handleSignup(event) {
     const email = form.querySelector('input[type="email"]').value;
     const password = form.querySelector('input[type="password"]').value;
 
-    const { data, error } = await supabase.auth.signUp({
+    const { data, error } = await window.supabase.auth.signUp({
         email,
         password
     });
@@ -104,14 +102,18 @@ async function handleSignup(event) {
 
     alert("Compte créé avec succès.");
 
-    // Basculer automatiquement vers connexion
-    switchModal('modal-inscription', 'modal-login');
+    // Fermer inscription, ouvrir connexion
+    if (typeof window.toggleModal === 'function') {
+        const ins = document.getElementById('modal-inscription');
+        if (ins && !ins.classList.contains('hidden')) window.toggleModal('modal-inscription');
+        window.toggleModal('modal-login');
+    }
 }
 
 
 async function handleLogout() {
 
-    const { error } = await supabase.auth.signOut();
+    const { error } = await window.supabase.auth.signOut();
 
     if (error) {
         console.error(error);
@@ -120,43 +122,11 @@ async function handleLogout() {
 
     document.body.classList.remove('modal-open');
 
-    await updateUI();
+    if (typeof window.updateUI === 'function') window.updateUI();
 
     window.location.href = 'index.html';
 }
 
-async function updateUI() {
-
-    const authGuest = document.getElementById('auth-guest');
-    const authUser = document.getElementById('auth-user');
-
-    if (!authGuest || !authUser) return;
-
-    try {
-
-        const { data: { session } } = await supabase.auth.getSession();
-
-        if (session) {
-
-            // MODE CONNECTÉ
-            authGuest.classList.add('hidden');
-
-            authUser.classList.remove('hidden');
-            authUser.classList.add('flex');
-
-        } else {
-
-            // MODE INVITÉ
-            authUser.classList.add('hidden');
-
-            authGuest.classList.remove('hidden');
-            authGuest.classList.add('flex');
-        }
-
-    } catch (error) {
-
-        console.error("Erreur Auth UI:", error);
-    }
-}
+// updateUI est définie dans nav.js via window.updateUI
 
 // toggleModal est défini dans nav.js — ne pas redéfinir ici pour éviter les conflits
