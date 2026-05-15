@@ -5,6 +5,18 @@
     <title>Title</title>
     <script src="nav.js"></script>
     <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <script>
+    const supabaseUrl = 'https://zcueonuffhzrvnktxzpl.supabase.co';
+    const supabaseKey = 'sb_publishable_yeSb-vYs5ibken1ypPAliQ_L07lvC9a';
+
+    window.supabase = supabase.createClient(supabaseUrl, supabaseKey);
+    </script>
+
+    <script src="auth.js"></script>
+    <script src="nav.js"></script>
+
 </head>
 <body>
 
