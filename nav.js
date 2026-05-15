@@ -9,7 +9,12 @@ function injectNavbar() {
     const navHTML = `
     <nav id="main-nav" class="nav-floating">
         <div class="nav-left">
-            <a href="index.html" class="logo-text">ATPr</a>
+            <a href="index.html" class="logo-text" style="display:flex;align-items:center;gap:8px;">
+                <img src="https://zcueonuffhzrvnktxzpl.supabase.co/storage/v1/object/public/images-atpr/logo-noir-atpr.png"
+                     alt="Logo ATPr"
+                     style="height:52px;width:auto;object-fit:contain;flex-shrink:0;">
+                ATPr
+            </a>
         </div>
         <div class="nav-center-group">
             <a href="index.html#presentation-association" class="nav-link">L'Institution</a>
