@@ -500,11 +500,12 @@ html {
 
 .nav-center-group .nav-link, 
 .nav-center-group #lib-btn {
-    font-family: 'Montserrat', sans-serif !important;
-    font-size: 11px !important;
+    font-family: 'Cormorant Garamond', serif !important;
+    font-style: normal !important;
+    font-size: 15px !important;
     font-weight: 600 !important;
-    letter-spacing: 0.15em !important;
-    text-transform: uppercase;
+    letter-spacing: 0.05em !important;
+    text-transform: none;
     color: #052e16 !important; /* Texte sombre */
     padding: 8px 18px;
     border: 1px solid var(--luxury-gold) !important; /* Liseré doré sans remplissage */
@@ -532,11 +533,12 @@ html {
 
 /* Bouton Connexion (Transparent) */
 .nav-link-auth {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 11px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: normal;
+    font-size: 15px;
+    font-weight: 600;
+    text-transform: none;
+    letter-spacing: 0.03em;
     color: #052e16 !important;
     background: transparent;
     border: none;
@@ -549,11 +551,12 @@ html {
     color: #f5f2e8 !important;
     padding: 10px 22px;
     border-radius: 999px;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 10px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: normal;
+    font-size: 15px;
+    font-weight: 600;
+    text-transform: none;
+    letter-spacing: 0.03em;
     border: none;
     transition: all 0.3s ease;
 }
