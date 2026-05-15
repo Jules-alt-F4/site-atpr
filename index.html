@@ -22,8 +22,12 @@
         <div class="greek-column column-left"></div>
         <div class="greek-column column-right"></div>
     <section class="min-h-screen flex flex-col items-center justify-center relative py-24">
-        <div class="hero-container text-center px-6 z-10 max-w-7xl mx-auto">
-            <div class="relative inline-block mb-8">
+        <div class="hero-container px-6 z-10 max-w-7xl mx-auto w-full">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-16">
+
+                <!-- Texte -->
+                <div class="flex-1 text-left">
+                <div class="relative inline-block mb-8">
                 <h2 class="text-6xl md:text-[8rem] font-heritage italic leading-[1.1]">
                      Tradition, <br>
                     <span class="italic text-white opacity-90">Savoir & Exigence</span>
@@ -45,6 +49,17 @@
                     <a href="bureau.html" class="btn-outline-gold">Explorer le Bureau</a>
                     <button onclick="toggleModal('modal-inscription')" class="btn-outline-gold">Devenir membre</button>
                 </div>
+                </div><!-- fin texte -->
+
+                <!-- Logo -->
+                <div class="flex-shrink-0">
+                    <img src="logo1_no_bg.png"
+                         alt="Logo ATPr"
+                         class="w-[320px] md:w-[440px] lg:w-[520px]"
+                         style="filter: invert(1) sepia(1) saturate(1.5) hue-rotate(5deg) brightness(0.82); opacity: 0.90;">
+                </div>
+
+            </div><!-- fin flex -->
          </div>
 
         <div class="absolute bottom-8 left-1/2 -translate-x-1/2 cursor-pointer group z-20" onclick="window.scrollBy({top: window.innerHeight, behavior: 'smooth'})">
