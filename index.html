@@ -8,11 +8,12 @@
     <link rel="stylesheet" href="style.css">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
- 
-    <!-- == SUPABASE + NAVBAR : bloc standard == -->
+
+        <!-- == SUPABASE + NAVBAR : bloc standard à reproduire dans chaque page == -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
     <script src="supabase-init.js"></script>
-    <!-- ======================================= -->
+    <!-- ================================================================== -->
+    <script src="conference.js" defer></script>
 
 </head>
 
@@ -23,43 +24,41 @@
         <div class="greek-column column-right"></div>
     <section class="min-h-screen flex flex-col items-center justify-center relative py-24">
         <div class="hero-container px-6 z-10 max-w-7xl mx-auto w-full">
-            <div class="flex flex-col md:flex-row items-center justify-between gap-16">
 
-                <!-- Texte -->
+            <!-- Section 1 : Titre + Logo côte à côte -->
+            <div class="flex flex-col md:flex-row items-center justify-between gap-16 mb-10">
                 <div class="flex-1 text-left">
-                <div class="relative inline-block mb-8">
-                <h2 class="text-6xl md:text-[8rem] font-heritage italic leading-[1.1]">
-                     Tradition, <br>
-                    <span class="italic text-white opacity-90">Savoir & Exigence</span>
-                </h2>
-
-                <div class="flex justify-center items-center space-x-4 mt-6">
-                    <div class="h-[1px] w-20 bg-[#c5a059]/30"></div>
-                    <span class="text-[#c5a059] text-xl">◈</span>
-                    <div class="h-[1px] w-20 bg-[#c5a059]/30"></div>
+                    <div class="relative inline-block mb-8">
+                        <h2 class="text-2xl md:text-4xl font-sans leading-[1.6] not-italic font-normal w-full max-w-4xl">
+                            <span class="font-bold">A</span>ssociation du <span class="font-bold">T</span>utorat de <br>
+                            <span class="font-bold">P</span>harmacie de <span class="font-bold">R</span>ennes
+                        </h2>
+                        <div class="flex items-center space-x-4 mt-6">
+                            <div class="h-[1px] w-20 bg-[#c5a059]/30"></div>
+                            <span class="text-[#c5a059] text-xl">◈</span>
+                            <div class="h-[1px] w-20 bg-[#c5a059]/30"></div>
+                        </div>
+                    </div>
+                    <p class="text-[13px] tracking-[0.25em] uppercase opacity-70 leading-[2.8] font-light max-w-2xl">
+                       L'Association du tutorat de pharmacie rennais (ATPr) est une institution étudiante historique dédiée à l'apport d'un soutien logistique, moral et intellectuel constant aux étudiants de l'UFR Pharmacie de Rennes.
+                       <br>
+                       <span class="inline-block mt-4">L'association érige en principes fondamentaux l'égalité des chances, la rigueur dans le travail et la réussite académique de chaque membre de notre faculté.</span>
+                    </p>
                 </div>
-            </div>
-                <p class="max-w-5xl mx-auto text-[13px] tracking-[0.25em] uppercase opacity-70 leading-[2.8] mb-12 font-light px-4">
-                   L'Association du tutorat de pharmacie rennais (ATPr) est une institution étudiante historique dédiée à l'apport d'un soutien logistique, moral et intellectuel constant aux étudiants de l'UFR Pharmacie de Rennes.
-                   <br>
-                   <span class="inline-block mt-4">L'association érige en principes fondamentaux l'égalité des chances, la rigueur dans le travail et la réussite académique de chaque membre de notre faculté.</span>
-                </p>
-
-                <div class="flex flex-col md:flex-row items-center justify-center gap-40 mb-12">
-                    <a href="bureau.html" class="btn-outline-gold">Explorer le Bureau</a>
-                    <button onclick="toggleModal('modal-inscription')" class="btn-outline-gold">Devenir membre</button>
-                </div>
-                </div><!-- fin texte -->
-
-                <!-- Logo -->
-                <div class="flex-shrink-0">
-                    <img src="logo1_no_bg.png"
+                <div class="flex-shrink-0" style="margin-top:-80px">
+                    <img src="https://zcueonuffhzrvnktxzpl.supabase.co/storage/v1/object/public/images-atpr/logo-blanc-atpr.png"
                          alt="Logo ATPr"
                          class="w-[320px] md:w-[440px] lg:w-[520px]"
-                         style="filter: invert(1) sepia(1) saturate(1.5) hue-rotate(5deg) brightness(0.82); opacity: 0.90;">
+                         style="opacity:0.90;">
                 </div>
+            </div>
 
-            </div><!-- fin flex -->
+            <!-- Section 2 : Boutons centrés pleine largeur -->
+            <div class="flex flex-col md:flex-row items-center justify-center gap-8 mb-12">
+                <a href="bureau.html" class="btn-outline-gold" style="letter-spacing:0.05em">Explorer le Bureau</a>
+                <button onclick="toggleModal('modal-inscription')" class="btn-outline-gold" style="letter-spacing:0.05em">Devenir membre</button>
+            </div>
+
          </div>
 
         <div class="absolute bottom-8 left-1/2 -translate-x-1/2 cursor-pointer group z-20" onclick="window.scrollBy({top: window.innerHeight, behavior: 'smooth'})">
@@ -410,10 +409,9 @@
 </div>
 
 
-    <!-- Scripts : ordre garanti -->
+    <!-- nav.js puis auth.js : ordre garanti -->
     <script src="nav.js"></script>
     <script src="auth.js"></script>
-    <script src="conference.js"></script>
 </body>
 
 <footer class="bg-[#000000] border-t border-[#c5a059]/20 py-12 px-6 mt-20">
@@ -479,7 +477,6 @@
         </div>
     </div>
 </div>
-
 
 </body>
 </html>
