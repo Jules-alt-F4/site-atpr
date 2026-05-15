@@ -89,7 +89,8 @@ async function handleSignup(event) {
         email,
         password,
         options: {
-            data: { prenom, nom, promo }
+            data: { prenom, nom, promo },
+            emailRedirectTo: window.location.origin + '/index.html'
         }
     });
 
@@ -98,11 +99,22 @@ async function handleSignup(event) {
         return;
     }
 
-    // Afficher le message de succès dans la modale
+    // Afficher message de validation email
     const form       = document.getElementById('form-inscription');
     const successMsg = document.getElementById('success-msg');
-    if (form)       form.style.display       = 'none';
-    if (successMsg) successMsg.style.display = 'block';
+    if (form) form.style.display = 'none';
+    if (successMsg) {
+        successMsg.innerHTML =
+            '<div class="text-center px-4">' +
+            '<div class="text-[#c5a059] text-4xl mb-4">&#9993;</div>' +
+            '<p class="font-heritage italic text-2xl text-[#052e16] mb-3">V&eacute;rifiez votre bo&icirc;te mail</p>' +
+            '<p class="text-[11px] uppercase tracking-widest opacity-60 leading-relaxed">' +
+            'Un email de confirmation a &eacute;t&eacute; envoy&eacute; &agrave;<br>' +
+            '<span class="font-bold text-[#052e16]">' + email + '</span><br><br>' +
+            'Cliquez sur le lien pour activer votre compte.' +
+            '</p></div>';
+        successMsg.style.display = 'block';
+    }
 }
 
 /* =========================
