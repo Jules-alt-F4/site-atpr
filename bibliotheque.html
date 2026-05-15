@@ -7,6 +7,17 @@
     <link rel="stylesheet" href="style.css">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- 1. Supabase EN PREMIER -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        const supabaseUrl = 'https://zcueonuffhzrvnktxzpl.supabase.co';
+        const supabaseKey = 'sb_publishable_yeSb-vYs5ibken1ypPAliQ_L07lvC9a';
+        window.supabase = supabase.createClient(supabaseUrl, supabaseKey);
+    </script>
+
+    <!-- 2. auth.js puis nav.js -->
+    <script src="auth.js"></script>
     <script src="nav.js"></script>
 </head>
 <body class="bg-[#f5f2e8]">
@@ -18,58 +29,35 @@
         </div>
     </main>
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-   <script>
-    const supabaseUrl = 'https://zcueonuffhzrvnktxzpl.supabase.co';
-    const supabaseKey = 'sb_publishable_yeSb-vYs5ibken1ypPAliQ_L07lvC9a';
-
-    // En utilisant window.supabase, on rend l'objet accessible à TOUS les autres fichiers JS
-    window.supabase = supabase.createClient(supabaseUrl, supabaseKey);
-
-
-    </script>
-
-    <script src="nav.js"></script>
-
+    <!-- 3. Vérification session via onAuthStateChange — attend la vraie restauration depuis localStorage -->
     <script>
-document.addEventListener('DOMContentLoaded', async () => {
+    let sessionChecked = false;
 
-    // Charger la navbar
-    if (typeof loadNavbar === 'function') {
-        loadNavbar();
-    }
+    supabase.auth.onAuthStateChange((event, session) => {
 
-    // Vérification session
-    const { data: { session }, error } = await supabase.auth.getSession();
+        // Ne s'exécute qu'une fois au chargement initial
+        if (sessionChecked) return;
+        sessionChecked = true;
 
-    if (error || !session) {
+        if (!session) {
+            // Pas connecté : flouter + afficher popup
+            const mainContent = document.querySelector('main');
+            if (mainContent) {
+                mainContent.style.filter = 'blur(4px)';
+                mainContent.style.pointerEvents = 'none';
+                mainContent.style.userSelect = 'none';
+                mainContent.style.opacity = '0.6';
+            }
 
-        // Affiche immédiatement le popup connexion
-        setTimeout(() => {
-            toggleModal('modal-library-error');
-        }, 150);
+            // Attendre que loadNavbar ait injecté les modales
+            setTimeout(() => {
+                toggleModal('modal-library-error');
+                document.body.classList.add('modal-open');
+            }, 100);
 
-        // Floute et verrouille la bibliothèque
-        document.body.classList.add('modal-open');
-
-        // Empêche interaction avec le contenu
-        const mainContent = document.querySelector('main');
-
-        if (mainContent) {
-            mainContent.style.filter = 'blur(4px)';
-            mainContent.style.pointerEvents = 'none';
-            mainContent.style.userSelect = 'none';
-            mainContent.style.opacity = '0.6';
         }
-
-    } else {
-
-        // Session OK
-        document.body.style.opacity = '1';
-    }
-});
-
+        // Si session OK : rien à faire, nav.js gère déjà updateUI()
+    });
     </script>
 
 </body>
