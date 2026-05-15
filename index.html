@@ -4,10 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>ATPR</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
     <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- 1. SDK Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <!-- 2. Initialisation window.supabase -->
+    <script>
+        const SUPABASE_URL = "https://zcueonuffhzrvnktxzpl.supabase.co";
+        const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpjdWVvbnVmZmh6cnZua3R4enBsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2ODkzODQsImV4cCI6MjA5NDI2NTM4NH0.oq8tqUKohvmiRkopSRu4BBx9OfaVXsgXhY3MxIkfZD0";
+        window.supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    </script>
+
+    <!-- 3. Scripts applicatifs (defer = après le DOM, Supabase déjà prêt) -->
+    <script src="auth.js" defer></script>
+    <script src="conference.js" defer></script>
+
 </head>
 
 <body>
@@ -310,22 +325,87 @@
     </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-<script>
-    const supabaseUrl = 'https://zcueonuffhzrvnktxzpl.supabase.co';
-    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpjdWVvbnVmZmh6cnZua3R4enBsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2ODkzODQsImV4cCI6MjA5NDI2NTM4NH0.oq8tqUKohvmiRkopSRu4BBx9OfaVXsgXhY3MxIkfZD0';
+<!-- Scripts chargés dans le <head> -->
 
-    // En utilisant window.supabase, on rend l'objet accessible à TOUS les autres fichiers JS
-    window.supabase = supabase.createClient(supabaseUrl, supabaseKey);
-</script>
+<div id="modal-compte" class="modal-overlay" onclick="if(event.target === this) toggleModal('modal-compte')">
+    <div class="max-w-3xl mx-auto flex flex-col md:flex-row auth-frame-gold w-full mx-4">
+        <div class="auth-column auth-column-left"></div>
+        <div class="auth-column auth-column-right"></div>
+        <button onclick="toggleModal('modal-compte')" class="absolute top-3 right-4 z-50 text-black/40 hover:text-black">✕</button>
 
-<script src="conference.js"></script>
+        <!-- Colonne gauche verte — compacte -->
+        <div class="md:w-2/7 bg-[#052e16] px-8 py-8 text-white flex flex-col justify-center relative overflow-hidden" style="min-width:180px;max-width:220px">
+            <div class="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/marble-white.png')]"></div>
+            <span class="text-[9px] tracking-[0.4em] uppercase text-[#c5a059] mb-3 block z-10">Espace Membre</span>
+            <h2 class="text-2xl font-heritage italic mb-4 z-10 leading-tight">Mon <br>Compte</h2>
+            <div class="h-[1px] w-12 bg-[#c5a059] mb-4 z-10"></div>
+            <p class="text-[11px] leading-loose opacity-60 z-10 tracking-[0.15em] uppercase">Informations de votre adhésion.</p>
+        </div>
 
-<script src="auth.js"></script>
+        <!-- Colonne droite parchemin — padding réduit -->
+        <div class="flex-1 px-8 py-7 relative bg-[#f5f2e8]">
+            <div class="auth-column auth-column-left"></div>
+            <div class="auth-column auth-column-right"></div>
+            <div class="relative z-10">
 
-<script src="nav.js"></script>
+                <h3 class="font-heritage italic text-2xl text-center text-[#1a1a1a] mb-5">Profil</h3>
 
+                <!-- Ligne 1 : Prénom / Nom -->
+                <div class="grid grid-cols-2 gap-x-5 mb-4">
+                    <div>
+                        <p class="text-[11px] uppercase tracking-widest opacity-50 text-black mb-1">Prénom</p>
+                        <p id="compte-prenom" class="text-sm font-semibold text-[#052e16] border-b border-black/10 pb-1">—</p>
+                    </div>
+                    <div>
+                        <p class="text-[11px] uppercase tracking-widest opacity-50 text-black mb-1">Nom</p>
+                        <p id="compte-nom" class="text-sm font-semibold text-[#052e16] border-b border-black/10 pb-1">—</p>
+                    </div>
+                </div>
+
+                <!-- Ligne 2 : Promotion centrée -->
+                <div class="flex justify-center mb-4">
+                    <div class="w-1/2 text-center">
+                        <p class="text-[11px] uppercase tracking-widest opacity-50 text-black mb-1">Promotion</p>
+                        <p id="compte-promo" class="text-sm font-semibold text-[#052e16] border-b border-black/10 pb-1">—</p>
+                    </div>
+                </div>
+
+                <!-- Ligne 3 : Email pleine largeur -->
+                <div class="mb-4">
+                    <p class="text-[11px] uppercase tracking-widest opacity-50 text-black mb-1">Adresse e-mail</p>
+                    <p id="compte-email" class="text-sm font-semibold text-[#052e16] border-b border-black/10 pb-1">—</p>
+                </div>
+
+                <!-- Séparateur -->
+                <div class="flex items-center gap-2 my-4">
+                    <div class="flex-1 h-[1px] bg-[#c5a059]/30"></div>
+                    <span class="text-[#c5a059] text-[10px]">◈</span>
+                    <div class="flex-1 h-[1px] bg-[#c5a059]/30"></div>
+                </div>
+
+                <!-- Changement de mot de passe -->
+                <div class="space-y-2 mb-3">
+                    <input type="password" id="compte-mdp-nouveau" class="auth-input" placeholder="Nouveau mot de passe">
+                    <input type="password" id="compte-mdp-confirm" class="auth-input" placeholder="Confirmer le mot de passe">
+                    <p id="compte-mdp-msg" class="text-[11px] tracking-wide" style="display:none"></p>
+                </div>
+                <button onclick="handleChangePassword()" class="auth-submit-btn w-full shadow-sm">Mettre à jour le mot de passe</button>
+
+                <!-- Déconnexion -->
+                <div class="mt-4 text-center border-t border-black/5 pt-4">
+                    <button onclick="toggleModal('modal-compte'); handleLogout();" class="text-[11px] font-bold text-[#c5a059] uppercase tracking-widest hover:underline">
+                        Se déconnecter
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+    <!-- nav.js en dernier, sans defer, pour que toggleModal soit dispo au clic -->
+    <script src="nav.js"></script>
 </body>
 
 <footer class="bg-[#000000] border-t border-[#c5a059]/20 py-12 px-6 mt-20">
@@ -370,7 +450,7 @@
     </div>
 </footer>
 
-<div id="modal-library-error" class="modal-overlay hidden" onclick="if(event.target === this) toggleModal('modal-library-error')">
+<div id="modal-library-error" class="modal-overlay" onclick="if(event.target === this) toggleModal('modal-library-error')">
     <div class="max-w-md mx-auto bg-[#f5f2e8] p-12 auth-frame-gold relative text-center">
         <div class="auth-column auth-column-left"></div>
         <div class="auth-column auth-column-right"></div>
