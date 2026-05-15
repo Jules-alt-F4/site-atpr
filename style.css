@@ -579,3 +579,10 @@
 .modal-overlay.modal-active {
     display: flex !important;
 }
+
+/* Recentrage vertical des modales auth */
+#modal-login.modal-active,
+#modal-inscription.modal-active {
+    align-items: flex-start;
+    padding-top: 140px;
+}
