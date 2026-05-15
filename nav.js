@@ -1,197 +1,179 @@
-// Variable pour éviter les clics multiples
-let isProcessingLibrary = false;
-
 /* =========================
-   MODALES — HTML
+   INJECTION DE LA NAVBAR
 ========================= */
+function injectNavbar() {
+    // 1. Sécurité : Ne pas injecter deux fois
+    if (document.getElementById('main-nav')) return;
 
-function injectGlobalModals() {
-
-    if (document.getElementById('modal-login')) return;
-
-    const modalsHTML = `
-    <div id="modal-login" class="modal-overlay hidden" onclick="if(event.target === this) toggleModal('modal-login')">
-        <div class="max-w-md mx-auto bg-[#f5f2e8] p-10 auth-frame-gold relative text-center">
-            <h3 class="font-heritage italic text-3xl text-[#052e16] mb-6">Connexion</h3>
-            <form id="login-form" class="space-y-4">
-                <input type="email" id="login-email" class="auth-input" placeholder="Email" required>
-                <input type="password" id="login-password" class="auth-input" placeholder="Mot de passe" required>
-                <button type="submit" class="auth-submit-btn w-full">Se connecter</button>
-            </form>
-            <button onclick="switchModal('modal-login', 'modal-inscription')"
-                class="mt-6 text-[10px] uppercase tracking-widest text-[#c5a059] hover:underline">
-                Creer un compte
-            </button>
-        </div>
-    </div>
-
-    <div id="modal-inscription" class="modal-overlay hidden" onclick="if(event.target === this) toggleModal('modal-inscription')">
-        <div class="max-w-md mx-auto bg-[#f5f2e8] p-10 auth-frame-gold relative text-center">
-            <h3 class="font-heritage italic text-3xl text-[#052e16] mb-6">Inscription</h3>
-            <form id="signup-form" class="space-y-4">
-                <input type="email" id="signup-email" class="auth-input" placeholder="Email" required>
-                <input type="password" id="signup-password" class="auth-input" placeholder="Mot de passe" required>
-                <button type="submit" class="auth-submit-btn w-full">S'inscrire</button>
-            </form>
-            <button onclick="switchModal('modal-inscription', 'modal-login')"
-                class="mt-6 text-[10px] uppercase tracking-widest text-[#c5a059] hover:underline">
-                Deja membre ?
-            </button>
-        </div>
-    </div>
-
-    <div id="modal-library-error" class="modal-overlay hidden" onclick="if(event.target === this) toggleModal('modal-library-error')">
-        <div class="max-w-md mx-auto bg-[#f5f2e8] p-12 auth-frame-gold relative text-center">
-            <div class="mb-6 text-[#c5a059] text-4xl"><i class="fas fa-lock"></i></div>
-            <h3 class="font-heritage italic text-3xl text-[#052e16] mb-4">Acces Restreint</h3>
-            <p class="text-[11px] uppercase tracking-widest leading-loose opacity-70 mb-8 text-black">
-                La consultation des archives et ressources de l'institution est exclusivement reservee aux membres de l'ATPr.
-            </p>
-            <div class="flex flex-col gap-4">
-                <button onclick="switchModal('modal-library-error', 'modal-login')" class="auth-submit-btn w-full">S'identifier</button>
-                <button onclick="switchModal('modal-library-error', 'modal-inscription')"
-                    class="text-[10px] uppercase font-bold tracking-widest text-[#c5a059] hover:underline">Devenir membre</button>
-            </div>
-        </div>
-    </div>
-    `;
-
-    document.body.insertAdjacentHTML('beforeend', modalsHTML);
-}
-
-function initAuthForms() {
-    const loginForm = document.getElementById('login-form');
-    if (loginForm && !loginForm.dataset.initialized) {
-        loginForm.onsubmit = handleLogin;
-        loginForm.dataset.initialized = 'true';
-    }
-    const signupForm = document.getElementById('signup-form');
-    if (signupForm && !signupForm.dataset.initialized) {
-        signupForm.onsubmit = handleSignup;
-        signupForm.dataset.initialized = 'true';
-    }
-}
-
-/* =========================
-   NAVBAR
-========================= */
-
-function loadNavbar() {
-
+    // 2. Le HTML de la barre
     const navHTML = `
-    <nav class="nav-floating">
+    <nav id="main-nav" class="nav-floating">
         <div class="nav-left">
             <a href="index.html" class="logo-text">ATPr</a>
         </div>
         <div class="nav-center-group">
             <a href="index.html#presentation-association" class="nav-link">L'Institution</a>
             <a href="bureau.html" class="nav-link">Le Bureau</a>
-            <button type="button" onclick="handleLibraryAccess(event)" class="nav-link" id="lib-btn">Bibliotheque</button>
+            <a href="bibliotheque.html" class="nav-link">Bibliothèque</a>
         </div>
         <div class="nav-right">
-            <div id="auth-guest" class="auth-flex flex">
-                <button type="button" onclick="switchModal('modal-inscription', 'modal-login')" class="nav-link-auth">Connexion</button>
-                <button type="button" onclick="switchModal('modal-login', 'modal-inscription')" class="btn-join">S'inscrire</button>
+            <div id="auth-guest" class="auth-flex">
+                <button type="button" onclick="toggleModal('modal-login')" class="nav-link-auth">Connexion</button>
+                <button type="button" onclick="toggleModal('modal-inscription')" class="btn-join">S'inscrire</button>
             </div>
-            <div id="auth-user" class="auth-flex hidden">
-                <button type="button" class="nav-link-auth" disabled>Mon Compte</button>
-                <button type="button" onclick="handleLogout()" class="nav-link-auth">Deconnexion</button>
+            <div id="auth-user" class="auth-flex" style="display:none">
+                <button type="button" onclick="openCompte()" class="nav-link-auth">Mon Compte</button>
+                <button type="button" onclick="handleLogout()" class="btn-join">Déconnexion</button>
             </div>
         </div>
-    </nav>
-    `;
+    </nav>`;
 
     document.body.insertAdjacentHTML('afterbegin', navHTML);
-    injectGlobalModals();
-    initAuthForms();
-    if (typeof highlightActiveLink === 'function') highlightActiveLink();
 
-    // ==========================================================
-    // onAuthStateChange enregistre ICI — apres injection navbar
-    // Supabase fire INITIAL_SESSION immediatement a l'abonnement
-    // => auth-guest / auth-user existent deja dans le DOM
-    // ==========================================================
-    supabase.auth.onAuthStateChange(async (event, session) => {
+    // 3. Une fois la navbar injectée, on attend que Supabase soit prêt
+    //    puis on branche le listener temps réel
+    waitForSupabaseThenListen();
+}
 
-        await updateUI();
+/* =========================
+   ATTENTE DE SUPABASE
+========================= */
+function waitForSupabaseThenListen() {
+    // Supabase peut ne pas être encore initialisé au moment de l'injection,
+    // on retente toutes les 50ms jusqu'à ce qu'il soit disponible.
+    if (!window.supabase) {
+        setTimeout(waitForSupabaseThenListen, 50);
+        return;
+    }
 
-        if (session) {
-            ['modal-login', 'modal-inscription', 'modal-library-error'].forEach(id => {
-                const modal = document.getElementById(id);
-                if (!modal) return;
-                modal.classList.add('hidden');
-                modal.classList.remove('modal-active');
-            });
-            document.body.classList.remove('modal-open');
+    // Lecture de la session actuelle (pour l'état initial au chargement)
+    window.supabase.auth.getSession().then(({ data: { session } }) => {
+        applyAuthState(session);
+    });
 
-            // Retire le flou bibliotheque si l'utilisateur vient de se connecter
-            const mainContent = document.querySelector('main');
-            if (mainContent && mainContent.style.filter) {
-                mainContent.style.filter = '';
-                mainContent.style.pointerEvents = '';
-                mainContent.style.userSelect = '';
-                mainContent.style.opacity = '';
-            }
-        }
+    // Listener temps réel : se déclenche à chaque connexion / déconnexion
+    window.supabase.auth.onAuthStateChange((_event, session) => {
+        applyAuthState(session);
     });
 }
 
 /* =========================
-   BIBLIOTHEQUE
+   LOGIQUE D'AFFICHAGE (UI)
 ========================= */
+function applyAuthState(session) {
+    const guest = document.getElementById('auth-guest');
+    const user  = document.getElementById('auth-user');
+    if (!guest || !user) return;
 
-async function handleLibraryAccess(event) {
-    if (event) event.preventDefault();
-    if (isProcessingLibrary) return;
-    isProcessingLibrary = true;
-    window.location.href = 'bibliotheque.html';
-    isProcessingLibrary = false;
+    if (session) {
+        // Utilisateur connecté → afficher "Mon Compte / Déconnexion"
+        guest.style.display = 'none';
+        user.style.display  = 'flex';
+    } else {
+        // Aucune session → afficher "Connexion / S'inscrire"
+        user.style.display  = 'none';
+        guest.style.display = 'flex';
+    }
 }
 
-/* =========================
-   MODALES — FONCTIONS
-========================= */
+// Compatibilité ascendante (appelée depuis auth.js si besoin)
+window.updateUI = function() {
+    if (!window.supabase) return;
+    window.supabase.auth.getSession().then(({ data: { session } }) => {
+        applyAuthState(session);
+    });
+};
 
-function toggleModal(modalId) {
-    const modal = document.getElementById(modalId);
-    if (!modal) {
-        console.warn('Modale introuvable :', modalId);
-        return;
-    }
-    const isHidden = modal.classList.contains('hidden');
-    if (isHidden) {
-        modal.classList.remove('hidden');
-        modal.classList.add('modal-active');
+/* =========================
+   FONCTIONS GLOBALES
+========================= */
+window.toggleModal = function(id) {
+    const m = document.getElementById(id);
+    if (!m) return;
+
+    const isOpening = (m.style.display === 'none' || m.style.display === '');
+
+    if (isOpening) {
+        // Compenser la scrollbar avant de la cacher
+        const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+        document.documentElement.style.setProperty('--scrollbar-width', scrollbarWidth + 'px');
+        m.style.display = 'flex';
         document.body.classList.add('modal-open');
     } else {
-        modal.classList.add('hidden');
-        modal.classList.remove('modal-active');
-        document.body.classList.remove('modal-open');
+        m.style.display = 'none';
+        // Retirer modal-open seulement si aucune autre modale n'est ouverte
+        const anyOpen = Array.from(document.querySelectorAll('.modal-overlay'))
+            .some(el => el.style.display === 'flex');
+        if (!anyOpen) {
+            document.body.classList.remove('modal-open');
+            document.documentElement.style.setProperty('--scrollbar-width', '0px');
+        }
     }
-}
+};
 
-function switchModal(closeModalId, openModalId) {
-    const closeModal = document.getElementById(closeModalId);
-    const openModal = document.getElementById(openModalId);
-    if (closeModal) {
-        closeModal.classList.add('hidden');
-        closeModal.classList.remove('modal-active');
+window.openCompte = async function() {
+    if (!window.supabase) return;
+    const { data: { session } } = await window.supabase.auth.getSession();
+    if (!session) return;
+
+    const user = session.user;
+    const meta = user.user_metadata || {};
+
+    // Infos figées
+    const set = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val || '—'; };
+    set('compte-prenom', meta.prenom || meta.first_name);
+    set('compte-nom',    meta.nom    || meta.last_name);
+    set('compte-promo',  meta.promo  || meta.promotion);
+    set('compte-email',  user.email);
+
+    // Réinitialiser le formulaire mdp
+    ['compte-mdp-nouveau', 'compte-mdp-confirm'].forEach(id => {
+        const el = document.getElementById(id); if (el) el.value = '';
+    });
+    const msg = document.getElementById('compte-mdp-msg');
+    if (msg) { msg.textContent = ''; msg.style.display = 'none'; }
+
+    window.toggleModal('modal-compte');
+};
+
+window.handleChangePassword = async function() {
+    const nouveau  = document.getElementById('compte-mdp-nouveau')?.value || '';
+    const confirm  = document.getElementById('compte-mdp-confirm')?.value || '';
+    const msg      = document.getElementById('compte-mdp-msg');
+
+    const showMsg = (text, color) => {
+        if (!msg) return;
+        msg.textContent = text;
+        msg.style.color = color;
+        msg.style.display = 'block';
+    };
+
+    if (!nouveau || nouveau.length < 6) return showMsg('Le mot de passe doit contenir au moins 6 caractères.', '#dc2626');
+    if (nouveau !== confirm)            return showMsg('Les mots de passe ne correspondent pas.', '#dc2626');
+
+    const { error } = await window.supabase.auth.updateUser({ password: nouveau });
+
+    if (error) return showMsg(error.message, '#dc2626');
+
+    showMsg('Mot de passe mis à jour avec succès.', '#16a34a');
+    document.getElementById('compte-mdp-nouveau').value = '';
+    document.getElementById('compte-mdp-confirm').value = '';
+};
+
+window.handleLogout = async function() {
+    await window.supabase.auth.signOut();
+    window.location.reload();
+};
+
+window.handleLibraryAccess = async function(e) {
+    e.preventDefault();
+    const { data: { session } } = await window.supabase.auth.getSession();
+    if (!session) {
+        window.toggleModal('modal-library-error');
+    } else {
+        window.location.href = 'bibliotheque.html';
     }
-    if (openModal) {
-        openModal.classList.remove('hidden');
-        openModal.classList.add('modal-active');
-    }
-    document.body.classList.add('modal-open');
-}
+};
 
-/* =========================
-   INIT
-========================= */
-
-document.addEventListener('DOMContentLoaded', loadNavbar);
-
-// Expose au HTML inline
-window.handleLogout = handleLogout;
-window.toggleModal = toggleModal;
-window.switchModal = switchModal;
-window.handleLibraryAccess = handleLibraryAccess;
+// Lancement automatique
+document.addEventListener('DOMContentLoaded', injectNavbar);
