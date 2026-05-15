@@ -8,17 +8,19 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-    <!-- 1. Supabase EN PREMIER -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script>
-        const supabaseUrl = 'https://zcueonuffhzrvnktxzpl.supabase.co';
-        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpjdWVvbnVmZmh6cnZua3R4enBsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2ODkzODQsImV4cCI6MjA5NDI2NTM4NH0.oq8tqUKohvmiRkopSRu4BBx9OfaVXsgXhY3MxIkfZD0';
-        window.supabase = supabase.createClient(supabaseUrl, supabaseKey);
-    </script>
+<script>
+    // Remplacez par vos vraies clés
+    const SUPABASE_URL = "https://zcueonuffhzrvnktxzpl.supabase.co";
+    const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpjdWVvbnVmZmh6cnZua3R4enBsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2ODkzODQsImV4cCI6MjA5NDI2NTM4NH0.oq8tqUKohvmiRkopSRu4BBx9OfaVXsgXhY3MxIkfZD0";
+    
+    // Initialisation globale pour que tous les autres scripts (nav.js, auth.js) y aient accès
+    window.supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    
+    console.log("Supabase initialisé en local sur la page.");
+</script>
 
-    <!-- 2. auth.js puis nav.js -->
-    <script src="auth.js"></script>
-    <script src="nav.js"></script>
+<script src="nav.js"></script>
+<script src="auth.js" defer></script>
 </head>
 <body class="bg-[#f5f2e8]">
 
