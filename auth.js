@@ -63,10 +63,7 @@ async function handleLogin(event) {
 
             // Ferme popup proprement via toggleModal
             if (typeof window.toggleModal === 'function') {
-                const modal = document.getElementById('modal-login');
-                if (modal && !modal.classList.contains('hidden')) {
-                    window.toggleModal('modal-login');
-                }
+                window.toggleModal('modal-login');
             }
 
             // Update navbar (défini dans nav.js)
@@ -85,14 +82,29 @@ async function handleSignup(event) {
 
     event.preventDefault();
 
-    const form = event.target;
+    // Lire les champs du formulaire par leur ID
+    const prenom   = document.getElementById('ins-prenom')?.value.trim() || '';
+    const nom      = document.getElementById('ins-nom')?.value.trim() || '';
+    const promo    = document.getElementById('ins-promo')?.value || '';
+    const email    = document.getElementById('ins-email')?.value.trim() || '';
+    const password = document.getElementById('ins-mdp')?.value || '';
+    const confirm  = document.getElementById('ins-mdp-conf')?.value || '';
 
-    const email = form.querySelector('input[type="email"]').value;
-    const password = form.querySelector('input[type="password"]').value;
+    if (password !== confirm) {
+        alert("Les mots de passe ne correspondent pas.");
+        return;
+    }
 
     const { data, error } = await window.supabase.auth.signUp({
         email,
-        password
+        password,
+        options: {
+            data: {
+                prenom,
+                nom,
+                promo
+            }
+        }
     });
 
     if (error) {
@@ -100,14 +112,11 @@ async function handleSignup(event) {
         return;
     }
 
-    alert("Compte créé avec succès.");
-
-    // Fermer inscription, ouvrir connexion
-    if (typeof window.toggleModal === 'function') {
-        const ins = document.getElementById('modal-inscription');
-        if (ins && !ins.classList.contains('hidden')) window.toggleModal('modal-inscription');
-        window.toggleModal('modal-login');
-    }
+    // Afficher le message de succès dans la modale
+    const form = document.getElementById('form-inscription');
+    const successMsg = document.getElementById('success-msg');
+    if (form) form.style.display = 'none';
+    if (successMsg) successMsg.style.display = 'block';
 }
 
 
