@@ -8,20 +8,11 @@
     <link rel="stylesheet" href="style.css">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
-    <!-- 1. SDK Supabase -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-    <!-- 2. Initialisation window.supabase -->
-    <script>
-        const SUPABASE_URL = "https://zcueonuffhzrvnktxzpl.supabase.co";
-        const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpjdWVvbnVmZmh6cnZua3R4enBsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2ODkzODQsImV4cCI6MjA5NDI2NTM4NH0.oq8tqUKohvmiRkopSRu4BBx9OfaVXsgXhY3MxIkfZD0";
-        window.supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-    </script>
-
-    <!-- 3. Scripts applicatifs (defer = après le DOM, Supabase déjà prêt) -->
-    <script src="auth.js" defer></script>
-    <script src="conference.js" defer></script>
+ 
+    <!-- == SUPABASE + NAVBAR : bloc standard == -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+    <script src="supabase-init.js"></script>
+    <!-- ======================================= -->
 
 </head>
 
@@ -404,8 +395,9 @@
 </div>
 
 
-    <!-- nav.js en dernier, sans defer, pour que toggleModal soit dispo au clic -->
+    <!-- nav.js puis auth.js : ordre garanti -->
     <script src="nav.js"></script>
+    <script src="auth.js"></script>
 </body>
 
 <footer class="bg-[#000000] border-t border-[#c5a059]/20 py-12 px-6 mt-20">
@@ -472,5 +464,8 @@
     </div>
 </div>
 
+
+    <script src="nav.js"></script>
+    <script src="auth.js"></script>
 </body>
 </html>
