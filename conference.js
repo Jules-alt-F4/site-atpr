@@ -1,4 +1,31 @@
-// conference.js
+ type="module"
+    import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+
+    const supabaseUrl = 'https://zcueonuffhzrvnktxzpl.supabase.co';
+    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpjdWVvbnVmZmh6cnZua3R4enBsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2ODkzODQsImV4cCI6MjA5NDI2NTM4NH0.oq8tqUKohvmiRkopSRu4BBx9OfaVXsgXhY3MxIkfZD0';
+
+    // Initialisation de Supabase avec persistance de la session
+    const supabase = createClient(supabaseUrl, supabaseKey, {
+        auth: {
+            storage: {
+                getItem: (key) => localStorage.getItem(key),
+                setItem: (key, value) => localStorage.setItem(key, value),
+                removeItem: (key) => localStorage.removeItem(key),
+            },
+            autoRefreshToken: true,
+            persistSession: true,
+            detectSessionInUrl: true,
+        },
+    });
+
+    // Rendre `supabase` accessible globalement
+    window.supabase = supabase;
+
+    // Vérifier la session au chargement de la page
+    document.addEventListener('DOMContentLoaded', async () => {
+        await loadNavbar(); // Charge la navbar
+        await updateUI();  // Met à jour l'UI en fonction de la session
+    });
 
 async function fetchConferences() {
     const listElement = document.getElementById('conference-list');
