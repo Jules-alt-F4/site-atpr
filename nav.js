@@ -19,6 +19,7 @@ function injectNavbar() {
             <a href="index.html#presentation-association" class="nav-link">L'Institution</a>
             <a href="bureau.html" class="nav-link">Le Bureau</a>
             <a href="bibliotheque.html" class="nav-link">Bibliothèque</a>
+            <a href="pole-methodo.html" class="nav-link">Pôle Méthodo</a>
         </div>
         <div class="nav-right">
             <div id="auth-guest" class="auth-flex">
