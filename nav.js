@@ -9,16 +9,16 @@ function injectNavbar() {
     const navHTML = `
     <nav id="main-nav" class="nav-floating">
         <div class="nav-left">
-            <a href="index.html" class="logo-text" style="display:flex;align-items:center;gap:8px;">
+            <a href="/index.html" class="logo-text" style="display:flex;align-items:center;gap:8px;">
                 <img src="https://zcueonuffhzrvnktxzpl.supabase.co/storage/v1/object/public/images-atpr/logo-noir-atpr.png"
                      alt="Logo ATPr"
                      style="height:52px;width:auto;object-fit:contain;flex-shrink:0;">
             </a>
         </div>
         <div class="nav-center-group">
-            <a href="index.html#presentation-association" class="nav-link">L'Institution</a>
+            <a href="/index.html#presentation-association" class="nav-link">L'Institution</a>
             <a href="bureau.html" class="nav-link">Le Bureau</a>
-            <a href="bibliotheque.html" class="nav-link">Bibliothèque</a>
+            <a href="/bibliotheque.html" class="nav-link">Bibliothèque</a>
             <a href="pole-methodo.html" class="nav-link">Pôle Méthodo</a>
         </div>
         <div class="nav-right">
@@ -176,7 +176,7 @@ window.handleLibraryAccess = async function(e) {
     if (!session) {
         window.toggleModal('modal-library-error');
     } else {
-        window.location.href = 'bibliotheque.html';
+        window.location.href = '/bibliotheque.html';
     }
 };
 
