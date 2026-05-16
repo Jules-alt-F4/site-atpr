@@ -78,35 +78,6 @@
     </main>
 
     <!-- 3. Vérification session via onAuthStateChange — attend la vraie restauration depuis localStorage -->
-    <script>
-    let sessionChecked = false;
-
-    supabase.auth.onAuthStateChange((event, session) => {
-
-        // Ne s'exécute qu'une fois au chargement initial
-        if (sessionChecked) return;
-        sessionChecked = true;
-
-        if (!session) {
-            // Pas connecté : flouter + afficher popup
-            const mainContent = document.querySelector('main');
-            if (mainContent) {
-                mainContent.style.filter = 'blur(4px)';
-                mainContent.style.pointerEvents = 'none';
-                mainContent.style.userSelect = 'none';
-                mainContent.style.opacity = '0.6';
-            }
-
-            // Attendre que loadNavbar ait injecté les modales
-            setTimeout(() => {
-                toggleModal('modal-library-error');
-                document.body.classList.add('modal-open');
-            }, 100);
-
-        }
-        // Si session OK : rien à faire, nav.js gère déjà updateUI()
-    });
-    </script>
     <script src="nav.js"></script>
     <script src="auth.js"></script>
 </body>
