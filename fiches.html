@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bibliothèque — ATPR</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+ 
+    <!-- == SUPABASE + NAVBAR : bloc standard == -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+    <script src="supabase-init.js"></script>
+    <!-- ======================================= -->
+
+</head>
+<body class="bg-[#f5f2e8]">
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 680 480' preserveAspectRatio='xMidYMid slice' style='position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;opacity:0.4;'>
+
+<!-- ÉTAGÈRES GAUCHE -->
+<line x1='0' y1='0' x2='0' y2='440' stroke='%23c5a059' stroke-width='1.0' stroke-opacity='0.45'/>
+<line x1='222' y1='0' x2='222' y2='440' stroke='%23c5a059' stroke-width='1.0' stroke-opacity='0.45'/>
+<line x1='110' y1='0' x2='110' y2='440' stroke='%23c5a059' stroke-width='0.5' stroke-opacity='0.28'/>
+<line x1='0' y1='0' x2='222' y2='0' stroke='%23c5a059' stroke-width='0.8' stroke-opacity='0.4'/>
+<line x1='0' y1='73' x2='222' y2='73' stroke='%23c5a059' stroke-width='0.8' stroke-opacity='0.4'/>
+<line x1='0' y1='146' x2='222' y2='146' stroke='%23c5a059' stroke-width='0.8' stroke-opacity='0.4'/>
+<line x1='0' y1='219' x2='222' y2='219' stroke='%23c5a059' stroke-width='0.8' stroke-opacity='0.4'/>
+<line x1='0' y1='292' x2='222' y2='292' stroke='%23c5a059' stroke-width='0.8' stroke-opacity='0.4'/>
+<line x1='0' y1='365' x2='222' y2='365' stroke='%23c5a059' stroke-width='0.8' stroke-opacity='0.4'/>
+<line x1='0' y1='440' x2='222' y2='440' stroke='%23c5a059' stroke-width='0.8' stroke-opacity='0.4'/>
+<g stroke='%23c5a059' stroke-opacity='0.26' stroke-width='0.45'>
+<line x1='8' y1='5' x2='8' y2='68'/><line x1='19' y1='5' x2='19' y2='68'/><line x1='31' y1='5' x2='31' y2='68'/><line x1='42' y1='5' x2='42' y2='68'/><line x1='54' y1='5' x2='54' y2='68'/><line x1='65' y1='5' x2='65' y2='68'/><line x1='77' y1='5' x2='77' y2='68'/><line x1='88' y1='5' x2='88' y2='68'/><line x1='100' y1='5' x2='100' y2='68'/><line x1='118' y1='5' x2='118' y2='68'/><line x1='130' y1='5' x2='130' y2='68'/><line x1='141' y1='5' x2='141' y2='68'/><line x1='153' y1='5' x2='153' y2='68'/><line x1='164' y1='5' x2='164' y2='68'/><line x1='176' y1='5' x2='176' y2='68'/><line x1='187' y1='5' x2='187' y2='68'/><line x1='199' y1='5' x2='199' y2='68'/><line x1='210' y1='5' x2='210' y2='68'/>
+<line x1='8' y1='78' x2='8' y2='141'/><line x1='20' y1='78' x2='20' y2='141'/><line x1='32' y1='78' x2='32' y2='141'/><line x1='44' y1='78' x2='44' y2='141'/><line x1='56' y1='78' x2='56' y2='141'/><line x1='67' y1='78' x2='67' y2='141'/><line x1='79' y1='78' x2='79' y2='141'/><line x1='90' y1='78' x2='90' y2='141'/><line x1='102' y1='78' x2='102' y2='141'/><line x1='119' y1='78' x2='119' y2='141'/><line x1='131' y1='78' x2='131' y2='141'/><line x1='143' y1='78' x2='143' y2='141'/><line x1='154' y1='78' x2='154' y2='141'/><line x1='166' y1='78' x2='166' y2='141'/><line x1='178' y1='78' x2='178' y2='141'/><line x1='189' y1='78' x2='189' y2='141'/><line x1='201' y1='78' x2='201' y2='141'/><line x1='212' y1='78' x2='212' y2='141'/>
+<line x1='8' y1='151' x2='8' y2='214'/><line x1='20' y1='151' x2='20' y2='214'/><line x1='33' y1='151' x2='33' y2='214'/><line x1='45' y1='151' x2='45' y2='214'/><line x1='57' y1='151' x2='57' y2='214'/><line x1='68' y1='151' x2='68' y2='214'/><line x1='80' y1='151' x2='80' y2='214'/><line x1='91' y1='151' x2='91' y2='214'/><line x1='103' y1='151' x2='103' y2='214'/><line x1='120' y1='151' x2='120' y2='214'/><line x1='132' y1='151' x2='132' y2='214'/><line x1='144' y1='151' x2='144' y2='214'/><line x1='155' y1='151' x2='155' y2='214'/><line x1='167' y1='151' x2='167' y2='214'/><line x1='179' y1='151' x2='179' y2='214'/><line x1='190' y1='151' x2='190' y2='214'/><line x1='202' y1='151' x2='202' y2='214'/><line x1='213' y1='151' x2='213' y2='214'/>
+<line x1='7' y1='224' x2='7' y2='287'/><line x1='19' y1='224' x2='19' y2='287'/><line x1='32' y1='224' x2='32' y2='287'/><line x1='44' y1='224' x2='44' y2='287'/><line x1='56' y1='224' x2='56' y2='287'/><line x1='67' y1='224' x2='67' y2='287'/><line x1='79' y1='224' x2='79' y2='287'/><line x1='90' y1='224' x2='90' y2='287'/><line x1='102' y1='224' x2='102' y2='287'/><line x1='119' y1='224' x2='119' y2='287'/><line x1='131' y1='224' x2='131' y2='287'/><line x1='143' y1='224' x2='143' y2='287'/><line x1='154' y1='224' x2='154' y2='287'/><line x1='166' y1='224' x2='166' y2='287'/><line x1='178' y1='224' x2='178' y2='287'/><line x1='189' y1='224' x2='189' y2='287'/><line x1='201' y1='224' x2='201' y2='287'/><line x1='212' y1='224' x2='212' y2='287'/>
+<line x1='8' y1='297' x2='8' y2='360'/><line x1='20' y1='297' x2='20' y2='360'/><line x1='33' y1='297' x2='33' y2='360'/><line x1='45' y1='297' x2='45' y2='360'/><line x1='57' y1='297' x2='57' y2='360'/><line x1='68' y1='297' x2='68' y2='360'/><line x1='80' y1='297' x2='80' y2='360'/><line x1='91' y1='297' x2='91' y2='360'/><line x1='103' y1='297' x2='103' y2='360'/><line x1='120' y1='297' x2='120' y2='360'/><line x1='132' y1='297' x2='132' y2='360'/><line x1='144' y1='297' x2='144' y2='360'/><line x1='155' y1='297' x2='155' y2='360'/><line x1='167' y1='297' x2='167' y2='360'/><line x1='179' y1='297' x2='179' y2='360'/><line x1='190' y1='297' x2='190' y2='360'/><line x1='202' y1='297' x2='202' y2='360'/><line x1='213' y1='297' x2='213' y2='360'/>
+<line x1='7' y1='370' x2='7' y2='435'/><line x1='19' y1='370' x2='19' y2='435'/><line x1='32' y1='370' x2='32' y2='435'/><line x1='44' y1='370' x2='44' y2='435'/><line x1='56' y1='370' x2='56' y2='435'/><line x1='67' y1='370' x2='67' y2='435'/><line x1='79' y1='370' x2='79' y2='435'/><line x1='90' y1='370' x2='90' y2='435'/><line x1='102' y1='370' x2='102' y2='435'/><line x1='119' y1='370' x2='119' y2='435'/><line x1='131' y1='370' x2='131' y2='435'/><line x1='143' y1='370' x2='143' y2='435'/><line x1='155' y1='370' x2='155' y2='435'/><line x1='167' y1='370' x2='167' y2='435'/><line x1='179' y1='370' x2='179' y2='435'/><line x1='190' y1='370' x2='190' y2='435'/><line x1='202' y1='370' x2='202' y2='435'/><line x1='213' y1='370' x2='213' y2='435'/>
+</g>
+
+<!-- ÉTAGÈRES DROITE -->
+<line x1='458' y1='0' x2='458' y2='440' stroke='%23c5a059' stroke-width='1.0' stroke-opacity='0.45'/>
+<line x1='680' y1='0' x2='680' y2='440' stroke='%23c5a059' stroke-width='1.0' stroke-opacity='0.45'/>
+<line x1='568' y1='0' x2='568' y2='440' stroke='%23c5a059' stroke-width='0.5' stroke-opacity='0.28'/>
+<line x1='458' y1='0' x2='680' y2='0' stroke='%23c5a059' stroke-width='0.8' stroke-opacity='0.4'/>
+<line x1='458' y1='73' x2='680' y2='73' stroke='%23c5a059' stroke-width='0.8' stroke-opacity='0.4'/>
+<line x1='458' y1='146' x2='680' y2='146' stroke='%23c5a059' stroke-width='0.8' stroke-opacity='0.4'/>
+<line x1='458' y1='219' x2='680' y2='219' stroke='%23c5a059' stroke-width='0.8' stroke-opacity='0.4'/>
+<line x1='458' y1='292' x2='680' y2='292' stroke='%23c5a059' stroke-width='0.8' stroke-opacity='0.4'/>
+<line x1='458' y1='365' x2='680' y2='365' stroke='%23c5a059' stroke-width='0.8' stroke-opacity='0.4'/>
+<line x1='458' y1='440' x2='680' y2='440' stroke='%23c5a059' stroke-width='0.8' stroke-opacity='0.4'/>
+<g stroke='%23c5a059' stroke-opacity='0.26' stroke-width='0.45'>
+<line x1='466' y1='5' x2='466' y2='68'/><line x1='478' y1='5' x2='478' y2='68'/><line x1='490' y1='5' x2='490' y2='68'/><line x1='501' y1='5' x2='501' y2='68'/><line x1='513' y1='5' x2='513' y2='68'/><line x1='524' y1='5' x2='524' y2='68'/><line x1='536' y1='5' x2='536' y2='68'/><line x1='547' y1='5' x2='547' y2='68'/><line x1='559' y1='5' x2='559' y2='68'/><line x1='577' y1='5' x2='577' y2='68'/><line x1='589' y1='5' x2='589' y2='68'/><line x1='601' y1='5' x2='601' y2='68'/><line x1='612' y1='5' x2='612' y2='68'/><line x1='624' y1='5' x2='624' y2='68'/><line x1='636' y1='5' x2='636' y2='68'/><line x1='647' y1='5' x2='647' y2='68'/><line x1='659' y1='5' x2='659' y2='68'/><line x1='670' y1='5' x2='670' y2='68'/>
+<line x1='466' y1='78' x2='466' y2='141'/><line x1='479' y1='78' x2='479' y2='141'/><line x1='491' y1='78' x2='491' y2='141'/><line x1='503' y1='78' x2='503' y2='141'/><line x1='514' y1='78' x2='514' y2='141'/><line x1='526' y1='78' x2='526' y2='141'/><line x1='538' y1='78' x2='538' y2='141'/><line x1='549' y1='78' x2='549' y2='141'/><line x1='561' y1='78' x2='561' y2='141'/><line x1='578' y1='78' x2='578' y2='141'/><line x1='590' y1='78' x2='590' y2='141'/><line x1='602' y1='78' x2='602' y2='141'/><line x1='613' y1='78' x2='613' y2='141'/><line x1='625' y1='78' x2='625' y2='141'/><line x1='637' y1='78' x2='637' y2='141'/><line x1='648' y1='78' x2='648' y2='141'/><line x1='660' y1='78' x2='660' y2='141'/><line x1='672' y1='78' x2='672' y2='141'/>
+<line x1='466' y1='151' x2='466' y2='214'/><line x1='478' y1='151' x2='478' y2='214'/><line x1='490' y1='151' x2='490' y2='214'/><line x1='502' y1='151' x2='502' y2='214'/><line x1='513' y1='151' x2='513' y2='214'/><line x1='525' y1='151' x2='525' y2='214'/><line x1='537' y1='151' x2='537' y2='214'/><line x1='548' y1='151' x2='548' y2='214'/><line x1='560' y1='151' x2='560' y2='214'/><line x1='577' y1='151' x2='577' y2='214'/><line x1='589' y1='151' x2='589' y2='214'/><line x1='601' y1='151' x2='601' y2='214'/><line x1='612' y1='151' x2='612' y2='214'/><line x1='624' y1='151' x2='624' y2='214'/><line x1='636' y1='151' x2='636' y2='214'/><line x1='647' y1='151' x2='647' y2='214'/><line x1='659' y1='151' x2='659' y2='214'/><line x1='671' y1='151' x2='671' y2='214'/>
+<line x1='466' y1='224' x2='466' y2='287'/><line x1='479' y1='224' x2='479' y2='287'/><line x1='491' y1='224' x2='491' y2='287'/><line x1='503' y1='224' x2='503' y2='287'/><line x1='514' y1='224' x2='514' y2='287'/><line x1='526' y1='224' x2='526' y2='287'/><line x1='538' y1='224' x2='538' y2='287'/><line x1='549' y1='224' x2='549' y2='287'/><line x1='561' y1='224' x2='561' y2='287'/><line x1='578' y1='224' x2='578' y2='287'/><line x1='590' y1='224' x2='590' y2='287'/><line x1='602' y1='224' x2='602' y2='287'/><line x1='613' y1='224' x2='613' y2='287'/><line x1='625' y1='224' x2='625' y2='287'/><line x1='637' y1='224' x2='637' y2='287'/><line x1='648' y1='224' x2='648' y2='287'/><line x1='660' y1='224' x2='660' y2='287'/><line x1='672' y1='224' x2='672' y2='287'/>
+<line x1='466' y1='297' x2='466' y2='360'/><line x1='478' y1='297' x2='478' y2='360'/><line x1='490' y1='297' x2='490' y2='360'/><line x1='502' y1='297' x2='502' y2='360'/><line x1='513' y1='297' x2='513' y2='360'/><line x1='525' y1='297' x2='525' y2='360'/><line x1='537' y1='297' x2='537' y2='360'/><line x1='548' y1='297' x2='548' y2='360'/><line x1='560' y1='297' x2='560' y2='360'/><line x1='577' y1='297' x2='577' y2='360'/><line x1='589' y1='297' x2='589' y2='360'/><line x1='601' y1='297' x2='601' y2='360'/><line x1='612' y1='297' x2='612' y2='360'/><line x1='624' y1='297' x2='624' y2='360'/><line x1='636' y1='297' x2='636' y2='360'/><line x1='647' y1='297' x2='647' y2='360'/><line x1='659' y1='297' x2='659' y2='360'/><line x1='671' y1='297' x2='671' y2='360'/>
+<line x1='466' y1='370' x2='466' y2='435'/><line x1='479' y1='370' x2='479' y2='435'/><line x1='491' y1='370' x2='491' y2='435'/><line x1='503' y1='370' x2='503' y2='435'/><line x1='514' y1='370' x2='514' y2='435'/><line x1='526' y1='370' x2='526' y2='435'/><line x1='538' y1='370' x2='538' y2='435'/><line x1='549' y1='370' x2='549' y2='435'/><line x1='561' y1='370' x2='561' y2='435'/><line x1='578' y1='370' x2='578' y2='435'/><line x1='590' y1='370' x2='590' y2='435'/><line x1='602' y1='370' x2='602' y2='435'/><line x1='613' y1='370' x2='613' y2='435'/><line x1='625' y1='370' x2='625' y2='435'/><line x1='637' y1='370' x2='637' y2='435'/><line x1='648' y1='370' x2='648' y2='435'/><line x1='660' y1='370' x2='660' y2='435'/><line x1='672' y1='370' x2='672' y2='435'/>
+</g>
+
+<!-- Sol -->
+<line x1='0' y1='440' x2='680' y2='440' stroke='%23c5a059' stroke-width='0.8' stroke-opacity='0.4'/>
+<line x1='0' y1='460' x2='680' y2='460' stroke='%23c5a059' stroke-width='0.3' stroke-opacity='0.15'/>
+
+<!-- Étagère dessus arche -->
+<line x1='222' y1='0' x2='458' y2='0' stroke='%23c5a059' stroke-width='0.8' stroke-opacity='0.4'/>
+<line x1='222' y1='46' x2='458' y2='46' stroke='%23c5a059' stroke-width='0.8' stroke-opacity='0.4'/>
+<g stroke='%23c5a059' stroke-opacity='0.26' stroke-width='0.45'>
+<line x1='230' y1='5' x2='230' y2='41'/><line x1='241' y1='5' x2='241' y2='41'/><line x1='253' y1='5' x2='253' y2='41'/><line x1='264' y1='5' x2='264' y2='41'/><line x1='276' y1='5' x2='276' y2='41'/><line x1='287' y1='5' x2='287' y2='41'/><line x1='299' y1='5' x2='299' y2='41'/><line x1='310' y1='5' x2='310' y2='41'/><line x1='322' y1='5' x2='322' y2='41'/><line x1='333' y1='5' x2='333' y2='41'/><line x1='345' y1='5' x2='345' y2='41'/><line x1='356' y1='5' x2='356' y2='41'/><line x1='368' y1='5' x2='368' y2='41'/><line x1='379' y1='5' x2='379' y2='41'/><line x1='391' y1='5' x2='391' y2='41'/><line x1='402' y1='5' x2='402' y2='41'/><line x1='414' y1='5' x2='414' y2='41'/><line x1='425' y1='5' x2='425' y2='41'/><line x1='437' y1='5' x2='437' y2='41'/><line x1='448' y1='5' x2='448' y2='41'/>
+</g>
+
+<!-- ARCHE -->
+<rect x='222' y='46' width='26' height='394' fill='none' stroke='%23c5a059' stroke-width='0.9' stroke-opacity='0.5'/>
+<rect x='226' y='50' width='18' height='386' fill='none' stroke='%23c5a059' stroke-width='0.4' stroke-opacity='0.28'/>
+<line x1='232' y1='54' x2='232' y2='432' stroke='%23c5a059' stroke-width='0.35' stroke-opacity='0.22'/>
+<line x1='237' y1='54' x2='237' y2='432' stroke='%23c5a059' stroke-width='0.35' stroke-opacity='0.22'/>
+<rect x='432' y='46' width='26' height='394' fill='none' stroke='%23c5a059' stroke-width='0.9' stroke-opacity='0.5'/>
+<rect x='436' y='50' width='18' height='386' fill='none' stroke='%23c5a059' stroke-width='0.4' stroke-opacity='0.28'/>
+<line x1='443' y1='54' x2='443' y2='432' stroke='%23c5a059' stroke-width='0.35' stroke-opacity='0.22'/>
+<line x1='448' y1='54' x2='448' y2='432' stroke='%23c5a059' stroke-width='0.35' stroke-opacity='0.22'/>
+<path d='M222,290 Q222,100 340,80 Q458,100 458,290' fill='none' stroke='%23c5a059' stroke-width='1.1' stroke-opacity='0.55'/>
+<path d='M228,290 Q228,112 340,92 Q452,112 452,290' fill='none' stroke='%23c5a059' stroke-width='0.6' stroke-opacity='0.35'/>
+<path d='M235,290 Q235,124 340,106 Q445,124 445,290' fill='none' stroke='%23c5a059' stroke-width='0.4' stroke-opacity='0.22'/>
+<path d='M218,290 Q218,88 340,66 Q462,88 462,290' fill='none' stroke='%23c5a059' stroke-width='0.6' stroke-opacity='0.3'/>
+<ellipse cx='340' cy='72' rx='18' ry='12' fill='none' stroke='%23c5a059' stroke-width='0.7' stroke-opacity='0.5'/>
+<ellipse cx='340' cy='72' rx='12' ry='8' fill='none' stroke='%23c5a059' stroke-width='0.4' stroke-opacity='0.3'/>
+<line x1='340' y1='60' x2='340' y2='52' stroke='%23c5a059' stroke-width='0.5' stroke-opacity='0.4'/>
+<line x1='322' y1='72' x2='314' y2='72' stroke='%23c5a059' stroke-width='0.5' stroke-opacity='0.4'/>
+<line x1='358' y1='72' x2='366' y2='72' stroke='%23c5a059' stroke-width='0.5' stroke-opacity='0.4'/>
+<rect x='220' y='282' width='30' height='10' fill='none' stroke='%23c5a059' stroke-width='0.6' stroke-opacity='0.4'/>
+<path d='M220,288 Q235,280 250,288' fill='none' stroke='%23c5a059' stroke-width='0.4' stroke-opacity='0.3'/>
+<line x1='220' y1='292' x2='250' y2='292' stroke='%23c5a059' stroke-width='0.6' stroke-opacity='0.4'/>
+<path d='M222,285 Q217,278 222,272 Q228,266 234,272' fill='none' stroke='%23c5a059' stroke-width='0.45' stroke-opacity='0.35'/>
+<path d='M248,285 Q253,278 248,272 Q242,266 236,272' fill='none' stroke='%23c5a059' stroke-width='0.45' stroke-opacity='0.35'/>
+<rect x='430' y='282' width='30' height='10' fill='none' stroke='%23c5a059' stroke-width='0.6' stroke-opacity='0.4'/>
+<path d='M430,288 Q445,280 460,288' fill='none' stroke='%23c5a059' stroke-width='0.4' stroke-opacity='0.3'/>
+<line x1='430' y1='292' x2='460' y2='292' stroke='%23c5a059' stroke-width='0.6' stroke-opacity='0.4'/>
+<path d='M432,285 Q427,278 432,272 Q438,266 444,272' fill='none' stroke='%23c5a059' stroke-width='0.45' stroke-opacity='0.35'/>
+<path d='M458,285 Q463,278 458,272 Q452,266 446,272' fill='none' stroke='%23c5a059' stroke-width='0.45' stroke-opacity='0.35'/>
+<rect x='218' y='428' width='34' height='12' fill='none' stroke='%23c5a059' stroke-width='0.6' stroke-opacity='0.4'/>
+<rect x='428' y='428' width='34' height='12' fill='none' stroke='%23c5a059' stroke-width='0.6' stroke-opacity='0.4'/>
+<path d='M248,290 Q245,238 280,200' fill='none' stroke='%23c5a059' stroke-width='0.3' stroke-opacity='0.18'/><path d='M265,290 Q261,230 298,190' fill='none' stroke='%23c5a059' stroke-width='0.3' stroke-opacity='0.18'/><path d='M284,290 Q279,224 318,182' fill='none' stroke='%23c5a059' stroke-width='0.3' stroke-opacity='0.18'/><path d='M305,290 Q300,220 336,178' fill='none' stroke='%23c5a059' stroke-width='0.3' stroke-opacity='0.18'/><path d='M326,290 Q322,218 340,176' fill='none' stroke='%23c5a059' stroke-width='0.3' stroke-opacity='0.18'/><path d='M354,290 Q358,218 340,176' fill='none' stroke='%23c5a059' stroke-width='0.3' stroke-opacity='0.18'/><path d='M375,290 Q380,220 344,178' fill='none' stroke='%23c5a059' stroke-width='0.3' stroke-opacity='0.18'/><path d='M396,290 Q401,224 362,182' fill='none' stroke='%23c5a059' stroke-width='0.3' stroke-opacity='0.18'/><path d='M415,290 Q419,230 382,190' fill='none' stroke='%23c5a059' stroke-width='0.3' stroke-opacity='0.18'/><path d='M432,290 Q435,238 400,200' fill='none' stroke='%23c5a059' stroke-width='0.3' stroke-opacity='0.18'/>
+<circle cx='340' cy='185' r='22' fill='none' stroke='%23c5a059' stroke-width='0.5' stroke-opacity='0.35'/>
+<circle cx='340' cy='185' r='14' fill='none' stroke='%23c5a059' stroke-width='0.4' stroke-opacity='0.28'/>
+<circle cx='340' cy='185' r='6' fill='none' stroke='%23c5a059' stroke-width='0.4' stroke-opacity='0.25'/>
+<line x1='340' y1='163' x2='340' y2='171' stroke='%23c5a059' stroke-width='0.4' stroke-opacity='0.3'/><line x1='340' y1='199' x2='340' y2='207' stroke='%23c5a059' stroke-width='0.4' stroke-opacity='0.3'/><line x1='318' y1='185' x2='326' y2='185' stroke='%23c5a059' stroke-width='0.4' stroke-opacity='0.3'/><line x1='354' y1='185' x2='362' y2='185' stroke='%23c5a059' stroke-width='0.4' stroke-opacity='0.3'/><line x1='324' y1='169' x2='330' y2='175' stroke='%23c5a059' stroke-width='0.4' stroke-opacity='0.3'/><line x1='350' y1='195' x2='356' y2='201' stroke='%23c5a059' stroke-width='0.4' stroke-opacity='0.3'/><line x1='324' y1='201' x2='330' y2='195' stroke='%23c5a059' stroke-width='0.4' stroke-opacity='0.3'/><line x1='350' y1='175' x2='356' y2='169' stroke='%23c5a059' stroke-width='0.4' stroke-opacity='0.3'/>
+<rect x='245' y='110' width='40' height='22' rx='2' fill='none' stroke='%23c5a059' stroke-width='0.4' stroke-opacity='0.28'/>
+<rect x='395' y='110' width='40' height='22' rx='2' fill='none' stroke='%23c5a059' stroke-width='0.4' stroke-opacity='0.28'/>
+
+<!-- ÉCOINÇONS SCULPTÉS -->
+<ellipse cx='196' cy='200' rx='30' ry='38' fill='none' stroke='%23c5a059' stroke-width='0.6' stroke-opacity='0.45'/>
+<ellipse cx='196' cy='200' rx='22' ry='29' fill='none' stroke='%23c5a059' stroke-width='0.4' stroke-opacity='0.3'/>
+<ellipse cx='196' cy='190' rx='9' ry='11' fill='none' stroke='%23c5a059' stroke-width='0.5' stroke-opacity='0.4'/>
+<path d='M187,200 Q183,218 189,222 Q196,225 203,222 Q209,218 205,200' fill='none' stroke='%23c5a059' stroke-width='0.5' stroke-opacity='0.38'/>
+<path d='M188,182 Q196,176 204,182' fill='none' stroke='%23c5a059' stroke-width='0.45' stroke-opacity='0.38'/>
+<line x1='188' y1='182' x2='185' y2='178' stroke='%23c5a059' stroke-width='0.35' stroke-opacity='0.3'/><line x1='192' y1='179' x2='190' y2='175' stroke='%23c5a059' stroke-width='0.35' stroke-opacity='0.3'/><line x1='196' y1='178' x2='196' y2='174' stroke='%23c5a059' stroke-width='0.35' stroke-opacity='0.3'/><line x1='200' y1='179' x2='202' y2='175' stroke='%23c5a059' stroke-width='0.35' stroke-opacity='0.3'/><line x1='204' y1='182' x2='207' y2='178' stroke='%23c5a059' stroke-width='0.35' stroke-opacity='0.3'/>
+<path d='M166,200 Q160,188 168,178 Q176,170 182,178' fill='none' stroke='%23c5a059' stroke-width='0.45' stroke-opacity='0.35'/><path d='M166,200 Q160,212 168,222 Q176,230 182,222' fill='none' stroke='%23c5a059' stroke-width='0.45' stroke-opacity='0.35'/><path d='M226,200 Q232,188 224,178 Q216,170 210,178' fill='none' stroke='%23c5a059' stroke-width='0.45' stroke-opacity='0.35'/><path d='M226,200 Q232,212 224,222 Q216,230 210,222' fill='none' stroke='%23c5a059' stroke-width='0.45' stroke-opacity='0.35'/>
+<path d='M168,178 Q164,170 170,166 Q176,163 178,170' fill='none' stroke='%23c5a059' stroke-width='0.35' stroke-opacity='0.28'/><path d='M168,222 Q164,230 170,234 Q176,237 178,230' fill='none' stroke='%23c5a059' stroke-width='0.35' stroke-opacity='0.28'/><path d='M224,178 Q228,170 222,166 Q216,163 214,170' fill='none' stroke='%23c5a059' stroke-width='0.35' stroke-opacity='0.28'/><path d='M224,222 Q228,230 222,234 Q216,237 214,230' fill='none' stroke='%23c5a059' stroke-width='0.35' stroke-opacity='0.28'/>
+<path d='M170,162 Q196,155 222,162' fill='none' stroke='%23c5a059' stroke-width='0.35' stroke-opacity='0.25'/><path d='M170,238 Q196,245 222,238' fill='none' stroke='%23c5a059' stroke-width='0.35' stroke-opacity='0.25'/>
+<circle cx='172' cy='130' r='4' fill='none' stroke='%23c5a059' stroke-width='0.4' stroke-opacity='0.3'/><line x1='172' y1='124' x2='172' y2='136' stroke='%23c5a059' stroke-width='0.3' stroke-opacity='0.25'/><line x1='166' y1='130' x2='178' y2='130' stroke='%23c5a059' stroke-width='0.3' stroke-opacity='0.25'/><line x1='167' y1='125' x2='177' y2='135' stroke='%23c5a059' stroke-width='0.3' stroke-opacity='0.25'/><line x1='177' y1='125' x2='167' y2='135' stroke='%23c5a059' stroke-width='0.3' stroke-opacity='0.25'/>
+<circle cx='210' cy='118' r='4' fill='none' stroke='%23c5a059' stroke-width='0.4' stroke-opacity='0.28'/><line x1='210' y1='112' x2='210' y2='124' stroke='%23c5a059' stroke-width='0.3' stroke-opacity='0.22'/><line x1='204' y1='118' x2='216' y2='118' stroke='%23c5a059' stroke-width='0.3' stroke-opacity='0.22'/><line x1='205' y1='113' x2='215' y2='123' stroke='%23c5a059' stroke-width='0.3' stroke-opacity='0.22'/><line x1='215' y1='113' x2='205' y2='123' stroke='%23c5a059' stroke-width='0.3' stroke-opacity='0.22'/>
+<path d='M186,238 Q196,246 206,238 L208,244 Q196,252 184,244 Z' fill='none' stroke='%23c5a059' stroke-width='0.4' stroke-opacity='0.3'/><line x1='189' y1='244' x2='203' y2='244' stroke='%23c5a059' stroke-width='0.35' stroke-opacity='0.25'/>
+<circle cx='180' cy='270' r='5' fill='none' stroke='%23c5a059' stroke-width='0.4' stroke-opacity='0.28'/><path d='M180,263 Q184,267 180,270 Q176,267 180,263' fill='none' stroke='%23c5a059' stroke-width='0.35' stroke-opacity='0.25'/><path d='M187,270 Q183,274 180,270 Q183,266 187,270' fill='none' stroke='%23c5a059' stroke-width='0.35' stroke-opacity='0.25'/><path d='M180,277 Q176,273 180,270 Q184,273 180,277' fill='none' stroke='%23c5a059' stroke-width='0.35' stroke-opacity='0.25'/><path d='M173,270 Q177,266 180,270 Q177,274 173,270' fill='none' stroke='%23c5a059' stroke-width='0.35' stroke-opacity='0.25'/>
+<ellipse cx='484' cy='200' rx='30' ry='38' fill='none' stroke='%23c5a059' stroke-width='0.6' stroke-opacity='0.45'/>
+<ellipse cx='484' cy='200' rx='22' ry='29' fill='none' stroke='%23c5a059' stroke-width='0.4' stroke-opacity='0.3'/>
+<ellipse cx='484' cy='190' rx='9' ry='11' fill='none' stroke='%23c5a059' stroke-width='0.5' stroke-opacity='0.4'/>
+<path d='M475,200 Q471,218 477,222 Q484,225 491,222 Q497,218 493,200' fill='none' stroke='%23c5a059' stroke-width='0.5' stroke-opacity='0.38'/>
+<path d='M476,182 Q484,176 492,182' fill='none' stroke='%23c5a059' stroke-width='0.45' stroke-opacity='0.38'/>
+<line x1='476' y1='182' x2='473' y2='178' stroke='%23c5a059' stroke-width='0.35' stroke-opacity='0.3'/><line x1='480' y1='179' x2='478' y2='175' stroke='%23c5a059' stroke-width='0.35' stroke-opacity='0.3'/><line x1='484' y1='178' x2='484' y2='174' stroke='%23c5a059' stroke-width='0.35' stroke-opacity='0.3'/><line x1='488' y1='179' x2='490' y2='175' stroke='%23c5a059' stroke-width='0.35' stroke-opacity='0.3'/><line x1='492' y1='182' x2='495' y2='178' stroke='%23c5a059' stroke-width='0.35' stroke-opacity='0.3'/>
+<path d='M454,200 Q448,188 456,178 Q464,170 470,178' fill='none' stroke='%23c5a059' stroke-width='0.45' stroke-opacity='0.35'/><path d='M454,200 Q448,212 456,222 Q464,230 470,222' fill='none' stroke='%23c5a059' stroke-width='0.45' stroke-opacity='0.35'/><path d='M514,200 Q520,188 512,178 Q504,170 498,178' fill='none' stroke='%23c5a059' stroke-width='0.45' stroke-opacity='0.35'/><path d='M514,200 Q520,212 512,222 Q504,230 498,222' fill='none' stroke='%23c5a059' stroke-width='0.45' stroke-opacity='0.35'/>
+<path d='M456,178 Q452,170 458,166 Q464,163 466,170' fill='none' stroke='%23c5a059' stroke-width='0.35' stroke-opacity='0.28'/><path d='M456,222 Q452,230 458,234 Q464,237 466,230' fill='none' stroke='%23c5a059' stroke-width='0.35' stroke-opacity='0.28'/><path d='M512,178 Q516,170 510,166 Q504,163 502,170' fill='none' stroke='%23c5a059' stroke-width='0.35' stroke-opacity='0.28'/><path d='M512,222 Q516,230 510,234 Q504,237 502,230' fill='none' stroke='%23c5a059' stroke-width='0.35' stroke-opacity='0.28'/>
+<path d='M458,162 Q484,155 510,162' fill='none' stroke='%23c5a059' stroke-width='0.35' stroke-opacity='0.25'/><path d='M458,238 Q484,245 510,238' fill='none' stroke='%23c5a059' stroke-width='0.35' stroke-opacity='0.25'/>
+<circle cx='508' cy='130' r='4' fill='none' stroke='%23c5a059' stroke-width='0.4' stroke-opacity='0.3'/><line x1='508' y1='124' x2='508' y2='136' stroke='%23c5a059' stroke-width='0.3' stroke-opacity='0.25'/><line x1='502' y1='130' x2='514' y2='130' stroke='%23c5a059' stroke-width='0.3' stroke-opacity='0.25'/><line x1='503' y1='125' x2='513' y2='135' stroke='%23c5a059' stroke-width='0.3' stroke-opacity='0.25'/><line x1='513' y1='125' x2='503' y2='135' stroke='%23c5a059' stroke-width='0.3' stroke-opacity='0.25'/>
+<circle cx='470' cy='118' r='4' fill='none' stroke='%23c5a059' stroke-width='0.4' stroke-opacity='0.28'/><line x1='470' y1='112' x2='470' y2='124' stroke='%23c5a059' stroke-width='0.3' stroke-opacity='0.22'/><line x1='464' y1='118' x2='476' y2='118' stroke='%23c5a059' stroke-width='0.3' stroke-opacity='0.22'/><line x1='465' y1='113' x2='475' y2='123' stroke='%23c5a059' stroke-width='0.3' stroke-opacity='0.22'/><line x1='475' y1='113' x2='465' y2='123' stroke='%23c5a059' stroke-width='0.3' stroke-opacity='0.22'/>
+<path d='M474,238 Q484,246 494,238 L496,244 Q484,252 472,244 Z' fill='none' stroke='%23c5a059' stroke-width='0.4' stroke-opacity='0.3'/><line x1='477' y1='244' x2='491' y2='244' stroke='%23c5a059' stroke-width='0.35' stroke-opacity='0.25'/>
+<circle cx='500' cy='270' r='5' fill='none' stroke='%23c5a059' stroke-width='0.4' stroke-opacity='0.28'/><path d='M500,263 Q504,267 500,270 Q496,267 500,263' fill='none' stroke='%23c5a059' stroke-width='0.35' stroke-opacity='0.25'/><path d='M507,270 Q503,274 500,270 Q503,266 507,270' fill='none' stroke='%23c5a059' stroke-width='0.35' stroke-opacity='0.25'/><path d='M500,277 Q496,273 500,270 Q504,273 500,277' fill='none' stroke='%23c5a059' stroke-width='0.35' stroke-opacity='0.25'/><path d='M493,270 Q497,266 500,270 Q497,274 493,270' fill='none' stroke='%23c5a059' stroke-width='0.35' stroke-opacity='0.25'/>
+
+<!-- Arche du fond -->
+<path d='M278,370 Q278,272 340,254 Q402,272 402,370' fill='none' stroke='%23c5a059' stroke-width='0.55' stroke-opacity='0.32'/>
+<path d='M284,370 Q284,280 340,263 Q396,280 396,370' fill='none' stroke='%23c5a059' stroke-width='0.3' stroke-opacity='0.2'/>
+<rect x='274' y='360' width='12' height='80' fill='none' stroke='%23c5a059' stroke-width='0.5' stroke-opacity='0.3'/>
+<rect x='394' y='360' width='12' height='80' fill='none' stroke='%23c5a059' stroke-width='0.5' stroke-opacity='0.3'/>
+<ellipse cx='340' cy='256' rx='10' ry='7' fill='none' stroke='%23c5a059' stroke-width='0.4' stroke-opacity='0.35'/>
+<rect x='305' y='370' width='70' height='70' fill='none' stroke='%23c5a059' stroke-width='0.5' stroke-opacity='0.32'/>
+<rect x='310' y='375' width='60' height='62' fill='none' stroke='%23c5a059' stroke-width='0.3' stroke-opacity='0.2'/>
+<line x1='340' y1='375' x2='340' y2='437' stroke='%23c5a059' stroke-width='0.3' stroke-opacity='0.2'/>
+
+</svg>
+
+    <main style="position:relative;z-index:1;" class="pt-32 px-6">
+        <div class="max-w-7xl mx-auto text-center">
+            <h1 class="font-heritage text-5xl text-[#052e16] italic">Les Fiches</h1>
+            <p class="mt-4 text-[#c5a059] uppercase tracking-widest text-xs">Archives & Ressources</p>
+        </div>
+
+    </main>
+
+    <!-- 3. Vérification session via onAuthStateChange — attend la vraie restauration depuis localStorage -->
+    <script>
+    let sessionChecked = false;
+
+    supabase.auth.onAuthStateChange((event, session) => {
+
+        // Ne s'exécute qu'une fois au chargement initial
+        if (sessionChecked) return;
+        sessionChecked = true;
+
+        if (!session) {
+            // Pas connecté : flouter + afficher popup
+            const mainContent = document.querySelector('main');
+            if (mainContent) {
+                mainContent.style.filter = 'blur(4px)';
+                mainContent.style.pointerEvents = 'none';
+                mainContent.style.userSelect = 'none';
+                mainContent.style.opacity = '0.6';
+            }
+
+            // Attendre que loadNavbar ait injecté les modales
+            setTimeout(() => {
+                toggleModal('modal-library-error');
+                document.body.classList.add('modal-open');
+            }, 100);
+
+        }
+        // Si session OK : rien à faire, nav.js gère déjà updateUI()
+    });
+    </script>
+    <script src="nav.js"></script>
+    <script src="auth.js"></script>
+</body>
+</html>
