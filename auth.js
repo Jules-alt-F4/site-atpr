@@ -136,9 +136,8 @@ async function handleSignup(event) {
             '<div class="text-[#c5a059] text-3xl mb-3">&#10003;</div>' +
             '<p class="font-heritage italic text-xl text-[#052e16] mb-3">Demande envoy&eacute;e</p>' +
             '<p class="text-[11px] uppercase tracking-widest opacity-60 leading-loose">' +
-            'Votre demande d'adh&eacute;sion a bien &eacute;t&eacute; re&ccedil;ue.<br><br>' +
-            'L'&eacute;quipe ATPr va examiner votre profil<br>et valider votre compte.<br><br>' +
-            'Vous serez notifi&eacute; d&egrave;s que votre acc&egrave;s sera activ&eacute;.' +
+            'Votre demande d&apos;inscription a bien &eacute;t&eacute; envoy&eacute;e.<br><br>' +
+            'Le bureau la validera dans les 24 &agrave; 48 heures.' +
             '</p></div>';
         successMsg.style.display = 'block';
     }
