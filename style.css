@@ -25,6 +25,17 @@ html {
             min-height: 100vh;
         }
 
+        body.bibliotheque-background {
+            background-color: var(--parchment);
+            background-image:
+                linear-gradient(rgba(245, 242, 232, 0.72), rgba(245, 242, 232, 0.72)),
+                url("/assets/bibliotheque_ecoincons_sculptes.svg");
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-size: cover;
+            background-attachment: fixed;
+        }
+
 
         /* En mode MPA, on ne cache plus les sections .page */
         .section-parchment {
