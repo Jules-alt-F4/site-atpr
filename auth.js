@@ -52,7 +52,7 @@ async function handleLogin(event) {
         if (!profil || !profil.valide) {
             // Compte non validé — déconnecter et afficher message
             await window.supabase.auth.signOut();
-            alert('Votre compte est en attente de validation par l'équipe ATPr. Vous serez notifié dès que votre accès sera activé.');
+            alert("Votre compte est en attente de validation par l'équipe ATPr. Vous serez notifié dès que votre accès sera activé.");
             return false;
         }
 
