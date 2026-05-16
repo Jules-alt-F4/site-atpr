@@ -12,6 +12,6 @@ async function handleLibraryAccess(event) {
   }
 
   // Si connecté, naviguer vers la bibliothèque
-  window.location.href = 'bibliotheque.html';
+ window.location.href = '/bibliotheque.html';
   isProcessingLibrary = false;
 }
