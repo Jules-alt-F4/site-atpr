@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>P3 - Semestre 1 — ATPR</title>
+    <link rel="stylesheet" href="../../../style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+    <script src="../../../supabase-init.js"></script>
+</head>
+<body class="bg-[#f5f2e8] min-h-screen bibliotheque-background">
+    <main style="position:relative;z-index:1;" class="pt-32 px-6 pb-20">
+        <div class="max-w-5xl mx-auto">
+            <a href="/bibliotheque/fiches/p3.html" class="inline-flex items-center gap-2 text-[#052e16] hover:text-[#c5a059] transition text-sm mb-10">
+                <i class="fa-solid fa-arrow-left"></i>
+                Retour à P3
+            </a>
+
+            <div class="text-center">
+                <p class="text-[#c5a059] uppercase tracking-widest text-xs">P3</p>
+                <h1 class="font-heritage text-5xl text-[#052e16] italic mt-4">Semestre 1</h1>
+            </div>
+
+            <section class="mt-16 grid grid-cols-1 md:grid-cols-2 gap-6">
+                <a href="/bibliotheque/fiches/p3/semestre-1/ue-microbiologie.html" class="group border border-[#c5a059]/40 bg-white/50 backdrop-blur-sm rounded-2xl p-8 shadow-lg hover:bg-[#f8f4ea] transition">
+                    <p class="text-[#c5a059] uppercase tracking-widest text-xs">P3 - Semestre 1</p>
+                    <h2 class="mt-3 text-2xl text-[#052e16] font-semibold italic">UE Microbiologie</h2>
+                    <p class="mt-4 text-sm text-[#5b4b2a] leading-relaxed">Fiches et ressources de l'UE Microbiologie.</p>
+                </a>
+
+                <a href="/bibliotheque/fiches/p3/semestre-1/ue-sciences-biologiques-3.html" class="group border border-[#c5a059]/40 bg-white/50 backdrop-blur-sm rounded-2xl p-8 shadow-lg hover:bg-[#f8f4ea] transition">
+                    <p class="text-[#c5a059] uppercase tracking-widest text-xs">P3 - Semestre 1</p>
+                    <h2 class="mt-3 text-2xl text-[#052e16] font-semibold italic">UE Sciences Biologiques 3</h2>
+                    <p class="mt-4 text-sm text-[#5b4b2a] leading-relaxed">Fiches et ressources de l'UE Sciences Biologiques 3.</p>
+                </a>
+
+                <a href="/bibliotheque/fiches/p3/semestre-1/ue-sciences-biologiques-4.html" class="group border border-[#c5a059]/40 bg-white/50 backdrop-blur-sm rounded-2xl p-8 shadow-lg hover:bg-[#f8f4ea] transition">
+                    <p class="text-[#c5a059] uppercase tracking-widest text-xs">P3 - Semestre 1</p>
+                    <h2 class="mt-3 text-2xl text-[#052e16] font-semibold italic">UE Sciences Biologiques 4</h2>
+                    <p class="mt-4 text-sm text-[#5b4b2a] leading-relaxed">Fiches et ressources de l'UE Sciences Biologiques 4.</p>
+                </a>
+
+                <a href="/bibliotheque/fiches/p3/semestre-1/ue-chimie-et-pharmacologie-des-substances-actives.html" class="group border border-[#c5a059]/40 bg-white/50 backdrop-blur-sm rounded-2xl p-8 shadow-lg hover:bg-[#f8f4ea] transition">
+                    <p class="text-[#c5a059] uppercase tracking-widest text-xs">P3 - Semestre 1</p>
+                    <h2 class="mt-3 text-2xl text-[#052e16] font-semibold italic">UE Chimie et pharmacologie des substances actives</h2>
+                    <p class="mt-4 text-sm text-[#5b4b2a] leading-relaxed">Fiches et ressources de l'UE Chimie et pharmacologie des substances actives.</p>
+                </a>
+
+                <a href="/bibliotheque/fiches/p3/semestre-1/ue-enseignement-preparatoire-aux-ec.html" class="group border border-[#c5a059]/40 bg-white/50 backdrop-blur-sm rounded-2xl p-8 shadow-lg hover:bg-[#f8f4ea] transition">
+                    <p class="text-[#c5a059] uppercase tracking-widest text-xs">P3 - Semestre 1</p>
+                    <h2 class="mt-3 text-2xl text-[#052e16] font-semibold italic">UE Enseignement préparatoire aux EC</h2>
+                    <p class="mt-4 text-sm text-[#5b4b2a] leading-relaxed">Fiches et ressources de l'UE Enseignement préparatoire aux EC.</p>
+                </a>
+
+                <a href="/bibliotheque/fiches/p3/semestre-1/ue-enseignements-coordonnes.html" class="group border border-[#c5a059]/40 bg-white/50 backdrop-blur-sm rounded-2xl p-8 shadow-lg hover:bg-[#f8f4ea] transition">
+                    <p class="text-[#c5a059] uppercase tracking-widest text-xs">P3 - Semestre 1</p>
+                    <h2 class="mt-3 text-2xl text-[#052e16] font-semibold italic">UE Enseignements coordonnés</h2>
+                    <p class="mt-4 text-sm text-[#5b4b2a] leading-relaxed">Fiches et ressources de l'UE Enseignements coordonnés.</p>
+                </a>
+
+                <a href="/bibliotheque/fiches/p3/semestre-1/ue-biopharmacie-galenique-pharmacocinetique.html" class="group border border-[#c5a059]/40 bg-white/50 backdrop-blur-sm rounded-2xl p-8 shadow-lg hover:bg-[#f8f4ea] transition">
+                    <p class="text-[#c5a059] uppercase tracking-widest text-xs">P3 - Semestre 1</p>
+                    <h2 class="mt-3 text-2xl text-[#052e16] font-semibold italic">UE Biopharmacie, Galénique, Pharmacocinétique</h2>
+                    <p class="mt-4 text-sm text-[#5b4b2a] leading-relaxed">Fiches et ressources de l'UE Biopharmacie, Galénique, Pharmacocinétique.</p>
+                </a>
+
+                <a href="/bibliotheque/fiches/p3/semestre-1/ue-sante-publique-circuit-du-medicament.html" class="group border border-[#c5a059]/40 bg-white/50 backdrop-blur-sm rounded-2xl p-8 shadow-lg hover:bg-[#f8f4ea] transition">
+                    <p class="text-[#c5a059] uppercase tracking-widest text-xs">P3 - Semestre 1</p>
+                    <h2 class="mt-3 text-2xl text-[#052e16] font-semibold italic">UE Santé Publique, Circuit du Médicament</h2>
+                    <p class="mt-4 text-sm text-[#5b4b2a] leading-relaxed">Fiches et ressources de l'UE Santé Publique, Circuit du Médicament.</p>
+                </a>
+
+                <a href="/bibliotheque/fiches/p3/semestre-1/ue-libres.html" class="group border border-[#c5a059]/40 bg-white/50 backdrop-blur-sm rounded-2xl p-8 shadow-lg hover:bg-[#f8f4ea] transition">
+                    <p class="text-[#c5a059] uppercase tracking-widest text-xs">P3 - Semestre 1</p>
+                    <h2 class="mt-3 text-2xl text-[#052e16] font-semibold italic">UE Libres</h2>
+                    <p class="mt-4 text-sm text-[#5b4b2a] leading-relaxed">Fiches et ressources des UE Libres.</p>
+                </a>
+            </section>
+        </div>
+    </main>
+
+    <script>
+    let sessionChecked = false;
+
+    supabase.auth.onAuthStateChange((event, session) => {
+        if (sessionChecked) return;
+        sessionChecked = true;
+
+        if (!session) {
+            const mainContent = document.querySelector('main');
+            if (mainContent) {
+                mainContent.style.filter = 'blur(4px)';
+                mainContent.style.pointerEvents = 'none';
+                mainContent.style.userSelect = 'none';
+                mainContent.style.opacity = '0.6';
+            }
+
+            setTimeout(() => {
+                toggleModal('modal-library-error');
+                document.body.classList.add('modal-open');
+            }, 100);
+        }
+    });
+    </script>
+    <script src="../../../nav.js"></script>
+    <script src="../../../auth.js"></script>
+</body>
+</html>
