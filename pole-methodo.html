@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pôle Méthodo — ATPr</title>
+
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&display=swap" rel="stylesheet">
+
+    <!-- SUPABASE + NAVBAR -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+    <script src="supabase-init.js"></script>
+</head>
+
+<body class="bg-[#0a1a0f] min-h-screen text-white">
+
+<!-- Overlay d'accès refusé (membres non connectés) -->
+<div id="acces-refuse" style="display:none" class="fixed inset-0 z-50 bg-[#0a1a0f]/95 backdrop-blur-sm flex items-center justify-center">
+    <div class="text-center px-8 max-w-md">
+        <div class="text-[#c5a059] text-5xl mb-6">⚿</div>
+        <p class="text-[10px] tracking-[0.5em] uppercase text-[#c5a059] mb-3">Accès restreint</p>
+        <h2 class="font-heritage italic text-4xl text-white mb-4">Espace Membres</h2>
+        <div class="h-[1px] w-20 bg-[#c5a059] mx-auto mb-6"></div>
+        <p class="text-[12px] uppercase tracking-widest opacity-60 leading-loose mb-8">
+            Cette section est réservée aux membres<br>de l'ATPr. Connectez-vous pour y accéder.
+        </p>
+        <button onclick="toggleModal('modal-login')" class="btn-outline-gold">
+            Se connecter
+        </button>
+    </div>
+</div>
+
+<!-- Contenu principal (masqué si non connecté) -->
+<div id="contenu-methodo" style="display:none">
+
+    <!-- Hero -->
+    <section class="relative min-h-[40vh] flex items-end pb-16 px-8 overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-b from-[#052e16] to-[#0a1a0f]"></div>
+        <div class="absolute inset-0 opacity-5" style="background-image: repeating-linear-gradient(0deg, #c5a059 0px, #c5a059 1px, transparent 1px, transparent 60px), repeating-linear-gradient(90deg, #c5a059 0px, #c5a059 1px, transparent 1px, transparent 60px);"></div>
+        <div class="relative z-10 max-w-6xl mx-auto w-full">
+            <p class="text-[10px] tracking-[0.5em] uppercase text-[#c5a059] mb-3">ATPr — Espace Membres</p>
+            <h1 class="font-heritage italic text-6xl md:text-8xl text-white mb-4">Pôle Méthodo</h1>
+            <div class="flex items-center gap-4">
+                <div class="h-[1px] w-16 bg-[#c5a059]"></div>
+                <span class="text-[#c5a059]">◈</span>
+                <p class="text-[11px] uppercase tracking-widest opacity-60">Fiches de méthode & Ressources pédagogiques</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contenu -->
+    <section class="max-w-6xl mx-auto px-8 py-16">
+
+        <!-- Barre de recherche -->
+        <div class="mb-12">
+            <div class="relative max-w-xl">
+                <input type="text" id="search-methodo" placeholder="Rechercher une fiche, une UE..."
+                    class="w-full bg-white/5 border border-[#c5a059]/30 text-white placeholder-white/30 px-5 py-3 text-sm tracking-wide focus:outline-none focus:border-[#c5a059] transition-colors"
+                    oninput="filtrerFiches(this.value)">
+                <i class="fas fa-search absolute right-4 top-1/2 -translate-y-1/2 text-[#c5a059]/50"></i>
+            </div>
+        </div>
+
+        <!-- Catégories -->
+        <div class="flex flex-wrap gap-3 mb-10" id="filtres-categorie">
+            <button onclick="filtrerParCategorie('toutes')" class="filtre-btn filtre-actif px-4 py-2 text-[10px] uppercase tracking-widest border border-[#c5a059] text-[#c5a059] transition-all hover:bg-[#c5a059]/10">Toutes</button>
+            <button onclick="filtrerParCategorie('chimie')" class="filtre-btn px-4 py-2 text-[10px] uppercase tracking-widest border border-white/20 text-white/50 transition-all hover:border-[#c5a059]/50 hover:text-white/80">Chimie</button>
+            <button onclick="filtrerParCategorie('biologie')" class="filtre-btn px-4 py-2 text-[10px] uppercase tracking-widest border border-white/20 text-white/50 transition-all hover:border-[#c5a059]/50 hover:text-white/80">Biologie</button>
+            <button onclick="filtrerParCategorie('physique')" class="filtre-btn px-4 py-2 text-[10px] uppercase tracking-widest border border-white/20 text-white/50 transition-all hover:border-[#c5a059]/50 hover:text-white/80">Physique</button>
+            <button onclick="filtrerParCategorie('methode')" class="filtre-btn px-4 py-2 text-[10px] uppercase tracking-widest border border-white/20 text-white/50 transition-all hover:border-[#c5a059]/50 hover:text-white/80">Méthodologie</button>
+        </div>
+
+        <!-- Grille de fiches -->
+        <div id="grille-fiches" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+            <!-- Fiche exemple 1 -->
+            <div class="fiche-card" data-categorie="methode" data-titre="Méthodologie de la dissertation">
+                <div class="border border-[#c5a059]/20 bg-white/3 p-6 hover:border-[#c5a059]/60 hover:bg-white/5 transition-all duration-300 group relative">
+                    <div class="absolute top-0 left-4 bottom-0 w-[1px] bg-[#c5a059]/10 group-hover:bg-[#c5a059]/30 transition-colors"></div>
+                    <span class="text-[9px] uppercase tracking-[0.3em] text-[#c5a059] mb-3 block">Méthodologie</span>
+                    <h3 class="font-heritage italic text-xl text-white mb-2 group-hover:text-[#c5a059] transition-colors">Méthodologie de la dissertation</h3>
+                    <p class="text-[11px] opacity-50 leading-relaxed mb-4">Structure, argumentation et rédaction d'une dissertation scientifique en pharmacie.</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-[9px] uppercase tracking-widest opacity-30">PDF — 4 pages</span>
+                        <a href="#" class="text-[#c5a059] text-sm hover:scale-110 transition-transform"><i class="fas fa-download"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Fiche exemple 2 -->
+            <div class="fiche-card" data-categorie="chimie" data-titre="Cinétique chimique">
+                <div class="border border-[#c5a059]/20 bg-white/3 p-6 hover:border-[#c5a059]/60 hover:bg-white/5 transition-all duration-300 group relative">
+                    <div class="absolute top-0 left-4 bottom-0 w-[1px] bg-[#c5a059]/10 group-hover:bg-[#c5a059]/30 transition-colors"></div>
+                    <span class="text-[9px] uppercase tracking-[0.3em] text-[#c5a059] mb-3 block">Chimie</span>
+                    <h3 class="font-heritage italic text-xl text-white mb-2 group-hover:text-[#c5a059] transition-colors">Cinétique chimique</h3>
+                    <p class="text-[11px] opacity-50 leading-relaxed mb-4">Lois de vitesse, ordres de réaction et mécanismes réactionnels en chimie pharmaceutique.</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-[9px] uppercase tracking-widest opacity-30">PDF — 6 pages</span>
+                        <a href="#" class="text-[#c5a059] text-sm hover:scale-110 transition-transform"><i class="fas fa-download"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Fiche exemple 3 -->
+            <div class="fiche-card" data-categorie="biologie" data-titre="Biologie cellulaire">
+                <div class="border border-[#c5a059]/20 bg-white/3 p-6 hover:border-[#c5a059]/60 hover:bg-white/5 transition-all duration-300 group relative">
+                    <div class="absolute top-0 left-4 bottom-0 w-[1px] bg-[#c5a059]/10 group-hover:bg-[#c5a059]/30 transition-colors"></div>
+                    <span class="text-[9px] uppercase tracking-[0.3em] text-[#c5a059] mb-3 block">Biologie</span>
+                    <h3 class="font-heritage italic text-xl text-white mb-2 group-hover:text-[#c5a059] transition-colors">Biologie cellulaire</h3>
+                    <p class="text-[11px] opacity-50 leading-relaxed mb-4">Organisation cellulaire, membranes et transports — fiches de révision condensées.</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-[9px] uppercase tracking-widest opacity-30">PDF — 8 pages</span>
+                        <a href="#" class="text-[#c5a059] text-sm hover:scale-110 transition-transform"><i class="fas fa-download"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Fiche exemple 4 -->
+            <div class="fiche-card" data-categorie="physique" data-titre="Optique géométrique">
+                <div class="border border-[#c5a059]/20 bg-white/3 p-6 hover:border-[#c5a059]/60 hover:bg-white/5 transition-all duration-300 group relative">
+                    <div class="absolute top-0 left-4 bottom-0 w-[1px] bg-[#c5a059]/10 group-hover:bg-[#c5a059]/30 transition-colors"></div>
+                    <span class="text-[9px] uppercase tracking-[0.3em] text-[#c5a059] mb-3 block">Physique</span>
+                    <h3 class="font-heritage italic text-xl text-white mb-2 group-hover:text-[#c5a059] transition-colors">Optique géométrique</h3>
+                    <p class="text-[11px] opacity-50 leading-relaxed mb-4">Lentilles, miroirs et systèmes optiques — formules et applications en optique pharmaceutique.</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-[9px] uppercase tracking-widest opacity-30">PDF — 5 pages</span>
+                        <a href="#" class="text-[#c5a059] text-sm hover:scale-110 transition-transform"><i class="fas fa-download"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Fiche exemple 5 -->
+            <div class="fiche-card" data-categorie="methode" data-titre="Gestion du temps en PASS">
+                <div class="border border-[#c5a059]/20 bg-white/3 p-6 hover:border-[#c5a059]/60 hover:bg-white/5 transition-all duration-300 group relative">
+                    <div class="absolute top-0 left-4 bottom-0 w-[1px] bg-[#c5a059]/10 group-hover:bg-[#c5a059]/30 transition-colors"></div>
+                    <span class="text-[9px] uppercase tracking-[0.3em] text-[#c5a059] mb-3 block">Méthodologie</span>
+                    <h3 class="font-heritage italic text-xl text-white mb-2 group-hover:text-[#c5a059] transition-colors">Gestion du temps en PASS</h3>
+                    <p class="text-[11px] opacity-50 leading-relaxed mb-4">Planification, révisions actives et techniques d'optimisation pour réussir en première année.</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-[9px] uppercase tracking-widest opacity-30">PDF — 3 pages</span>
+                        <a href="#" class="text-[#c5a059] text-sm hover:scale-110 transition-transform"><i class="fas fa-download"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Fiche exemple 6 -->
+            <div class="fiche-card" data-categorie="chimie" data-titre="Équilibres acido-basiques">
+                <div class="border border-[#c5a059]/20 bg-white/3 p-6 hover:border-[#c5a059]/60 hover:bg-white/5 transition-all duration-300 group relative">
+                    <div class="absolute top-0 left-4 bottom-0 w-[1px] bg-[#c5a059]/10 group-hover:bg-[#c5a059]/30 transition-colors"></div>
+                    <span class="text-[9px] uppercase tracking-[0.3em] text-[#c5a059] mb-3 block">Chimie</span>
+                    <h3 class="font-heritage italic text-xl text-white mb-2 group-hover:text-[#c5a059] transition-colors">Équilibres acido-basiques</h3>
+                    <p class="text-[11px] opacity-50 leading-relaxed mb-4">pH, pKa, tampons et calculs d'équilibre — tout ce qu'il faut maîtriser pour les partiels.</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-[9px] uppercase tracking-widest opacity-30">PDF — 7 pages</span>
+                        <a href="#" class="text-[#c5a059] text-sm hover:scale-110 transition-transform"><i class="fas fa-download"></i></a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Message si aucun résultat -->
+        <div id="aucun-resultat" style="display:none" class="text-center py-16 opacity-40">
+            <p class="font-heritage italic text-2xl">Aucune fiche trouvée</p>
+        </div>
+
+    </section>
+
+</div>
+
+<!-- Scripts -->
+<script src="nav.js"></script>
+<script src="auth.js"></script>
+<script>
+// Vérification accès membres au chargement
+document.addEventListener('DOMContentLoaded', async function() {
+    // Attendre Supabase
+    const waitSupabase = () => new Promise(resolve => {
+        const check = () => window.supabase ? resolve() : setTimeout(check, 50);
+        check();
+    });
+    await waitSupabase();
+
+    const { data: { session } } = await window.supabase.auth.getSession();
+
+    if (!session) {
+        document.getElementById('acces-refuse').style.display = 'flex';
+    } else {
+        document.getElementById('contenu-methodo').style.display = 'block';
+    }
+
+    // Réagir aux changements de session
+    window.supabase.auth.onAuthStateChange((_event, session) => {
+        if (session) {
+            document.getElementById('acces-refuse').style.display = 'none';
+            document.getElementById('contenu-methodo').style.display = 'block';
+        } else {
+            document.getElementById('contenu-methodo').style.display = 'none';
+            document.getElementById('acces-refuse').style.display = 'flex';
+        }
+    });
+});
+
+// Filtrer par recherche texte
+function filtrerFiches(terme) {
+    const fiches = document.querySelectorAll('.fiche-card');
+    let nb = 0;
+    fiches.forEach(f => {
+        const titre = f.dataset.titre.toLowerCase();
+        const visible = titre.includes(terme.toLowerCase());
+        f.style.display = visible ? '' : 'none';
+        if (visible) nb++;
+    });
+    document.getElementById('aucun-resultat').style.display = nb === 0 ? 'block' : 'none';
+}
+
+// Filtrer par catégorie
+function filtrerParCategorie(cat) {
+    // Mise à jour des boutons
+    document.querySelectorAll('.filtre-btn').forEach(b => {
+        b.classList.remove('filtre-actif', 'border-[#c5a059]', 'text-[#c5a059]');
+        b.classList.add('border-white/20', 'text-white/50');
+    });
+    event.target.classList.add('filtre-actif', 'border-[#c5a059]', 'text-[#c5a059]');
+    event.target.classList.remove('border-white/20', 'text-white/50');
+
+    const fiches = document.querySelectorAll('.fiche-card');
+    let nb = 0;
+    fiches.forEach(f => {
+        const visible = cat === 'toutes' || f.dataset.categorie === cat;
+        f.style.display = visible ? '' : 'none';
+        if (visible) nb++;
+    });
+    document.getElementById('aucun-resultat').style.display = nb === 0 ? 'block' : 'none';
+}
+</script>
+
+</body>
+</html>
