@@ -13,7 +13,7 @@ async function fetchConferences() {
     }
 
     const { data, error } = await window.supabase
-        .from('conferences')
+        .from('conferences_agenda')
         .select('*')
         .order('date_evenement', { ascending: true });
 
