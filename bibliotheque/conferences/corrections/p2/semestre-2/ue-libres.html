@@ -4,11 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>UE Libres — Corrections — ATPr</title>
+    <link rel="icon" type="image/png" href="/favicon.png" />
     <link rel="stylesheet" href="/style.css">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
     <script src="/supabase-init.js"></script>
+
 </head>
 <body class="bg-[#f5f2e8] min-h-screen bibliotheque-background">
     <main style="position:relative;z-index:1;" class="pt-32 px-6 pb-20">
@@ -34,6 +36,7 @@
     </main>
     <script src="/nav.js"></script>
     <script src="/auth.js"></script>
+
     <script>
     async function fetchConfs(annee, semestre, ue, module, type, containerId) {
         const el = document.getElementById(containerId);
@@ -56,10 +59,11 @@
                 <i class="fa-solid fa-download text-[#c5a059]/50 group-hover:text-[#c5a059] text-xs transition"></i>
             </a>`).join('');
     }
+    
     document.addEventListener('DOMContentLoaded', async () => {
         const w = () => new Promise(r => { const c = () => window.supabase ? r() : setTimeout(c, 50); c(); });
         await w();
-        fetchConfs('p2', '2', 'ue-libres', 'Méthodes d'Analyse en Nutrition', 'corrections', 'conf-methodes-d-analyse-en-nutrition');
+        fetchConfs('p2', '2', 'ue-libres', 'Méthodes d/Analyse en Nutrition', 'corrections', 'conf-methodes-d-analyse-en-nutrition');
     });
     </script>
 </body>

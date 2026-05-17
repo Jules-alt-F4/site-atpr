@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>UE Libres — Sujets — ATPr</title>
+    <link rel="icon" type="image/png" href="/favicon.png" />
     <link rel="stylesheet" href="/style.css">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -59,7 +60,7 @@
     document.addEventListener('DOMContentLoaded', async () => {
         const w = () => new Promise(r => { const c = () => window.supabase ? r() : setTimeout(c, 50); c(); });
         await w();
-        fetchConfs('p2', '2', 'ue-libres', 'Méthodes d'Analyse en Nutrition', 'sujets', 'conf-methodes-d-analyse-en-nutrition');
+        fetchConfs('p2', '2', 'ue-libres', 'Méthodes d/Analyse en Nutrition', 'sujets', 'conf-methodes-d-analyse-en-nutrition');
     });
     </script>
 </body>
