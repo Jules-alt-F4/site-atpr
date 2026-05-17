@@ -15,7 +15,7 @@ function injectNavbar() {
                      style="height:52px;width:auto;object-fit:contain;flex-shrink:0;">
             </a>
         </div>
-        <div class="nav-center-group" id="nav-center-group">
+        <div class="nav-center-group">
             <a href="/index.html#presentation-association" class="nav-link">L'Institution</a>
             <a href="bureau.html" class="nav-link">Le Bureau</a>
             <a href="/bibliotheque.html" class="nav-link">Bibliothèque</a>
@@ -30,31 +30,8 @@ function injectNavbar() {
                 <button type="button" onclick="openCompte()" class="nav-link-auth">Mon Compte</button>
                 <button type="button" onclick="handleLogout()" class="btn-join">Déconnexion</button>
             </div>
-            <!-- Hamburger mobile -->
-            <button id="nav-hamburger" onclick="toggleMobileMenu()" class="nav-hamburger" aria-label="Menu">
-                <span></span><span></span><span></span>
-            </button>
         </div>
-    </nav>
-    <!-- Menu mobile overlay -->
-    <div id="nav-mobile-menu" class="nav-mobile-menu">
-        <div class="nav-mobile-inner">
-            <a href="/index.html#presentation-association" class="nav-mobile-link" onclick="closeMobileMenu()">L'Institution</a>
-            <a href="/bureau.html" class="nav-mobile-link" onclick="closeMobileMenu()">Le Bureau</a>
-            <a href="/bibliotheque.html" class="nav-mobile-link" onclick="closeMobileMenu()">Bibliothèque</a>
-            <a href="/pole-methodo.html" class="nav-mobile-link" onclick="closeMobileMenu()">Pôle Méthodo</a>
-            <div class="nav-mobile-auth">
-                <div id="mobile-auth-guest">
-                    <button onclick="closeMobileMenu(); toggleModal('modal-login')" class="nav-mobile-btn-login">Connexion</button>
-                    <button onclick="closeMobileMenu(); toggleModal('modal-inscription')" class="nav-mobile-btn-join">S'inscrire</button>
-                </div>
-                <div id="mobile-auth-user" style="display:none">
-                    <button onclick="closeMobileMenu(); openCompte()" class="nav-mobile-btn-login">Mon Compte</button>
-                    <button onclick="closeMobileMenu(); handleLogout()" class="nav-mobile-btn-join">Déconnexion</button>
-                </div>
-            </div>
-        </div>
-    </div>`;
+    </nav>`;
 
     document.body.insertAdjacentHTML('afterbegin', navHTML);
 
@@ -243,11 +220,132 @@ function injectNavbar() {
             <button onclick="switchFromErrorTo('modal-inscription')" class="text-[10px] uppercase font-bold tracking-wider text-[#c5a059] hover:underline">Devenir membre</button>
         </div>
     </div>
+</div>
+<div id="modal-mentions-legales" class="modal-overlay" style="display:none" onclick="if(event.target===this) toggleModal('modal-mentions-legales')">
+    <div class="max-w-2xl w-full mx-4 bg-[#f5f2e8] auth-frame-gold relative" style="max-height:85vh;overflow:hidden;border-radius:1rem;">
+        <div class="auth-column auth-column-left"></div>
+        <div class="auth-column auth-column-right"></div>
+        <button onclick="toggleModal('modal-mentions-legales')" class="absolute top-4 right-4 z-50 text-black/40 hover:text-black text-xl">✕</button>
+        <div class="p-12">
+            <p class="text-[#c5a059] uppercase tracking-wider text-xs mb-2">Informations légales</p>
+            <h2 class="font-heritage italic text-4xl text-[#052e16] mb-8">Mentions Légales</h2>
+            <div class="space-y-6 text-sm text-[#5b4b2a] leading-relaxed">
+                <div><h3 class="font-semibold text-[#052e16] uppercase tracking-wider text-xs mb-2">Éditeur du site</h3>
+                <p>Association du Tutorat de Pharmacie Rennais (ATPr)<br>UFR des Sciences Pharmaceutiques et Biologiques de Rennes<br>2 Avenue du Professeur Léon Bernard, 35043 Rennes Cedex<br>Email : atpr.rennes@gmail.com</p></div>
+                <div><h3 class="font-semibold text-[#052e16] uppercase tracking-wider text-xs mb-2">Hébergement</h3>
+                <p>Ce site est hébergé par Vercel Inc., 340 Pine Street, Suite 701, San Francisco, California 94104, USA.</p></div>
+                <div><h3 class="font-semibold text-[#052e16] uppercase tracking-wider text-xs mb-2">Propriété intellectuelle</h3>
+                <p>L'ensemble des contenus présents sur ce site sont la propriété exclusive de l'ATPr. Toute reproduction, même partielle, est interdite sans autorisation préalable.</p></div>
+                <div><h3 class="font-semibold text-[#052e16] uppercase tracking-wider text-xs mb-2">Responsabilité</h3>
+                <p>L'ATPr s'efforce d'assurer l'exactitude des informations diffusées. Elle ne saurait être tenue responsable des erreurs ou de l'utilisation faite de ces informations par des tiers.</p></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="modal-politique-confidentialite" class="modal-overlay" style="display:none" onclick="if(event.target===this) toggleModal('modal-politique-confidentialite')">
+    <div class="max-w-2xl w-full mx-4 bg-[#f5f2e8] auth-frame-gold relative" style="max-height:85vh;overflow:hidden;border-radius:1rem;">
+        <div class="auth-column auth-column-left"></div>
+        <div class="auth-column auth-column-right"></div>
+        <button onclick="toggleModal('modal-politique-confidentialite')" class="absolute top-4 right-4 z-50 text-black/40 hover:text-black text-xl">✕</button>
+        <div class="p-12">
+            <p class="text-[#c5a059] uppercase tracking-wider text-xs mb-2">Vos données</p>
+            <h2 class="font-heritage italic text-4xl text-[#052e16] mb-8">Politique de Confidentialité</h2>
+            <div class="space-y-6 text-sm text-[#5b4b2a] leading-relaxed">
+                <div><h3 class="font-semibold text-[#052e16] uppercase tracking-wider text-xs mb-2">Données collectées</h3>
+                <p>Lors de votre inscription, nous collectons : prénom, nom, promotion, adresse email universitaire et mot de passe chiffré. Aucune donnée bancaire n'est collectée.</p></div>
+                <div><h3 class="font-semibold text-[#052e16] uppercase tracking-wider text-xs mb-2">Finalité</h3>
+                <p>Ces données sont utilisées exclusivement pour gérer votre accès à l'espace membres de l'ATPr et vous identifier au sein de l'association.</p></div>
+                <div><h3 class="font-semibold text-[#052e16] uppercase tracking-wider text-xs mb-2">Conservation</h3>
+                <p>Vos données sont conservées pour la durée de votre adhésion. Vous pouvez demander leur suppression à tout moment en contactant atpr.rennes@gmail.com.</p></div>
+                <div><h3 class="font-semibold text-[#052e16] uppercase tracking-wider text-xs mb-2">Hébergement des données</h3>
+                <p>Les données sont hébergées sur Supabase, infrastructure sécurisée conforme RGPD, dans des centres de données situés en Union Européenne.</p></div>
+                <div><h3 class="font-semibold text-[#052e16] uppercase tracking-wider text-xs mb-2">Vos droits</h3>
+                <p>Conformément au RGPD, vous disposez d'un droit d'accès, de rectification et de suppression de vos données. Contactez-nous à atpr.rennes@gmail.com.</p></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="modal-cgu" class="modal-overlay" style="display:none" onclick="if(event.target===this) toggleModal('modal-cgu')">
+    <div class="max-w-2xl w-full mx-4 bg-[#f5f2e8] auth-frame-gold relative" style="max-height:85vh;overflow:hidden;border-radius:1rem;">
+        <div class="auth-column auth-column-left"></div>
+        <div class="auth-column auth-column-right"></div>
+        <button onclick="toggleModal('modal-cgu')" class="absolute top-4 right-4 z-50 text-black/40 hover:text-black text-xl">✕</button>
+        <div class="p-12">
+            <p class="text-[#c5a059] uppercase tracking-wider text-xs mb-2">Conditions d'utilisation</p>
+            <h2 class="font-heritage italic text-4xl text-[#052e16] mb-8">Conditions Générales d'Utilisation</h2>
+            <div class="space-y-6 text-sm text-[#5b4b2a] leading-relaxed">
+                <div><h3 class="font-semibold text-[#052e16] uppercase tracking-wider text-xs mb-2">Accès au site</h3>
+                <p>L'accès à l'espace membres est réservé aux étudiants et personnels de l'UFR Pharmacie de Rennes, après validation de votre inscription par le bureau de l'ATPr.</p></div>
+                <div><h3 class="font-semibold text-[#052e16] uppercase tracking-wider text-xs mb-2">Utilisation des ressources</h3>
+                <p>Les fiches et conférences sont destinées exclusivement à un usage pédagogique personnel. Toute diffusion, reproduction ou exploitation commerciale est strictement interdite.</p></div>
+                <div><h3 class="font-semibold text-[#052e16] uppercase tracking-wider text-xs mb-2">Compte membre</h3>
+                <p>Chaque membre est responsable de la confidentialité de ses identifiants. En cas d'utilisation frauduleuse, contactez immédiatement atpr.rennes@gmail.com.</p></div>
+                <div><h3 class="font-semibold text-[#052e16] uppercase tracking-wider text-xs mb-2">Modifications</h3>
+                <p>L'ATPr se réserve le droit de modifier les présentes CGU à tout moment. Les membres seront informés de toute modification substantielle.</p></div>
+                <div><h3 class="font-semibold text-[#052e16] uppercase tracking-wider text-xs mb-2">Droit applicable</h3>
+                <p>Les présentes CGU sont soumises au droit français. Tout litige relèvera de la compétence des tribunaux de Rennes.</p></div>
+            </div>
+        </div>
+    </div>
 </div>`;
 
-    // Injecter les modales à la fin du body (une seule fois)
+    // Injecter les modales auth (une seule fois)
     if (!document.getElementById('modal-login')) {
         document.body.insertAdjacentHTML('beforeend', modalesHTML);
+    }
+    // Injecter les modales légales séparément (toujours)
+    if (!document.getElementById('modal-mentions-legales')) {
+        const legalesHTML = document.createElement('div');
+        legalesHTML.innerHTML = modalesHTML;
+        ['modal-mentions-legales','modal-politique-confidentialite','modal-cgu'].forEach(id => {
+            const el = legalesHTML.querySelector('#' + id);
+            if (el && !document.getElementById(id)) {
+                document.body.appendChild(el);
+            }
+        });
+    }
+
+
+    // ── FOOTER injecté sur toutes les pages ─────────────────────────────────
+    if (!document.getElementById('main-footer')) {
+        const footerHTML = `
+<footer id="main-footer" class="bg-[#000000] border-t border-[#c5a059]/20 py-12 px-6 mt-20">
+    <div class="max-w-6xl mx-auto">
+        <div class="flex flex-col md:flex-row justify-between items-center gap-8">
+            <div class="text-center md:text-left">
+                <span class="font-heritage italic text-2xl text-[#c5a059] block mb-2">ATPr</span>
+                <p class="text-[9px] uppercase tracking-[0.08em] text-[#f5f2e8]/60">
+                    &copy; 2024 Association du Tutorat de Pharmacie Rennais. <br> Tous droits réservés.
+                </p>
+            </div>
+            <div class="flex flex-wrap justify-center gap-8">
+                <button onclick="showPage('mentions-legales')" class="text-[10px] uppercase tracking-wider text-[#f5f2e8]/60 hover:text-[#c5a059] transition-colors">Mentions Légales</button>
+                <button onclick="showPage('politique-confidentialite')" class="text-[10px] uppercase tracking-wider text-[#f5f2e8]/60 hover:text-[#c5a059] transition-colors">Politique de Confidentialité</button>
+                <button onclick="showPage('cgu')" class="text-[10px] uppercase tracking-wider text-[#f5f2e8]/60 hover:text-[#c5a059] transition-colors">CGU</button>
+            </div>
+            <div class="text-center md:text-right">
+                <p class="text-[10px] uppercase tracking-wider text-[#c5a059] mb-1">Contact</p>
+                <p class="text-[11px] text-[#f5f2e8]/30 font-light">atpr.rennes@gmail.com</p>
+                <div class="flex space-x-8 mt-4">
+                    <a href="https://www.instagram.com/atpr_rennes?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" class="text-[#c5a059] hover:scale-125 transition-transform text-xl">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="https://m.me/id_messenger_president" target="_blank" class="text-[#c5a059] hover:scale-125 transition-transform text-xl">
+                        <i class="fab fa-facebook-messenger"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="mt-12 pt-8 border-t border-white/5 text-center">
+            <p class="text-[8px] uppercase tracking-[0.4em] text-[#f5f2e8]/60 italic">
+                Savoir, Éthique et Excellence Pharmaceutique
+            </p>
+        </div>
+    </div>
+</footer>`;
+        document.body.insertAdjacentHTML('beforeend', footerHTML);
     }
 
     waitForSupabaseThenListen();
@@ -281,20 +379,16 @@ function waitForSupabaseThenListen() {
 function applyAuthState(session) {
     const guest = document.getElementById('auth-guest');
     const user  = document.getElementById('auth-user');
-    const mGuest = document.getElementById('mobile-auth-guest');
-    const mUser  = document.getElementById('mobile-auth-user');
     if (!guest || !user) return;
 
     if (session) {
+        // Utilisateur connecté → afficher "Mon Compte / Déconnexion"
         guest.style.display = 'none';
         user.style.display  = 'flex';
-        if (mGuest) mGuest.style.display = 'none';
-        if (mUser)  mUser.style.display  = 'block';
     } else {
+        // Aucune session → afficher "Connexion / S'inscrire"
         user.style.display  = 'none';
         guest.style.display = 'flex';
-        if (mUser)  mUser.style.display  = 'none';
-        if (mGuest) mGuest.style.display = 'block';
     }
 }
 
@@ -480,30 +574,14 @@ async function initPageAccess() {
 }
 
 
-/* =========================
-   MENU MOBILE
-========================= */
-window.toggleMobileMenu = function() {
-    const menu = document.getElementById('nav-mobile-menu');
-    const burger = document.getElementById('nav-hamburger');
-    const isOpen = menu.classList.contains('open');
-    if (isOpen) {
-        menu.classList.remove('open');
-        burger.classList.remove('open');
-        document.body.classList.remove('modal-open');
-    } else {
-        menu.classList.add('open');
-        burger.classList.add('open');
-        document.body.classList.add('modal-open');
-    }
-};
-
-window.closeMobileMenu = function() {
-    const menu = document.getElementById('nav-mobile-menu');
-    const burger = document.getElementById('nav-hamburger');
-    menu.classList.remove('open');
-    burger.classList.remove('open');
-    document.body.classList.remove('modal-open');
+window.showPage = function(page) {
+    const ids = {
+        'mentions-legales': 'modal-mentions-legales',
+        'politique-confidentialite': 'modal-politique-confidentialite',
+        'cgu': 'modal-cgu'
+    };
+    const modalId = ids[page];
+    if (modalId) toggleModal(modalId);
 };
 
 // Lancement automatique
