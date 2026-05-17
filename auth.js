@@ -89,6 +89,14 @@ async function handleSignup(event) {
         alert('Veuillez remplir tous les champs.');
         return;
     }
+    const cguError = document.getElementById('ins-cgu-error');
+    if (!document.getElementById('ins-cgu')?.checked) {
+        if (cguError) cguError.style.display = 'flex';
+        document.getElementById('ins-cgu')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        return;
+    } else {
+        if (cguError) cguError.style.display = 'none';
+    }
     if (password !== confirm) {
         alert('Les mots de passe ne correspondent pas.');
         return;
@@ -138,6 +146,9 @@ async function handleSignup(event) {
             '<p class="text-[11px] uppercase tracking-widest opacity-60 leading-loose">' +
             'Votre demande d&apos;inscription a bien &eacute;t&eacute; envoy&eacute;e.<br><br>' +
             'Le bureau la validera dans les 24 &agrave; 48 heures.' +
+            '</p>' +
+            '<p style="font-size:9px;text-transform:uppercase;letter-spacing:0.08em;opacity:0.45;color:#000;margin-top:1rem;line-height:1.8;">' +
+            'Le bureau approuvera votre demande dans les plus brefs d&eacute;lais.<br>Vous serez notifi&eacute; d&egrave;s que votre acc&egrave;s sera activ&eacute;.' +
             '</p></div>';
         successMsg.style.display = 'block';
     }

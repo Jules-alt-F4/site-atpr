@@ -135,6 +135,18 @@ function injectNavbar() {
                         <label class="text-[10px] uppercase font-bold tracking-wider mb-1 opacity-50 block text-black">Confirmation</label>
                         <input type="password" id="ins-mdp-conf" class="auth-input" placeholder="••••••••" required>
                     </div>
+                    <div style="grid-column: span 2; margin-top: 1.25rem; display: flex; align-items: flex-start; gap: 0.6rem;">
+                        <input type="checkbox" id="ins-cgu" style="margin-top: 2px; flex-shrink: 0; accent-color: #c5a059; width: 14px; height: 14px; cursor: pointer;">
+                        <label for="ins-cgu" style="font-size: 9px; text-transform: uppercase; letter-spacing: 0.08em; opacity: 0.6; color: #000; line-height: 1.7; cursor: pointer; user-select: none;">
+                            J&apos;accepte la
+                            <span style="color: #c5a059; cursor: pointer; text-decoration: underline;" onclick="event.preventDefault(); showPage('politique-confidentialite')">politique de confidentialité</span>,
+                            les
+                            <span style="color: #c5a059; cursor: pointer; text-decoration: underline;" onclick="event.preventDefault(); showPage('mentions-legales')">mentions légales</span>
+                            et les
+                            <span style="color: #c5a059; cursor: pointer; text-decoration: underline;" onclick="event.preventDefault(); showPage('cgu')">CGU</span>
+                            de l&apos;ATPr.
+                        </label>
+                    </div>
                     <button type="submit" class="auth-submit-btn w-full shadow-sm col-span-2 mt-4">Soumettre la demande</button>
                     <p class="text-[9px] text-center col-span-2 mt-6 uppercase tracking-[0.08em] opacity-40 cursor-pointer hover:text-[#c5a059] text-black" onclick="toggleModal('modal-inscription'); toggleModal('modal-login')">
                         Déjà membre ? S&apos;identifier
