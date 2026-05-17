@@ -16,13 +16,24 @@
 </head>
 <body class="bg-[#f5f2e8] bibliotheque-background">
 <main style="position:relative;z-index:1;" class="pt-32 px-6">
-        <div class="max-w-7xl mx-auto text-center">
-            <h1 class="font-heritage text-5xl text-[#052e16] italic">Les Fiches</h1>
-            <p class="mt-4 text-[#c5a059] uppercase tracking-widest text-xs">Archives & Ressources</p>
-        </div>
+
+    <div class="max-w-5xl mx-auto">
+            <button onclick="history.back()" class="inline-flex items-center gap-2 text-[#052e16] hover:text-[#c5a059] transition text-sm">
+                <i class="fa-solid fa-arrow-left text-xs"></i>
+                <span class="uppercase tracking-wider text-xs">La Bibliothèque</span>
+            </button>
+               
+
+        <div class="text-center">
+                <p class="text-[#c5a059] uppercase tracking-wider text-xs">Bibliothèque</p>
+                <h1 class="font-heritage text-5xl text-[#052e16] italic mt-4">Fiches</h1>
+            </div>
+
+        
 
         <div class="mt-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 max-w-7xl mx-auto">
 
+            
             <a href="/bibliotheque/fiches/p2.html"
                class="group border border-[#c5a059]/40 bg-white/45 backdrop-blur-sm rounded-2xl p-8 hover:bg-[#f8f4ea] transition duration-300 shadow-lg text-left">
 
@@ -107,7 +118,7 @@
                 </p>
 
             </a>
-
+</div> 
         </div>
 
     </main>

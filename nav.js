@@ -142,8 +142,8 @@ function injectNavbar() {
                 </form>
                 <div id="success-msg" class="hidden py-12 text-center">
                     <div class="w-16 h-16 border border-emerald-500 text-emerald-500 rounded-full flex items-center justify-center mx-auto mb-6 text-2xl">✓</div>
-                    <h3 class="auth-title">Demande Transmise</h3>
-                    <p class="text-sm opacity-60 text-black">Le bureau étudiera vos informations sous 24 à 48 heures.</p>
+                    <h3 class="auth-title">Demande Transmise Ma Pupuce</h3>
+                    <p class="text-sm opacity-60 text-black">Le bureau étudiera tes informations sous 24 à 48 heures.</p>
                 </div>
             </div>
         </div>
@@ -397,8 +397,9 @@ async function initPageAccess() {
     }
 
     const main = document.querySelector('main');
-    const isLibrairie = !!main && document.title.includes('Bibliothèque');
-    const isMethodo   = document.title.includes('Méthodo');
+    const path = window.location.pathname;
+    const isLibrairie = path.includes('/bibliotheque') || path.includes('bibliotheque');
+    const isMethodo   = path.includes('/pole-methodo') || path.includes('pole-methodo');
 
     if (!isLibrairie && !isMethodo) return; // page non protégée
 

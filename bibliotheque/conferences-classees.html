@@ -3,57 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bibliothèque — ATPR</title>
-    <link rel="stylesheet" href="../style.css">
+    <title>Conférences Classées — ATPr</title>
+    <link rel="stylesheet" href="/style.css">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
- 
-    <!-- == SUPABASE + NAVBAR : bloc standard == -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
-    <script src="../supabase-init.js"></script>
-    <!-- ======================================= -->
-
+    <script src="/supabase-init.js"></script>
 </head>
-<body class="bg-[#f5f2e8] bibliotheque-background">
-<main style="position:relative;z-index:1;" class="pt-32 px-6">
-        <div class="max-w-7xl mx-auto text-center">
-            <h1 class="font-heritage text-5xl text-[#052e16] italic">Les Conférences Classées</h1>
-            <p class="mt-4 text-[#c5a059] uppercase tracking-widest text-xs">Archives & Ressources</p>
+<body class="bg-[#f5f2e8] min-h-screen bibliotheque-background">
+    <main style="position:relative;z-index:1;" class="pt-32 px-6 pb-20">
+        <div class="max-w-5xl mx-auto">
+            <button onclick="history.back()" class="inline-flex items-center gap-2 text-[#052e16] hover:text-[#c5a059] transition text-sm mb-10">
+                <i class="fa-solid fa-arrow-left text-xs"></i>
+                <span class="uppercase tracking-wider text-xs">La Bibliothèque</span>
+            </button>
+
+            <div class="text-center">
+                <p class="text-[#c5a059] uppercase tracking-wider text-xs">Bibliothèque</p>
+                <h1 class="font-heritage text-5xl text-[#052e16] italic mt-4">Conférences Classées</h1>
+            </div>
+            
+            <section class="mt-16 grid grid-cols-1 md:grid-cols-2 gap-6">
+                <a href="/bibliotheque/conferences-classees/sujets.html" class="group border border-[#c5a059]/40 bg-white/50 backdrop-blur-sm rounded-2xl p-8 shadow-lg hover:bg-[#f8f4ea] transition">
+                    <p class="text-[#c5a059] uppercase tracking-wider text-xs">Conférences Classées</p>
+                    <h2 class="mt-3 text-2xl text-[#052e16] font-semibold italic">Sujets</h2>
+                    <p class="mt-4 text-sm text-[#5b4b2a] leading-relaxed">Accédez aux sujets des conférences classées par année et UE.</p>
+                </a>
+                <a href="/bibliotheque/conferences-classees/corrections.html" class="group border border-[#c5a059]/40 bg-white/50 backdrop-blur-sm rounded-2xl p-8 shadow-lg hover:bg-[#f8f4ea] transition">
+                    <p class="text-[#c5a059] uppercase tracking-wider text-xs">Conférences Classées</p>
+                    <h2 class="mt-3 text-2xl text-[#052e16] font-semibold italic">Corrections</h2>
+                    <p class="mt-4 text-sm text-[#5b4b2a] leading-relaxed">Accédez aux corrections des conférences classées par année et UE.</p>
+                </a>
+
+            </section>
         </div>
-
     </main>
-
-    <!-- 3. Vérification session via onAuthStateChange — attend la vraie restauration depuis localStorage -->
-    <script>
-    let sessionChecked = false;
-
-    supabase.auth.onAuthStateChange((event, session) => {
-
-        // Ne s'exécute qu'une fois au chargement initial
-        if (sessionChecked) return;
-        sessionChecked = true;
-
-        if (!session) {
-            // Pas connecté : flouter + afficher popup
-            const mainContent = document.querySelector('main');
-            if (mainContent) {
-                mainContent.style.filter = 'blur(4px)';
-                mainContent.style.pointerEvents = 'none';
-                mainContent.style.userSelect = 'none';
-                mainContent.style.opacity = '0.6';
-            }
-
-            // Attendre que loadNavbar ait injecté les modales
-            setTimeout(() => {
-                toggleModal('modal-library-error');
-                document.body.classList.add('modal-open');
-            }, 100);
-
-        }
-        // Si session OK : rien à faire, nav.js gère déjà updateUI()
-    });
-    </script>
-    <script src="../nav.js"></script>
-    <script src="../auth.js"></script>
+    <script src="/nav.js"></script>
+    <script src="/auth.js"></script>
 </body>
 </html>
