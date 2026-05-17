@@ -15,7 +15,7 @@ function injectNavbar() {
                      style="height:52px;width:auto;object-fit:contain;flex-shrink:0;">
             </a>
         </div>
-        <div class="nav-center-group">
+        <div class="nav-center-group" id="nav-center-group">
             <a href="/index.html#presentation-association" class="nav-link">L'Institution</a>
             <a href="bureau.html" class="nav-link">Le Bureau</a>
             <a href="/bibliotheque.html" class="nav-link">Bibliothèque</a>
@@ -30,8 +30,31 @@ function injectNavbar() {
                 <button type="button" onclick="openCompte()" class="nav-link-auth">Mon Compte</button>
                 <button type="button" onclick="handleLogout()" class="btn-join">Déconnexion</button>
             </div>
+            <!-- Hamburger mobile -->
+            <button id="nav-hamburger" onclick="toggleMobileMenu()" class="nav-hamburger" aria-label="Menu">
+                <span></span><span></span><span></span>
+            </button>
         </div>
-    </nav>`;
+    </nav>
+    <!-- Menu mobile overlay -->
+    <div id="nav-mobile-menu" class="nav-mobile-menu">
+        <div class="nav-mobile-inner">
+            <a href="/index.html#presentation-association" class="nav-mobile-link" onclick="closeMobileMenu()">L'Institution</a>
+            <a href="/bureau.html" class="nav-mobile-link" onclick="closeMobileMenu()">Le Bureau</a>
+            <a href="/bibliotheque.html" class="nav-mobile-link" onclick="closeMobileMenu()">Bibliothèque</a>
+            <a href="/pole-methodo.html" class="nav-mobile-link" onclick="closeMobileMenu()">Pôle Méthodo</a>
+            <div class="nav-mobile-auth">
+                <div id="mobile-auth-guest">
+                    <button onclick="closeMobileMenu(); toggleModal('modal-login')" class="nav-mobile-btn-login">Connexion</button>
+                    <button onclick="closeMobileMenu(); toggleModal('modal-inscription')" class="nav-mobile-btn-join">S'inscrire</button>
+                </div>
+                <div id="mobile-auth-user" style="display:none">
+                    <button onclick="closeMobileMenu(); openCompte()" class="nav-mobile-btn-login">Mon Compte</button>
+                    <button onclick="closeMobileMenu(); handleLogout()" class="nav-mobile-btn-join">Déconnexion</button>
+                </div>
+            </div>
+        </div>
+    </div>`;
 
     document.body.insertAdjacentHTML('afterbegin', navHTML);
 
@@ -258,16 +281,20 @@ function waitForSupabaseThenListen() {
 function applyAuthState(session) {
     const guest = document.getElementById('auth-guest');
     const user  = document.getElementById('auth-user');
+    const mGuest = document.getElementById('mobile-auth-guest');
+    const mUser  = document.getElementById('mobile-auth-user');
     if (!guest || !user) return;
 
     if (session) {
-        // Utilisateur connecté → afficher "Mon Compte / Déconnexion"
         guest.style.display = 'none';
         user.style.display  = 'flex';
+        if (mGuest) mGuest.style.display = 'none';
+        if (mUser)  mUser.style.display  = 'block';
     } else {
-        // Aucune session → afficher "Connexion / S'inscrire"
         user.style.display  = 'none';
         guest.style.display = 'flex';
+        if (mUser)  mUser.style.display  = 'none';
+        if (mGuest) mGuest.style.display = 'block';
     }
 }
 
@@ -451,6 +478,33 @@ async function initPageAccess() {
         if (session) { showContent(); } else { blurContent(); }
     });
 }
+
+
+/* =========================
+   MENU MOBILE
+========================= */
+window.toggleMobileMenu = function() {
+    const menu = document.getElementById('nav-mobile-menu');
+    const burger = document.getElementById('nav-hamburger');
+    const isOpen = menu.classList.contains('open');
+    if (isOpen) {
+        menu.classList.remove('open');
+        burger.classList.remove('open');
+        document.body.classList.remove('modal-open');
+    } else {
+        menu.classList.add('open');
+        burger.classList.add('open');
+        document.body.classList.add('modal-open');
+    }
+};
+
+window.closeMobileMenu = function() {
+    const menu = document.getElementById('nav-mobile-menu');
+    const burger = document.getElementById('nav-hamburger');
+    menu.classList.remove('open');
+    burger.classList.remove('open');
+    document.body.classList.remove('modal-open');
+};
 
 // Lancement automatique
 document.addEventListener('DOMContentLoaded', () => { injectNavbar(); initPageAccess(); });
