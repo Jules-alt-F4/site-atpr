@@ -13,26 +13,70 @@
 <body class="bg-[#f5f2e8] min-h-screen bibliotheque-background">
     <main style="position:relative;z-index:1;" class="pt-32 px-6 pb-20">
         <div class="max-w-5xl mx-auto">
-
             <button onclick="history.back()" class="inline-flex items-center gap-2 text-[#052e16] hover:text-[#c5a059] transition text-sm mb-10">
-                <i class="fa-solid fa-arrow-left"></i>
-                Retour au Semestre 1
+                <i class="fa-solid fa-arrow-left text-xs"></i>
+                <span class="uppercase tracking-wider text-xs">Retour</span>
             </button>
-            <div class="text-center">
-                <p class="text-[#c5a059] uppercase tracking-wider text-xs">P2 — S1 — Sujets</p>
+            <div class="text-center mb-16">
+                <p class="text-[#c5a059] uppercase tracking-wider text-xs">P2 — Semestre 1 — Sujets</p>
                 <h1 class="font-heritage text-5xl text-[#052e16] italic mt-4">UE Libres</h1>
             </div>
-            <section class="mt-16">
-                <article class="border border-[#c5a059]/40 bg-white/50 backdrop-blur-sm rounded-2xl p-8 shadow-lg">
-                    <p class="text-[#c5a059] uppercase tracking-wider text-xs">Documents</p>
-                    <h2 class="mt-3 text-2xl text-[#052e16] font-semibold italic">Conférences à venir</h2>
-                    <p class="mt-4 text-sm text-[#5b4b2a] leading-relaxed">Les conférences de cette UE seront disponibles prochainement.</p>
-                </article>
-            </section>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="border border-[#c5a059]/40 bg-white/50 backdrop-blur-sm rounded-2xl p-8 shadow-lg">
+                    <p class="text-[#c5a059] uppercase tracking-wider text-xs mb-3">UE Libres</p>
+                    <h2 class="text-xl text-[#052e16] font-semibold italic mb-6">Industrie</h2>
+                    <div id="conf-industrie" class="space-y-3">
+                        <p class="text-sm text-[#5b4b2a] opacity-60 italic">Chargement...</p>
+                    </div>
+                </div>
+                <div class="border border-[#c5a059]/40 bg-white/50 backdrop-blur-sm rounded-2xl p-8 shadow-lg">
+                    <p class="text-[#c5a059] uppercase tracking-wider text-xs mb-3">UE Libres</p>
+                    <h2 class="text-xl text-[#052e16] font-semibold italic mb-6">Officine</h2>
+                    <div id="conf-officine" class="space-y-3">
+                        <p class="text-sm text-[#5b4b2a] opacity-60 italic">Chargement...</p>
+                    </div>
+                </div>
+                <div class="border border-[#c5a059]/40 bg-white/50 backdrop-blur-sm rounded-2xl p-8 shadow-lg">
+                    <p class="text-[#c5a059] uppercase tracking-wider text-xs mb-3">UE Libres</p>
+                    <h2 class="text-xl text-[#052e16] font-semibold italic mb-6">Biologie Cellulaire</h2>
+                    <div id="conf-biologie-cellulaire" class="space-y-3">
+                        <p class="text-sm text-[#5b4b2a] opacity-60 italic">Chargement...</p>
+                    </div>
+                </div>
+            </div>
         </div>
     </main>
-
     <script src="/nav.js"></script>
     <script src="/auth.js"></script>
+    <script>
+    async function fetchConfs(annee, semestre, ue, module, type, containerId) {
+        const el = document.getElementById(containerId);
+        if (!el) return;
+        const { data, error } = await window.supabase
+            .from('conferences').select('*')
+            .eq('annee', annee).eq('semestre', semestre)
+            .eq('ue', ue).eq('module', module).eq('type', type)
+            .order('created_at', { ascending: false });
+        if (error || !data || data.length === 0) {
+            el.innerHTML = '<p class="text-sm text-[#5b4b2a] opacity-50 italic">Aucune conférence disponible pour le moment.</p>';
+            return;
+        }
+        el.innerHTML = data.map(f => `
+            <a href="${f.url}" target="_blank" class="flex items-center justify-between gap-4 border border-[#c5a059]/30 bg-white/60 rounded-xl px-5 py-3 hover:bg-[#f8f4ea] hover:border-[#c5a059] transition group">
+                <div class="flex items-center gap-3">
+                    <i class="fa-regular fa-file-pdf text-[#c5a059] text-lg"></i>
+                    <span class="text-sm text-[#052e16] font-medium">${f.nom}</span>
+                </div>
+                <i class="fa-solid fa-download text-[#c5a059]/50 group-hover:text-[#c5a059] text-xs transition"></i>
+            </a>`).join('');
+    }
+    document.addEventListener('DOMContentLoaded', async () => {
+        const w = () => new Promise(r => { const c = () => window.supabase ? r() : setTimeout(c, 50); c(); });
+        await w();
+        fetchConfs('p2', '1', 'ue-libres', 'Industrie', 'sujets', 'conf-industrie');
+        fetchConfs('p2', '1', 'ue-libres', 'Officine', 'sujets', 'conf-officine');
+        fetchConfs('p2', '1', 'ue-libres', 'Biologie Cellulaire', 'sujets', 'conf-biologie-cellulaire');
+    });
+    </script>
 </body>
 </html>
