@@ -615,6 +615,28 @@ function injectIAWidget() {
     iaContainer.id = 'ia-widget-container';
     iaContainer.style.cssText = "position:fixed;bottom:24px;right:24px;z-index:9999;font-family:'Inter',sans-serif;";
 
+    // Injecter le CSS responsive mobile
+    if (!document.getElementById('ia-widget-style')) {
+        const style = document.createElement('style');
+        style.id = 'ia-widget-style';
+        style.textContent = [
+            '@media (max-width: 640px) {',
+            '  #ia-widget-container { bottom: 16px !important; right: 16px !important; }',
+            '  #ia-chat-box {',
+            '    position: fixed !important;',
+            '    top: 0 !important; left: 0 !important; right: 0 !important; bottom: 0 !important;',
+            '    width: 100vw !important; height: 100dvh !important;',
+            '    max-width: 100% !important;',
+            '    border-radius: 0 !important; border: none !important;',
+            '    box-shadow: none !important;',
+            '  }',
+            '  #ia-messages { -webkit-overflow-scrolling: touch; }',
+            '  #ia-input { font-size: 16px !important; }',
+            '}'
+        ].join('');
+        document.head.appendChild(style);
+    }
+
     iaContainer.innerHTML = `
         <!-- Bouton bulle -->
         <div id="ia-bubble" title="Le Mage du Tutorat" style="
@@ -634,6 +656,7 @@ function injectIAWidget() {
             display:none;
             width:420px;
             height:580px;
+            max-width:calc(100vw - 32px);
             background:#f7f5ef;
             border:1px solid #e2ddd0;
             border-radius:16px;
