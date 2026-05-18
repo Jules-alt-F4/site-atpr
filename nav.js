@@ -563,92 +563,205 @@ window.switchFromErrorTo = function(targetModal) {
     toggleModal(targetModal);
 };
 
+
 /* =========================================================
-   WIDGET IA MISTRAL - TUTORAT PHARMACIE RENNES
+   WIDGET IA MISTRAL — VERSION AVANCÉE
 ========================================================= */
+
+// Historique de conversation (mémoire)
+let iaHistory = [];
+
+// Rendu Markdown simple (gras, italique, listes, titres)
+function renderMarkdown(text) {
+    return text
+        .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+        .replace(/\*(.+?)\*/g, '<em>$1</em>')
+        .replace(/^### (.+)$/gm, '<h4 style="color:var(--luxury-gold);margin:8px 0 4px;font-size:0.9rem;">$1</h4>')
+        .replace(/^## (.+)$/gm, '<h3 style="color:var(--luxury-gold);margin:10px 0 4px;font-size:1rem;">$1</h3>')
+        .replace(/^✅ (.+)$/gm, '<div style="color:#86efac;margin-top:6px;">✅ $1</div>')
+        .replace(/^[-•] (.+)$/gm, '<div style="padding-left:12px;margin:2px 0;">• $1</div>')
+        .replace(/\n/g, '<br>');
+}
+
 function injectIAWidget() {
     if (document.getElementById('ia-widget-container')) return;
 
     const iaContainer = document.createElement('div');
     iaContainer.id = 'ia-widget-container';
-    iaContainer.style.cssText = "position: fixed; bottom: 20px; right: 20px; z-index: 9999; font-family: 'Montserrat', sans-serif;";
+    iaContainer.style.cssText = "position:fixed;bottom:24px;right:24px;z-index:9999;font-family:'Montserrat',sans-serif;";
 
     iaContainer.innerHTML = `
-        <div id="ia-bubble" style="width: 60px; height: 60px; background-color: var(--luxury-gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.3); transition: transform 0.2s; user-select: none;">
+        <!-- Bouton bulle -->
+        <div id="ia-bubble" title="Le Mage du Tutorat" style="width:62px;height:62px;background:var(--luxury-gold);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:28px;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,0.4);transition:transform 0.2s;user-select:none;">
             🧙‍♂️
         </div>
 
-        <div id="ia-chat-box" style="display: none; width: 360px; height: 480px; background-color: var(--pharma-green); border: 2px solid var(--luxury-gold); border-radius: 12px; position: absolute; bottom: 75px; right: 0; flex-direction: column; overflow: hidden; box-shadow: 0 8px 24px rgba(0,0,0,0.5); backdrop-filter: blur(8px);">
-            
-            <div style="background-color: var(--forest-green); padding: 14px; border-bottom: 1px solid var(--luxury-gold); display: flex; justify-content: space-between; align-items: center;">
-                <div style="display: flex; align-items: center; gap: 8px;">
-                    <span style="font-size: 1.2rem;">✨</span>
-                    <span style="color: var(--luxury-gold); font-weight: 600; font-size: 0.95rem;">Le Mage du Tutorat</span>
+        <!-- Fenêtre de chat -->
+        <div id="ia-chat-box" style="display:none;width:380px;height:560px;background:var(--pharma-green);border:2px solid var(--luxury-gold);border-radius:16px;position:absolute;bottom:78px;right:0;flex-direction:column;overflow:hidden;box-shadow:0 12px 40px rgba(0,0,0,0.6);">
+
+            <!-- Header -->
+            <div style="background:var(--forest-green);padding:14px 16px;border-bottom:1px solid var(--luxury-gold);display:flex;justify-content:space-between;align-items:center;flex-shrink:0;">
+                <div style="display:flex;align-items:center;gap:10px;">
+                    <span style="font-size:1.3rem;">✨</span>
+                    <div>
+                        <div style="color:var(--luxury-gold);font-weight:700;font-size:0.95rem;letter-spacing:0.03em;">Le Mage du Tutorat</div>
+                        <div style="color:rgba(245,242,232,0.5);font-size:0.7rem;letter-spacing:0.05em;text-transform:uppercase;">Assistant pédagogique IA</div>
+                    </div>
                 </div>
-                <span id="close-ia" style="cursor: pointer; color: var(--parchment); font-size: 1.5rem; line-height: 1;">&times;</span>
-            </div>
-            
-            <div id="ia-messages" style="flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; font-size: 0.9rem; color: var(--parchment); scroll-behavior: smooth;">
-                <div style="background: rgba(245, 242, 232, 0.08); padding: 10px 14px; border-radius: 12px; align-self: flex-start; max-width: 85%; line-height: 1.4;">
-                    Salutations, jeune Pupuce ! 🧪 Je suis le <b>Mage du Tutorat</b>. 
-                    Je suis là pour répondre à tes questions & même te créer des petits QCM Al Dente ! Mage Pupuce est là pour aider jeune Pupuce !
+                <div style="display:flex;align-items:center;gap:10px;">
+                    <a href="/mage.html" title="Ouvrir en pleine page" style="color:rgba(197,160,89,0.7);font-size:1rem;text-decoration:none;hover:color:var(--luxury-gold);">⛶</a>
+                    <span id="close-ia" style="cursor:pointer;color:rgba(245,242,232,0.6);font-size:1.4rem;line-height:1;">&times;</span>
                 </div>
             </div>
-            
-            <div style="padding: 12px; display: flex; gap: 8px; background: var(--forest-green); border-top: 1px solid rgba(197, 160, 89, 0.2);">
-                <input type="text" id="ia-input" placeholder="Pose ton énigme au Mage..." style="flex: 1; padding: 10px 14px; border-radius: 8px; border: 1px solid var(--luxury-gold); background: var(--pharma-green); color: var(--parchment); font-size: 0.85rem; outline: none;">
-                <button id="ia-send-btn" style="background: var(--luxury-gold); border: none; color: var(--forest-green); padding: 0 16px; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 0.85rem; transition: background 0.2s;">Envoyer</button>
+
+            <!-- Boutons de modes -->
+            <div style="display:flex;gap:6px;padding:10px 12px;background:rgba(0,0,0,0.15);flex-shrink:0;flex-wrap:wrap;">
+                <button class="ia-mode-btn" data-mode="normal" style="background:var(--luxury-gold);color:var(--forest-green);border:none;padding:4px 10px;border-radius:20px;font-size:0.72rem;font-weight:700;cursor:pointer;letter-spacing:0.04em;">💬 Chat</button>
+                <button class="ia-mode-btn" data-mode="qcm" style="background:rgba(197,160,89,0.15);color:var(--luxury-gold);border:1px solid rgba(197,160,89,0.4);padding:4px 10px;border-radius:20px;font-size:0.72rem;font-weight:700;cursor:pointer;letter-spacing:0.04em;">📝 QCM</button>
+                <button class="ia-mode-btn" data-mode="fiche" style="background:rgba(197,160,89,0.15);color:var(--luxury-gold);border:1px solid rgba(197,160,89,0.4);padding:4px 10px;border-radius:20px;font-size:0.72rem;font-weight:700;cursor:pointer;letter-spacing:0.04em;">📋 Fiche</button>
+                <button class="ia-mode-btn" data-mode="resume" style="background:rgba(197,160,89,0.15);color:var(--luxury-gold);border:1px solid rgba(197,160,89,0.4);padding:4px 10px;border-radius:20px;font-size:0.72rem;font-weight:700;cursor:pointer;letter-spacing:0.04em;">📖 Résumé</button>
+            </div>
+
+            <!-- Messages -->
+            <div id="ia-messages" style="flex:1;padding:14px;overflow-y:auto;display:flex;flex-direction:column;gap:10px;font-size:0.875rem;color:var(--parchment);scroll-behavior:smooth;">
+                <div class="ia-msg-mage" style="background:rgba(245,242,232,0.08);padding:12px 14px;border-radius:12px;border-left:3px solid var(--luxury-gold);align-self:flex-start;max-width:90%;line-height:1.5;">
+                    Salutations, jeune Pupuce ! 🧪 Je suis le <strong>Mage du Tutorat</strong>.<br><br>
+                    Pose-moi tes questions, demande-moi un <strong>QCM</strong>, une <strong>fiche mémo</strong> ou un <strong>résumé</strong> sur n'importe quelle notion de pharmacie !
+                </div>
+            </div>
+
+            <!-- Suggestions rapides -->
+            <div id="ia-suggestions" style="display:flex;gap:6px;padding:6px 12px;overflow-x:auto;flex-shrink:0;scrollbar-width:none;">
+                <button class="ia-suggestion" style="white-space:nowrap;background:rgba(197,160,89,0.12);color:var(--luxury-gold);border:1px solid rgba(197,160,89,0.3);padding:5px 10px;border-radius:20px;font-size:0.7rem;cursor:pointer;flex-shrink:0;">Fais-moi un QCM sur les lipides</button>
+                <button class="ia-suggestion" style="white-space:nowrap;background:rgba(197,160,89,0.12);color:var(--luxury-gold);border:1px solid rgba(197,160,89,0.3);padding:5px 10px;border-radius:20px;font-size:0.7rem;cursor:pointer;flex-shrink:0;">Explique la pharmacocinétique</button>
+                <button class="ia-suggestion" style="white-space:nowrap;background:rgba(197,160,89,0.12);color:var(--luxury-gold);border:1px solid rgba(197,160,89,0.3);padding:5px 10px;border-radius:20px;font-size:0.7rem;cursor:pointer;flex-shrink:0;">Fiche sur les antibiotiques</button>
+            </div>
+
+            <!-- Import PDF -->
+            <div style="padding:4px 12px;flex-shrink:0;">
+                <label for="ia-pdf-input" style="display:flex;align-items:center;gap:6px;color:rgba(197,160,89,0.6);font-size:0.7rem;cursor:pointer;letter-spacing:0.04em;text-transform:uppercase;">
+                    <span>📎</span> <span id="ia-pdf-label">Importer une fiche PDF</span>
+                </label>
+                <input type="file" id="ia-pdf-input" accept=".pdf,.txt" style="display:none;">
+            </div>
+
+            <!-- Zone de saisie -->
+            <div style="padding:12px;display:flex;gap:8px;background:var(--forest-green);border-top:1px solid rgba(197,160,89,0.2);flex-shrink:0;">
+                <input type="text" id="ia-input" placeholder="Pose ton énigme au Mage..." style="flex:1;padding:10px 14px;border-radius:10px;border:1px solid rgba(197,160,89,0.4);background:rgba(0,0,0,0.2);color:var(--parchment);font-size:0.85rem;outline:none;transition:border 0.2s;">
+                <button id="ia-send-btn" style="background:var(--luxury-gold);border:none;color:var(--forest-green);padding:0 16px;border-radius:10px;cursor:pointer;font-weight:700;font-size:0.85rem;transition:opacity 0.2s;flex-shrink:0;">Envoyer</button>
             </div>
         </div>
     `;
 
     document.body.appendChild(iaContainer);
 
-    // Événements d'ouverture/fermeture
-    const bubble = document.getElementById('ia-bubble');
-    const chatBox = document.getElementById('ia-chat-box');
-    const closeBtn = document.getElementById('close-ia');
+    const bubble       = document.getElementById('ia-bubble');
+    const chatBox      = document.getElementById('ia-chat-box');
+    const closeBtn     = document.getElementById('close-ia');
+    const sendBtn      = document.getElementById('ia-send-btn');
+    const input        = document.getElementById('ia-input');
+    const messages     = document.getElementById('ia-messages');
+    const pdfInput     = document.getElementById('ia-pdf-input');
+    const pdfLabel     = document.getElementById('ia-pdf-label');
 
+    let currentMode    = 'normal';
+    let pdfContent     = null;
+
+    // Ouverture/fermeture
     bubble.addEventListener('click', () => {
-        chatBox.style.display = chatBox.style.display === 'none' ? 'flex' : 'none';
+        const isOpen = chatBox.style.display === 'flex';
+        chatBox.style.display = isOpen ? 'none' : 'flex';
+        if (!isOpen) input.focus();
+    });
+    closeBtn.addEventListener('click', (e) => { e.stopPropagation(); chatBox.style.display = 'none'; });
+
+    // Modes
+    document.querySelectorAll('.ia-mode-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            currentMode = btn.dataset.mode;
+            document.querySelectorAll('.ia-mode-btn').forEach(b => {
+                b.style.background = 'rgba(197,160,89,0.15)';
+                b.style.color = 'var(--luxury-gold)';
+                b.style.border = '1px solid rgba(197,160,89,0.4)';
+            });
+            btn.style.background = 'var(--luxury-gold)';
+            btn.style.color = 'var(--forest-green)';
+            btn.style.border = 'none';
+            const hints = { normal: 'Pose ton énigme au Mage...', qcm: 'Sur quel sujet générer un QCM ?', fiche: 'Sur quel sujet faire une fiche ?', resume: 'Quel sujet résumer ?' };
+            input.placeholder = hints[currentMode] || hints.normal;
+        });
     });
 
-    closeBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        chatBox.style.display = 'none';
+    // Suggestions rapides
+    document.querySelectorAll('.ia-suggestion').forEach(btn => {
+        btn.addEventListener('click', () => { input.value = btn.textContent; input.focus(); });
     });
 
-    // Envoi des messages
-    const sendBtn = document.getElementById('ia-send-btn');
-    const input = document.getElementById('ia-input');
-    const messagesContainer = document.getElementById('ia-messages');
-    
+    // Import PDF
+    pdfInput.addEventListener('change', async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        if (file.type === 'text/plain') {
+            pdfContent = await file.text();
+            pdfLabel.textContent = '✅ ' + file.name;
+        } else {
+            pdfLabel.textContent = '⚠️ Seuls les .txt sont supportés dans le widget. Essaie la page dédiée.';
+        }
+    });
+
+    // Ajout d'un message dans le chat
+    function addMessage(html, isUser = false, withCopy = false) {
+        const div = document.createElement('div');
+        if (isUser) {
+            div.style.cssText = "background:var(--luxury-gold);color:var(--forest-green);padding:10px 14px;border-radius:12px;align-self:flex-end;max-width:88%;font-weight:500;line-height:1.5;word-break:break-word;";
+            div.textContent = html;
+        } else {
+            div.style.cssText = "background:rgba(245,242,232,0.08);padding:12px 14px;border-radius:12px;border-left:3px solid var(--luxury-gold);align-self:flex-start;max-width:92%;line-height:1.6;word-break:break-word;position:relative;";
+            div.innerHTML = renderMarkdown(html);
+            if (withCopy) {
+                const copyBtn = document.createElement('button');
+                copyBtn.textContent = '⎘';
+                copyBtn.title = 'Copier';
+                copyBtn.style.cssText = "position:absolute;top:6px;right:8px;background:none;border:none;color:rgba(197,160,89,0.5);cursor:pointer;font-size:0.85rem;padding:2px 4px;";
+                copyBtn.addEventListener('click', () => {
+                    navigator.clipboard.writeText(html);
+                    copyBtn.textContent = '✅';
+                    setTimeout(() => copyBtn.textContent = '⎘', 1500);
+                });
+                div.appendChild(copyBtn);
+            }
+        }
+        messages.appendChild(div);
+        messages.scrollTop = messages.scrollHeight;
+        return div;
+    }
+
+    // Envoi
     async function gérerEnvoi() {
         const texte = input.value.trim();
         if (!texte) return;
 
-        // 1. Afficher le message de l'étudiant
-        const userDiv = document.createElement('div');
-        userDiv.style.cssText = "background: var(--luxury-gold); color: var(--forest-green); padding: 10px 14px; border-radius: 12px; align-self: flex-end; max-width: 85%; font-weight: 500; line-height: 1.4;";
-        userDiv.textContent = texte;
-        messagesContainer.appendChild(userDiv);
-        
+        addMessage(texte, true);
         input.value = '';
-        messagesContainer.scrollTop = messagesContainer.scrollHeight;
 
-        // 2. Afficher l'indicateur d'effort de réflexion "..."
-        const loadingDiv = document.createElement('div');
-        loadingDiv.id = 'ia-loading-bubble';
-        loadingDiv.style.cssText = "background: rgba(245, 242, 232, 0.05); padding: 10px 14px; border-radius: 12px; align-self: flex-start; max-width: 85%; font-style: italic; color: #a1a1aa;";
-        loadingDiv.innerHTML = "Le Mage consulte ses grimoires web... <span class='dots'>✨</span>";
-        messagesContainer.appendChild(loadingDiv);
-        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        // Indicateur de chargement animé
+        const loading = document.createElement('div');
+        loading.id = 'ia-loading-bubble';
+        loading.style.cssText = "padding:12px 14px;border-radius:12px;align-self:flex-start;color:rgba(197,160,89,0.6);font-style:italic;font-size:0.8rem;";
+        loading.innerHTML = '✨ Le Mage consulte ses grimoires<span id="ia-dots">.</span>';
+        messages.appendChild(loading);
+        messages.scrollTop = messages.scrollHeight;
 
-        // 3. Appel Edge Function Supabase avec le token JWT de l'utilisateur connecté
+        const dotsInterval = setInterval(() => {
+            const d = document.getElementById('ia-dots');
+            if (d) d.textContent = d.textContent.length >= 3 ? '.' : d.textContent + '.';
+        }, 400);
+
         try {
-            // Récupération du token JWT de la session active
             const { data: { session } } = await window.supabase.auth.getSession();
             const token = session?.access_token;
+
+            const pageContext = document.title || window.location.pathname;
 
             const response = await fetch('https://zcueonuffhzrvnktxzpl.supabase.co/functions/v1/mistral-chat', {
                 method: 'POST',
@@ -656,40 +769,45 @@ function injectIAWidget() {
                     'Content-Type': 'application/json',
                     ...(token ? { 'Authorization': `Bearer ${token}` } : {})
                 },
-                body: JSON.stringify({ message: texte })
+                body: JSON.stringify({
+                    message: texte,
+                    history: iaHistory.slice(-10),
+                    context: pageContext,
+                    mode: currentMode,
+                    pdfContent: pdfContent
+                })
             });
 
-            const data = await response.json();
+            clearInterval(dotsInterval);
+            document.getElementById('ia-loading-bubble')?.remove();
 
-            // Retirer le message de chargement
-            const loadingBubble = document.getElementById('ia-loading-bubble');
-            if (loadingBubble) loadingBubble.remove();
+            const rawText = await response.text();
+            let data;
+            try { data = JSON.parse(rawText); } catch { throw new Error("Réponse invalide du serveur."); }
 
-            if (!response.ok || data.error) {
-                throw new Error(data.error || `Erreur HTTP ${response.status}`);
-            }
+            if (!response.ok || data.error) throw new Error(data.error || `Erreur HTTP ${response.status}`);
 
-            // Afficher la réponse du Mage
-            const replyDiv = document.createElement('div');
-            replyDiv.style.cssText = "background: rgba(245, 242, 232, 0.08); padding: 10px 14px; border-radius: 12px; align-self: flex-start; max-width: 85%; line-height: 1.4;";
-            replyDiv.innerHTML = (data.reply || '').replace(/\n/g, '<br>');
-            messagesContainer.appendChild(replyDiv);
+            // Mémoriser l'échange
+            iaHistory.push({ role: 'user', content: texte });
+            iaHistory.push({ role: 'assistant', content: data.reply });
+
+            addMessage(data.reply, false, true);
 
         } catch (error) {
-            console.error("Erreur IA:", error);
-            const loadingBubble = document.getElementById('ia-loading-bubble');
-            if (loadingBubble) loadingBubble.remove();
-            const errorDiv = document.createElement('div');
-            errorDiv.style.cssText = "background: rgba(239, 68, 68, 0.2); border: 1px solid #ef4444; padding: 10px 14px; border-radius: 12px; align-self: flex-start; max-width: 85%; color: #fca5a5;";
-            errorDiv.textContent = "Une perturbation magique empêche le Mage de répondre. Réessaie plus tard !";
-            messagesContainer.appendChild(errorDiv);
+            clearInterval(dotsInterval);
+            document.getElementById('ia-loading-bubble')?.remove();
+            const errDiv = document.createElement('div');
+            errDiv.style.cssText = "background:rgba(239,68,68,0.15);border:1px solid rgba(239,68,68,0.4);padding:10px 14px;border-radius:12px;align-self:flex-start;max-width:90%;color:#fca5a5;font-size:0.82rem;";
+            errDiv.textContent = "⚠️ " + (error.message || "Une erreur est survenue.");
+            messages.appendChild(errDiv);
+            messages.scrollTop = messages.scrollHeight;
         }
-
-        messagesContainer.scrollTop = messagesContainer.scrollHeight;
     }
 
     sendBtn.addEventListener('click', gérerEnvoi);
     input.addEventListener('keypress', (e) => { if (e.key === 'Enter') gérerEnvoi(); });
+    bubble.addEventListener('mouseenter', () => bubble.style.transform = 'scale(1.08)');
+    bubble.addEventListener('mouseleave', () => bubble.style.transform = 'scale(1)');
 }
 
 // Lancement automatique
@@ -701,13 +819,9 @@ if (document.readyState === 'loading') {
 
 /* =========================
    GESTION ACCÈS PAGES PROTÉGÉES
-   Gère le flou + popup selon la page
 ========================= */
 async function initPageAccess() {
-    if (!window.supabase) {
-        setTimeout(initPageAccess, 50);
-        return;
-    }
+    if (!window.supabase) { setTimeout(initPageAccess, 50); return; }
 
     const main = document.querySelector('main');
     const path = window.location.pathname;
@@ -717,58 +831,38 @@ async function initPageAccess() {
     if (!isLibrairie && !isMethodo) return;
 
     function showContent() {
-        if (main) {
-            main.style.filter        = '';
-            main.style.pointerEvents = '';
-            main.style.userSelect    = '';
-            main.style.opacity       = '';
-        }
+        if (main) { main.style.filter=''; main.style.pointerEvents=''; main.style.userSelect=''; main.style.opacity=''; }
         const mErr = document.getElementById('modal-library-error');
         if (mErr && mErr.style.display === 'flex') window.toggleModal('modal-library-error');
-
         const mPm = document.getElementById('popup-methodo');
-        if (mPm) { mPm.style.display = 'none'; document.body.classList.remove('modal-open'); }
-
+        if (mPm) { mPm.style.display='none'; document.body.classList.remove('modal-open'); }
         const cm = document.getElementById('contenu-methodo');
-        if (cm) { cm.style.display = 'block'; cm.style.filter = ''; cm.style.pointerEvents = ''; cm.style.opacity = ''; }
+        if (cm) { cm.style.display='block'; cm.style.filter=''; cm.style.pointerEvents=''; cm.style.opacity=''; }
     }
 
     function blurContent() {
-        if (main) {
-            main.style.filter        = 'blur(2px)';
-            main.style.pointerEvents = 'none';
-            main.style.userSelect    = 'none';
-            main.style.opacity       = '0.9';
-        }
+        if (main) { main.style.filter='blur(2px)'; main.style.pointerEvents='none'; main.style.userSelect='none'; main.style.opacity='0.9'; }
         if (isLibrairie) {
             const mErr = document.getElementById('modal-library-error');
             if (mErr && mErr.style.display !== 'flex') window.toggleModal('modal-library-error');
         }
         if (isMethodo) {
             const cm = document.getElementById('contenu-methodo');
-            if (cm) { cm.style.display = 'block'; cm.style.filter = 'blur(2px)'; cm.style.pointerEvents = 'none'; cm.style.opacity = '0.9'; }
+            if (cm) { cm.style.display='block'; cm.style.filter='blur(2px)'; cm.style.pointerEvents='none'; cm.style.opacity='0.9'; }
             const mPm = document.getElementById('popup-methodo');
-            if (mPm) { mPm.style.display = 'flex'; document.body.classList.add('modal-open'); }
+            if (mPm) { mPm.style.display='flex'; document.body.classList.add('modal-open'); }
         }
     }
 
     const { data: { session } } = await window.supabase.auth.getSession();
     if (!session) { blurContent(); } else { showContent(); }
-
-    window.supabase.auth.onAuthStateChange((_event, session) => {
-        if (session) { showContent(); } else { blurContent(); }
-    });
+    window.supabase.auth.onAuthStateChange((_event, session) => { if (session) showContent(); else blurContent(); });
 }
 
 window.showPage = function(page) {
-    const ids = {
-        'mentions-legales': 'modal-mentions-legales',
-        'politique-confidentialite': 'modal-politique-confidentialite',
-        'cgu': 'modal-cgu'
-    };
+    const ids = { 'mentions-legales':'modal-mentions-legales', 'politique-confidentialite':'modal-politique-confidentialite', 'cgu':'modal-cgu' };
     const modalId = ids[page];
     if (modalId) toggleModal(modalId);
 };
 
-// Lancement automatique
 document.addEventListener('DOMContentLoaded', () => { injectNavbar(); initPageAccess(); });
