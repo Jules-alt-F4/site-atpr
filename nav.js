@@ -588,84 +588,127 @@ function injectIAWidget() {
 
     const iaContainer = document.createElement('div');
     iaContainer.id = 'ia-widget-container';
-    iaContainer.style.cssText = "position:fixed;bottom:24px;right:24px;z-index:9999;font-family:'Montserrat',sans-serif;";
+    iaContainer.style.cssText = "position:fixed;bottom:24px;right:24px;z-index:9999;font-family:'Inter',sans-serif;";
 
     iaContainer.innerHTML = `
         <!-- Bouton bulle -->
-        <div id="ia-bubble" title="Le Mage du Tutorat" style="width:62px;height:62px;background:var(--luxury-gold);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:28px;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,0.4);transition:transform 0.2s;user-select:none;">
+        <div id="ia-bubble" title="Le Mage du Tutorat" style="
+            width:54px;height:54px;
+            background:#f0ece0;
+            border-radius:50%;
+            display:flex;align-items:center;justify-content:center;
+            font-size:24px;cursor:pointer;
+            box-shadow:0 4px 16px rgba(0,0,0,0.2);
+            transition:transform 0.15s,box-shadow 0.15s;
+            user-select:none;">
             🧙‍♂️
         </div>
 
         <!-- Fenêtre de chat -->
-        <div id="ia-chat-box" style="display:none;width:380px;height:560px;background:var(--pharma-green);border:2px solid var(--luxury-gold);border-radius:16px;position:absolute;bottom:78px;right:0;flex-direction:column;overflow:hidden;box-shadow:0 12px 40px rgba(0,0,0,0.6);">
+        <div id="ia-chat-box" style="
+            display:none;
+            width:420px;
+            height:580px;
+            background:#f7f5ef;
+            border:1px solid #e2ddd0;
+            border-radius:16px;
+            position:absolute;
+            bottom:68px;right:0;
+            flex-direction:column;
+            overflow:hidden;
+            box-shadow:0 8px 32px rgba(0,0,0,0.12);">
 
             <!-- Header -->
-            <div style="background:var(--forest-green);padding:14px 16px;border-bottom:1px solid var(--luxury-gold);display:flex;justify-content:space-between;align-items:center;flex-shrink:0;">
+            <div style="
+                background:#052e16;
+                padding:14px 18px;
+                display:flex;
+                justify-content:space-between;
+                align-items:center;
+                flex-shrink:0;">
                 <div style="display:flex;align-items:center;gap:10px;">
-                    <span style="font-size:1.3rem;">✨</span>
+                    <div style="width:32px;height:32px;background:rgba(255,255,255,0.1);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1rem;">🧙‍♂️</div>
                     <div>
-                        <div style="color:var(--luxury-gold);font-weight:700;font-size:0.95rem;letter-spacing:0.03em;">Le Mage du Tutorat</div>
-                        <div style="color:rgba(245,242,232,0.5);font-size:0.7rem;letter-spacing:0.05em;text-transform:uppercase;">Assistant pédagogique IA</div>
+                        <div style="color:#f0ece0;font-weight:600;font-size:0.88rem;letter-spacing:0.01em;">Le Mage du Tutorat</div>
+                        <div style="color:rgba(240,236,224,0.5);font-size:0.65rem;text-transform:uppercase;letter-spacing:0.08em;margin-top:1px;">Assistant pédagogique IA</div>
                     </div>
                 </div>
-                <div style="display:flex;align-items:center;gap:10px;">
-                    <a href="/mage.html" title="Ouvrir en pleine page" style="color:rgba(197,160,89,0.7);font-size:1rem;text-decoration:none;hover:color:var(--luxury-gold);">⛶</a>
-                    <span id="close-ia" style="cursor:pointer;color:rgba(245,242,232,0.6);font-size:1.4rem;line-height:1;">&times;</span>
+                <div style="display:flex;align-items:center;gap:12px;">
+                    <a href="/mage.html" title="Ouvrir en pleine page" style="color:rgba(240,236,224,0.5);font-size:0.85rem;text-decoration:none;transition:color 0.15s;" onmouseover="this.style.color='#c5a059'" onmouseout="this.style.color='rgba(240,236,224,0.5)'">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
+                    </a>
+                    <span id="close-ia" style="cursor:pointer;color:rgba(240,236,224,0.45);font-size:1.2rem;line-height:1;transition:color 0.15s;" onmouseover="this.style.color='#f0ece0'" onmouseout="this.style.color='rgba(240,236,224,0.45)'">&times;</span>
                 </div>
             </div>
 
-            <!-- Boutons de modes -->
-            <div style="display:flex;gap:6px;padding:10px 12px;background:rgba(0,0,0,0.15);flex-shrink:0;flex-wrap:wrap;">
-                <button class="ia-mode-btn" data-mode="normal" style="background:var(--luxury-gold);color:var(--forest-green);border:none;padding:4px 10px;border-radius:20px;font-size:0.72rem;font-weight:700;cursor:pointer;letter-spacing:0.04em;">💬 Chat</button>
-                <button class="ia-mode-btn" data-mode="qcm" style="background:rgba(197,160,89,0.15);color:var(--luxury-gold);border:1px solid rgba(197,160,89,0.4);padding:4px 10px;border-radius:20px;font-size:0.72rem;font-weight:700;cursor:pointer;letter-spacing:0.04em;">📝 QCM</button>
-                <button class="ia-mode-btn" data-mode="fiche" style="background:rgba(197,160,89,0.15);color:var(--luxury-gold);border:1px solid rgba(197,160,89,0.4);padding:4px 10px;border-radius:20px;font-size:0.72rem;font-weight:700;cursor:pointer;letter-spacing:0.04em;">📋 Fiche</button>
-                <button class="ia-mode-btn" data-mode="resume" style="background:rgba(197,160,89,0.15);color:var(--luxury-gold);border:1px solid rgba(197,160,89,0.4);padding:4px 10px;border-radius:20px;font-size:0.72rem;font-weight:700;cursor:pointer;letter-spacing:0.04em;">📖 Résumé</button>
+            <!-- Modes -->
+            <div style="display:flex;gap:6px;padding:10px 14px;background:#f0ece0;border-bottom:1px solid #e2ddd0;flex-shrink:0;">
+                <button class="ia-mode-btn" data-mode="normal" style="padding:5px 12px;border-radius:20px;border:1px solid #052e16;background:#052e16;color:#f0ece0;font-size:0.72rem;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;transition:all 0.15s;">💬 Chat</button>
+                <button class="ia-mode-btn" data-mode="qcm" style="padding:5px 12px;border-radius:20px;border:1px solid #d4cdb8;background:transparent;color:#4a4238;font-size:0.72rem;font-weight:500;cursor:pointer;font-family:'Inter',sans-serif;transition:all 0.15s;">📝 QCM</button>
+                <button class="ia-mode-btn" data-mode="fiche" style="padding:5px 12px;border-radius:20px;border:1px solid #d4cdb8;background:transparent;color:#4a4238;font-size:0.72rem;font-weight:500;cursor:pointer;font-family:'Inter',sans-serif;transition:all 0.15s;">📋 Fiche</button>
+                <button class="ia-mode-btn" data-mode="resume" style="padding:5px 12px;border-radius:20px;border:1px solid #d4cdb8;background:transparent;color:#4a4238;font-size:0.72rem;font-weight:500;cursor:pointer;font-family:'Inter',sans-serif;transition:all 0.15s;">📖 Résumé</button>
             </div>
 
             <!-- Messages -->
-            <div id="ia-messages" style="flex:1;padding:14px;overflow-y:auto;display:flex;flex-direction:column;gap:10px;font-size:0.875rem;color:var(--parchment);scroll-behavior:smooth;">
-                <div class="ia-msg-mage" style="background:rgba(245,242,232,0.08);padding:12px 14px;border-radius:12px;border-left:3px solid var(--luxury-gold);align-self:flex-start;max-width:90%;line-height:1.5;">
-                    Salutations, jeune Pupuce ! 🧪 Je suis le <strong>Mage du Tutorat</strong>.<br><br>
-                    Pose-moi tes questions, demande-moi un <strong>QCM</strong>, une <strong>fiche mémo</strong> ou un <strong>résumé</strong> sur n'importe quelle notion de pharmacie !
+            <div id="ia-messages" style="
+                flex:1;padding:16px;
+                overflow-y:auto;
+                display:flex;flex-direction:column;gap:12px;
+                font-size:0.875rem;
+                scroll-behavior:smooth;
+                background:#f7f5ef;">
+
+                <!-- Message de bienvenue -->
+                <div style="display:flex;gap:10px;align-items:flex-start;">
+                    <div style="width:28px;height:28px;background:#052e16;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.8rem;flex-shrink:0;">🧙‍♂️</div>
+                    <div style="background:#f0ece0;border:1px solid #e2ddd0;padding:10px 14px;border-radius:12px;border-top-left-radius:3px;font-size:0.85rem;line-height:1.6;color:#2a2015;max-width:88%;">
+                        Salutations, jeune Pupuce ! 🧪 Je suis le <strong>Mage du Tutorat</strong>.<br><br>
+                        Pose-moi tes questions, demande-moi un <strong>QCM</strong>, une <strong>fiche mémo</strong> ou un <strong>résumé</strong> sur n'importe quelle notion de pharmacie !
+                    </div>
                 </div>
             </div>
 
-            <!-- Suggestions rapides -->
-            <div id="ia-suggestions" style="display:flex;gap:6px;padding:6px 12px;overflow-x:auto;flex-shrink:0;scrollbar-width:none;">
-                <button class="ia-suggestion" style="white-space:nowrap;background:rgba(197,160,89,0.12);color:var(--luxury-gold);border:1px solid rgba(197,160,89,0.3);padding:5px 10px;border-radius:20px;font-size:0.7rem;cursor:pointer;flex-shrink:0;">Fais-moi un QCM sur les lipides</button>
-                <button class="ia-suggestion" style="white-space:nowrap;background:rgba(197,160,89,0.12);color:var(--luxury-gold);border:1px solid rgba(197,160,89,0.3);padding:5px 10px;border-radius:20px;font-size:0.7rem;cursor:pointer;flex-shrink:0;">Explique la pharmacocinétique</button>
-                <button class="ia-suggestion" style="white-space:nowrap;background:rgba(197,160,89,0.12);color:var(--luxury-gold);border:1px solid rgba(197,160,89,0.3);padding:5px 10px;border-radius:20px;font-size:0.7rem;cursor:pointer;flex-shrink:0;">Fiche sur les antibiotiques</button>
-            </div>
-
-            <!-- Import PDF -->
-            <div style="padding:4px 12px;flex-shrink:0;">
-                <label for="ia-pdf-input" style="display:flex;align-items:center;gap:6px;color:rgba(197,160,89,0.6);font-size:0.7rem;cursor:pointer;letter-spacing:0.04em;text-transform:uppercase;">
-                    <span>📎</span> <span id="ia-pdf-label">Importer une fiche PDF</span>
-                </label>
-                <input type="file" id="ia-pdf-input" accept=".pdf,.txt" style="display:none;">
+            <!-- Suggestions -->
+            <div style="display:flex;gap:6px;padding:8px 14px;background:#f7f5ef;border-top:1px solid #e2ddd0;overflow-x:auto;flex-shrink:0;scrollbar-width:none;">
+                <button class="ia-suggestion" style="white-space:nowrap;padding:5px 12px;background:#f0ece0;border:1px solid #d4cdb8;border-radius:20px;font-size:0.7rem;color:#4a4238;cursor:pointer;font-family:'Inter',sans-serif;flex-shrink:0;transition:all 0.15s;">Fais-moi un QCM sur les lipides</button>
+                <button class="ia-suggestion" style="white-space:nowrap;padding:5px 12px;background:#f0ece0;border:1px solid #d4cdb8;border-radius:20px;font-size:0.7rem;color:#4a4238;cursor:pointer;font-family:'Inter',sans-serif;flex-shrink:0;transition:all 0.15s;">Explique la pharmacocinétique</button>
+                <button class="ia-suggestion" style="white-space:nowrap;padding:5px 12px;background:#f0ece0;border:1px solid #d4cdb8;border-radius:20px;font-size:0.7rem;color:#4a4238;cursor:pointer;font-family:'Inter',sans-serif;flex-shrink:0;transition:all 0.15s;">Fiche antibiotiques</button>
             </div>
 
             <!-- Zone de saisie -->
-            <div style="padding:12px;display:flex;gap:8px;background:var(--forest-green);border-top:1px solid rgba(197,160,89,0.2);flex-shrink:0;">
-                <input type="text" id="ia-input" placeholder="Pose ton énigme au Mage..." style="flex:1;padding:10px 14px;border-radius:10px;border:1px solid rgba(197,160,89,0.4);background:rgba(0,0,0,0.2);color:var(--parchment);font-size:0.85rem;outline:none;transition:border 0.2s;">
-                <button id="ia-send-btn" style="background:var(--luxury-gold);border:none;color:var(--forest-green);padding:0 16px;border-radius:10px;cursor:pointer;font-weight:700;font-size:0.85rem;transition:opacity 0.2s;flex-shrink:0;">Envoyer</button>
+            <div style="padding:12px 14px;background:#f7f5ef;border-top:1px solid #e2ddd0;flex-shrink:0;">
+                <div style="display:flex;gap:8px;align-items:flex-end;background:#fff;border:1px solid #d4cdb8;border-radius:12px;padding:8px 12px;transition:border-color 0.2s;box-shadow:0 1px 4px rgba(0,0,0,0.05);" id="ia-input-wrap">
+                    <input type="text" id="ia-input" placeholder="Envoie un message au Mage..." style="
+                        flex:1;border:none;outline:none;
+                        background:transparent;
+                        color:#1a1a1a;font-size:0.85rem;
+                        font-family:'Inter',sans-serif;
+                        padding:4px 0;">
+                    <button id="ia-send-btn" style="
+                        width:30px;height:30px;flex-shrink:0;
+                        background:#052e16;border:none;
+                        border-radius:8px;cursor:pointer;
+                        display:flex;align-items:center;justify-content:center;
+                        color:#f0ece0;font-size:0.8rem;
+                        transition:background 0.15s;">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
+                    </button>
+                </div>
             </div>
         </div>
     `;
 
     document.body.appendChild(iaContainer);
 
-    const bubble       = document.getElementById('ia-bubble');
-    const chatBox      = document.getElementById('ia-chat-box');
-    const closeBtn     = document.getElementById('close-ia');
-    const sendBtn      = document.getElementById('ia-send-btn');
-    const input        = document.getElementById('ia-input');
-    const messages     = document.getElementById('ia-messages');
-    const pdfInput     = document.getElementById('ia-pdf-input');
-    const pdfLabel     = document.getElementById('ia-pdf-label');
+    const bubble   = document.getElementById('ia-bubble');
+    const chatBox  = document.getElementById('ia-chat-box');
+    const closeBtn = document.getElementById('close-ia');
+    const sendBtn  = document.getElementById('ia-send-btn');
+    const input    = document.getElementById('ia-input');
+    const messages = document.getElementById('ia-messages');
 
-    let currentMode    = 'normal';
-    let pdfContent     = null;
+    let currentMode = 'normal';
+    let pdfContent  = null;
 
     // Ouverture/fermeture
     bubble.addEventListener('click', () => {
@@ -673,67 +716,84 @@ function injectIAWidget() {
         chatBox.style.display = isOpen ? 'none' : 'flex';
         if (!isOpen) input.focus();
     });
-    closeBtn.addEventListener('click', (e) => { e.stopPropagation(); chatBox.style.display = 'none'; });
+    closeBtn.addEventListener('click', e => { e.stopPropagation(); chatBox.style.display = 'none'; });
+
+    // Hover bulle
+    bubble.addEventListener('mouseenter', () => { bubble.style.transform='scale(1.06)'; bubble.style.boxShadow='0 6px 20px rgba(0,0,0,0.25)'; });
+    bubble.addEventListener('mouseleave', () => { bubble.style.transform='scale(1)'; bubble.style.boxShadow='0 4px 16px rgba(0,0,0,0.2)'; });
 
     // Modes
     document.querySelectorAll('.ia-mode-btn').forEach(btn => {
         btn.addEventListener('click', () => {
             currentMode = btn.dataset.mode;
             document.querySelectorAll('.ia-mode-btn').forEach(b => {
-                b.style.background = 'rgba(197,160,89,0.15)';
-                b.style.color = 'var(--luxury-gold)';
-                b.style.border = '1px solid rgba(197,160,89,0.4)';
+                b.style.background = 'transparent';
+                b.style.color = '#4a4238';
+                b.style.borderColor = '#d4cdb8';
+                b.style.fontWeight = '500';
             });
-            btn.style.background = 'var(--luxury-gold)';
-            btn.style.color = 'var(--forest-green)';
-            btn.style.border = 'none';
-            const hints = { normal: 'Pose ton énigme au Mage...', qcm: 'Sur quel sujet générer un QCM ?', fiche: 'Sur quel sujet faire une fiche ?', resume: 'Quel sujet résumer ?' };
+            btn.style.background = '#052e16';
+            btn.style.color = '#f0ece0';
+            btn.style.borderColor = '#052e16';
+            btn.style.fontWeight = '600';
+            const hints = { normal:'Envoie un message au Mage...', qcm:'Sur quel sujet générer un QCM ?', fiche:'Sur quelle notion créer une fiche ?', resume:'Quel cours résumer ?' };
             input.placeholder = hints[currentMode] || hints.normal;
         });
     });
 
-    // Suggestions rapides
+    // Suggestions
     document.querySelectorAll('.ia-suggestion').forEach(btn => {
         btn.addEventListener('click', () => { input.value = btn.textContent; input.focus(); });
+        btn.addEventListener('mouseenter', () => { btn.style.background='#e5e0d0'; btn.style.borderColor='#c5a059'; btn.style.color='#052e16'; });
+        btn.addEventListener('mouseleave', () => { btn.style.background='#f0ece0'; btn.style.borderColor='#d4cdb8'; btn.style.color='#4a4238'; });
     });
 
-    // Import PDF
-    pdfInput.addEventListener('change', async (e) => {
-        const file = e.target.files[0];
-        if (!file) return;
-        if (file.type === 'text/plain') {
-            pdfContent = await file.text();
-            pdfLabel.textContent = '✅ ' + file.name;
-        } else {
-            pdfLabel.textContent = '⚠️ Seuls les .txt sont supportés dans le widget. Essaie la page dédiée.';
-        }
-    });
+    // Rendu Markdown simple
+    function renderMd(text) {
+        return text
+            .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+            .replace(/\*(.+?)\*/g, '<em>$1</em>')
+            .replace(/^✅ (.+)$/gm, '<div style="color:#15803d;">✅ $1</div>')
+            .replace(/^[-•] (.+)$/gm, '<div style="padding-left:12px;margin:2px 0">• $1</div>')
+            .replace(/\n/g, '<br>');
+    }
 
-    // Ajout d'un message dans le chat
-    function addMessage(html, isUser = false, withCopy = false) {
-        const div = document.createElement('div');
+    // Ajouter un message
+    function addMessage(content, isUser) {
+        const row = document.createElement('div');
+        row.style.cssText = 'display:flex;gap:10px;align-items:flex-start;' + (isUser ? 'flex-direction:row-reverse;' : '');
+
+        const av = document.createElement('div');
+        av.style.cssText = 'width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.75rem;flex-shrink:0;' + (isUser ? 'background:#c5a059;color:#052e16;font-weight:700;' : 'background:#052e16;');
+        av.textContent = isUser ? 'M' : '🧙‍♂️';
+
+        const bubble = document.createElement('div');
         if (isUser) {
-            div.style.cssText = "background:var(--luxury-gold);color:var(--forest-green);padding:10px 14px;border-radius:12px;align-self:flex-end;max-width:88%;font-weight:500;line-height:1.5;word-break:break-word;";
-            div.textContent = html;
+            bubble.style.cssText = 'background:#052e16;color:#f0ece0;padding:10px 14px;border-radius:12px;border-top-right-radius:3px;font-size:0.85rem;line-height:1.6;max-width:88%;word-break:break-word;';
+            bubble.textContent = content;
         } else {
-            div.style.cssText = "background:rgba(245,242,232,0.08);padding:12px 14px;border-radius:12px;border-left:3px solid var(--luxury-gold);align-self:flex-start;max-width:92%;line-height:1.6;word-break:break-word;position:relative;";
-            div.innerHTML = renderMarkdown(html);
-            if (withCopy) {
-                const copyBtn = document.createElement('button');
-                copyBtn.textContent = '⎘';
-                copyBtn.title = 'Copier';
-                copyBtn.style.cssText = "position:absolute;top:6px;right:8px;background:none;border:none;color:rgba(197,160,89,0.5);cursor:pointer;font-size:0.85rem;padding:2px 4px;";
-                copyBtn.addEventListener('click', () => {
-                    navigator.clipboard.writeText(html);
-                    copyBtn.textContent = '✅';
-                    setTimeout(() => copyBtn.textContent = '⎘', 1500);
-                });
-                div.appendChild(copyBtn);
-            }
+            bubble.style.cssText = 'background:#f0ece0;border:1px solid #e2ddd0;padding:10px 14px;border-radius:12px;border-top-left-radius:3px;font-size:0.85rem;line-height:1.6;color:#2a2015;max-width:88%;word-break:break-word;position:relative;';
+            bubble.innerHTML = renderMd(content);
+
+            // Bouton copier
+            const copyBtn = document.createElement('button');
+            copyBtn.style.cssText = 'position:absolute;top:6px;right:8px;background:none;border:none;color:#9c8e6e;cursor:pointer;font-size:0.7rem;padding:2px 5px;border-radius:4px;opacity:0;transition:opacity 0.15s;';
+            copyBtn.innerHTML = '⎘';
+            copyBtn.title = 'Copier';
+            bubble.addEventListener('mouseenter', () => copyBtn.style.opacity = '1');
+            bubble.addEventListener('mouseleave', () => copyBtn.style.opacity = '0');
+            copyBtn.onclick = () => {
+                navigator.clipboard.writeText(content);
+                copyBtn.innerHTML = '✅';
+                setTimeout(() => copyBtn.innerHTML = '⎘', 1500);
+            };
+            bubble.appendChild(copyBtn);
         }
-        messages.appendChild(div);
+
+        row.appendChild(av);
+        row.appendChild(bubble);
+        messages.appendChild(row);
         messages.scrollTop = messages.scrollHeight;
-        return div;
     }
 
     // Envoi
@@ -744,24 +804,31 @@ function injectIAWidget() {
         addMessage(texte, true);
         input.value = '';
 
-        // Indicateur de chargement animé
-        const loading = document.createElement('div');
-        loading.id = 'ia-loading-bubble';
-        loading.style.cssText = "padding:12px 14px;border-radius:12px;align-self:flex-start;color:rgba(197,160,89,0.6);font-style:italic;font-size:0.8rem;";
-        loading.innerHTML = '✨ Le Mage consulte ses grimoires<span id="ia-dots">.</span>';
-        messages.appendChild(loading);
+        // Loading
+        const loadRow = document.createElement('div');
+        loadRow.id = 'ia-loading-bubble';
+        loadRow.style.cssText = 'display:flex;gap:10px;align-items:center;';
+        loadRow.innerHTML = `
+            <div style="width:28px;height:28px;background:#052e16;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.8rem;flex-shrink:0;">🧙‍♂️</div>
+            <div style="background:#f0ece0;border:1px solid #e2ddd0;padding:12px 16px;border-radius:12px;border-top-left-radius:3px;display:flex;gap:5px;align-items:center;">
+                <span style="width:6px;height:6px;background:#9c8e6e;border-radius:50%;display:inline-block;animation:iaDot 1.2s ease-in-out infinite;"></span>
+                <span style="width:6px;height:6px;background:#9c8e6e;border-radius:50%;display:inline-block;animation:iaDot 1.2s ease-in-out 0.2s infinite;"></span>
+                <span style="width:6px;height:6px;background:#9c8e6e;border-radius:50%;display:inline-block;animation:iaDot 1.2s ease-in-out 0.4s infinite;"></span>
+            </div>`;
+        messages.appendChild(loadRow);
         messages.scrollTop = messages.scrollHeight;
 
-        const dotsInterval = setInterval(() => {
-            const d = document.getElementById('ia-dots');
-            if (d) d.textContent = d.textContent.length >= 3 ? '.' : d.textContent + '.';
-        }, 400);
+        // Injecter l'animation CSS si pas encore fait
+        if (!document.getElementById('ia-dot-style')) {
+            const s = document.createElement('style');
+            s.id = 'ia-dot-style';
+            s.textContent = '@keyframes iaDot{0%,80%,100%{transform:translateY(0);opacity:0.35}40%{transform:translateY(-5px);opacity:1}}';
+            document.head.appendChild(s);
+        }
 
         try {
             const { data: { session } } = await window.supabase.auth.getSession();
             const token = session?.access_token;
-
-            const pageContext = document.title || window.location.pathname;
 
             const response = await fetch('https://zcueonuffhzrvnktxzpl.supabase.co/functions/v1/mistral-chat', {
                 method: 'POST',
@@ -772,44 +839,39 @@ function injectIAWidget() {
                 body: JSON.stringify({
                     message: texte,
                     history: iaHistory.slice(-10),
-                    context: pageContext,
+                    context: document.title || window.location.pathname,
                     mode: currentMode,
                     pdfContent: pdfContent
                 })
             });
 
-            clearInterval(dotsInterval);
             document.getElementById('ia-loading-bubble')?.remove();
 
             const rawText = await response.text();
             let data;
-            try { data = JSON.parse(rawText); } catch { throw new Error("Réponse invalide du serveur."); }
-
+            try { data = JSON.parse(rawText); } catch { throw new Error('Réponse invalide du serveur.'); }
             if (!response.ok || data.error) throw new Error(data.error || `Erreur HTTP ${response.status}`);
 
-            // Mémoriser l'échange
             iaHistory.push({ role: 'user', content: texte });
             iaHistory.push({ role: 'assistant', content: data.reply });
 
-            addMessage(data.reply, false, true);
+            addMessage(data.reply, false);
 
         } catch (error) {
-            clearInterval(dotsInterval);
             document.getElementById('ia-loading-bubble')?.remove();
-            const errDiv = document.createElement('div');
-            errDiv.style.cssText = "background:rgba(239,68,68,0.15);border:1px solid rgba(239,68,68,0.4);padding:10px 14px;border-radius:12px;align-self:flex-start;max-width:90%;color:#fca5a5;font-size:0.82rem;";
-            errDiv.textContent = "⚠️ " + (error.message || "Une erreur est survenue.");
-            messages.appendChild(errDiv);
+            const errRow = document.createElement('div');
+            errRow.style.cssText = 'display:flex;gap:10px;align-items:flex-start;';
+            errRow.innerHTML = `<div style="width:28px;height:28px;background:#052e16;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;">⚠️</div><div style="background:#fef2f2;border:1px solid #fecaca;padding:10px 14px;border-radius:12px;font-size:0.82rem;color:#dc2626;max-width:88%;">${error.message || 'Une erreur est survenue.'}</div>`;
+            messages.appendChild(errRow);
             messages.scrollTop = messages.scrollHeight;
         }
     }
 
     sendBtn.addEventListener('click', gérerEnvoi);
-    input.addEventListener('keypress', (e) => { if (e.key === 'Enter') gérerEnvoi(); });
-    bubble.addEventListener('mouseenter', () => bubble.style.transform = 'scale(1.08)');
-    bubble.addEventListener('mouseleave', () => bubble.style.transform = 'scale(1)');
+    input.addEventListener('keypress', e => { if (e.key === 'Enter') gérerEnvoi(); });
+    sendBtn.addEventListener('mouseenter', () => sendBtn.style.background = '#073d1e');
+    sendBtn.addEventListener('mouseleave', () => sendBtn.style.background = '#052e16');
 }
-
 // Lancement automatique
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', injectIAWidget);
