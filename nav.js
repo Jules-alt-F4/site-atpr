@@ -1,3 +1,18 @@
+const ogData = {
+  "og:title": "ATPR - Tutorat de Pharmacie de Rennes",
+  "og:description": "Le site officiel du tutorat de pharmacie pour les étudiants rennais.",
+  "og:image": "https://tutorat-pharmacie-rennes.fr/images/logo.png",
+  "og:url": window.location.href, // Ça prend automatiquement l'URL de la page actuelle !
+  "og:type": "website"
+};
+
+Object.entries(ogData).forEach(([property, content]) => {
+  let meta = document.createElement('meta');
+  meta.setAttribute('property', property);
+  meta.setAttribute('content', content);
+  document.head.appendChild(meta);
+});
+
 /* =========================
    INJECTION DE LA NAVBAR
 ========================= */
