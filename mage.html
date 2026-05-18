@@ -378,11 +378,100 @@
             text-align: center;
             margin-top: 8px;
         }
+
+        /* ── BOUTON HAMBURGER SIDEBAR (mobile) ── */
+        #sb-toggle {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            width: 36px; height: 36px;
+            background: none;
+            border: 1px solid #e2ddd0;
+            border-radius: 8px;
+            cursor: pointer;
+            color: #4a4238;
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+
+        /* ── OVERLAY sidebar mobile ── */
+        #sb-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.35);
+            z-index: 50;
+        }
+
+        /* ── RESPONSIVE MOBILE ── */
+        @media (max-width: 768px) {
+
+            body {
+                height: 100dvh;
+                padding-top: 0 !important;
+            }
+
+            #mage-app {
+                flex-direction: column;
+                height: 100dvh;
+            }
+
+            /* Sidebar cachée par défaut, glisse en overlay */
+            #mage-sidebar {
+                position: fixed;
+                top: 0; left: 0; bottom: 0;
+                width: 280px;
+                z-index: 60;
+                transform: translateX(-100%);
+                transition: transform 0.25s ease;
+                box-shadow: 4px 0 20px rgba(0,0,0,0.12);
+            }
+            #mage-sidebar.open { transform: translateX(0); }
+            #sb-overlay.open { display: block; }
+
+            /* Header mobile */
+            #mage-header {
+                padding: 12px 16px;
+                border-top: none;
+            }
+            #sb-toggle { display: flex; }
+
+            /* Messages */
+            #mage-messages {
+                padding: 16px 0 8px;
+                -webkit-overflow-scrolling: touch;
+            }
+            .msg-row { padding: 0 12px; }
+            .msg-inner-wrap { max-width: 100%; }
+            .msg-bubble { font-size: 0.84rem; padding: 10px 14px; }
+
+            /* Bouton copier visible au tap sur mobile */
+            .copy-btn { opacity: 1; bottom: -20px; font-size: 0.65rem; }
+
+            /* Input zone */
+            #mage-input-zone { padding: 8px 12px 12px; }
+            #mage-suggestions { gap: 6px; margin-bottom: 8px; }
+            .sugg { font-size: 0.72rem; padding: 5px 10px; }
+
+            /* Éviter zoom iOS à la saisie */
+            #mage-textarea { font-size: 16px !important; }
+
+            /* Toolbar plus compact */
+            #mage-toolbar { padding: 6px 10px 8px; }
+            .tb-btn { padding: 4px 8px; font-size: 0.68rem; }
+            #mage-send { width: 38px; height: 38px; }
+
+            /* Masquer l'astuce clavier */
+            .input-hint { display: none; }
+        }
     </style>
 </head>
 <body>
 
 <div id="mage-app">
+
+    <!-- Overlay fond sidebar mobile -->
+    <div id="sb-overlay" onclick="toggleSidebar()"></div>
 
     <!-- SIDEBAR -->
     <aside id="mage-sidebar">
@@ -443,6 +532,10 @@
 
         <div id="mage-header">
             <div class="hdr-left">
+                <!-- Hamburger visible uniquement sur mobile -->
+                <button id="sb-toggle" onclick="toggleSidebar()" aria-label="Menu">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
                 <div class="hdr-av">🧙‍♂️</div>
                 <div>
                     <div class="hdr-name">Le Mage du Tutorat</div>
@@ -499,6 +592,23 @@
 <script src="nav.js"></script>
 <script src="auth.js"></script>
 <script>
+// ── Toggle sidebar mobile ──
+function toggleSidebar() {
+    const sb  = document.getElementById('mage-sidebar');
+    const ov  = document.getElementById('sb-overlay');
+    const open = sb.classList.toggle('open');
+    ov.classList.toggle('open', open);
+    document.body.style.overflow = open ? 'hidden' : '';
+}
+
+// Fermer sidebar si on clique sur un bouton dedans (mobile)
+document.addEventListener('click', function(e) {
+    const sb = document.getElementById('mage-sidebar');
+    if (sb && sb.classList.contains('open') && e.target.closest('.sb-btn, .sb-new-btn, .sb-back')) {
+        toggleSidebar();
+    }
+});
+
 // ── Ajuster padding-top selon la vraie hauteur de la navbar ──
 (function() {
     function fixNav() {
