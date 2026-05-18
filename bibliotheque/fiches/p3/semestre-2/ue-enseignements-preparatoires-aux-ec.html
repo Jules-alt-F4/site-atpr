@@ -73,9 +73,9 @@
     document.addEventListener('DOMContentLoaded', async () => {
         const w = () => new Promise(r => { const c = () => window.supabase ? r() : setTimeout(c, 50); c(); });
         await w();
-        fetchFiches('p3', '1', 'ue-enseignements-preparatoires', 'Sémiologie', 'fiches-semiologie');
-        fetchFiches('p3', '1', 'ue-enseignements-preparatoires', 'Pharmacie Clinique', 'fiches-pharmacie-clinique');
-        fetchFiches('p3', '1', 'ue-enseignements-preparatoires', 'Nutrition', 'fiches-nutrition');
+        fetchFiches('p3', '2', 'ue-enseignements-preparatoires', 'Sémiologie', 'fiches-semiologie');
+        fetchFiches('p3', '2', 'ue-enseignements-preparatoires', 'Pharmacie Clinique', 'fiches-pharmacie-clinique');
+        fetchFiches('p3', '2', 'ue-enseignements-preparatoires', 'Nutrition', 'fiches-nutrition');
     });
     </script>
 </body>

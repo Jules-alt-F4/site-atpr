@@ -31,7 +31,32 @@ function injectNavbar() {
                 <button type="button" onclick="handleLogout()" class="btn-join">Déconnexion</button>
             </div>
         </div>
-    </nav>`;
+
+        <!-- Bouton hamburger (mobile uniquement) -->
+        <button id="nav-hamburger" class="nav-hamburger" onclick="toggleMobileMenu()" aria-label="Menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </nav>
+
+    <!-- Menu mobile overlay -->
+    <div id="nav-mobile-menu" class="nav-mobile-menu">
+        <div class="nav-mobile-inner">
+            <a href="/index.html#presentation-association" class="nav-mobile-link">L'Institution</a>
+            <a href="bureau.html" class="nav-mobile-link">Le Bureau</a>
+            <a href="/bibliotheque.html" class="nav-mobile-link">Bibliothèque</a>
+            <a href="pole-methodo.html" class="nav-mobile-link">Pôle Méthodo</a>
+            <div id="auth-guest-mobile" class="nav-mobile-auth">
+                <button type="button" onclick="toggleModal('modal-login'); closeMobileMenu()" class="nav-mobile-btn-login">Connexion</button>
+                <button type="button" onclick="toggleModal('modal-inscription'); closeMobileMenu()" class="nav-mobile-btn-join">S'inscrire</button>
+            </div>
+            <div id="auth-user-mobile" class="nav-mobile-auth" style="display:none">
+                <button type="button" onclick="openCompte(); closeMobileMenu()" class="nav-mobile-btn-login">Mon Compte</button>
+                <button type="button" onclick="handleLogout()" class="nav-mobile-btn-join">Déconnexion</button>
+            </div>
+        </div>
+    </div>`;
 
     document.body.insertAdjacentHTML('afterbegin', navHTML);
 
@@ -367,19 +392,15 @@ function injectNavbar() {
    ATTENTE DE SUPABASE
 ========================= */
 function waitForSupabaseThenListen() {
-    // Supabase peut ne pas être encore initialisé au moment de l'injection,
-    // on retente toutes les 50ms jusqu'à ce qu'il soit disponible.
     if (!window.supabase) {
         setTimeout(waitForSupabaseThenListen, 50);
         return;
     }
 
-    // Lecture de la session actuelle (pour l'état initial au chargement)
     window.supabase.auth.getSession().then(({ data: { session } }) => {
         applyAuthState(session);
     });
 
-    // Listener temps réel : se déclenche à chaque connexion / déconnexion
     window.supabase.auth.onAuthStateChange((_event, session) => {
         applyAuthState(session);
     });
@@ -389,19 +410,13 @@ function waitForSupabaseThenListen() {
    LOGIQUE D'AFFICHAGE (UI)
 ========================= */
 function applyAuthState(session) {
-    const guest = document.getElementById('auth-guest');
-    const user  = document.getElementById('auth-user');
-    if (!guest || !user) return;
+    const guest  = document.getElementById('auth-guest');
+    const user   = document.getElementById('auth-user');
+    const guestM = document.getElementById('auth-guest-mobile');
+    const userM  = document.getElementById('auth-user-mobile');
 
-    if (session) {
-        // Utilisateur connecté → afficher "Mon Compte / Déconnexion"
-        guest.style.display = 'none';
-        user.style.display  = 'flex';
-    } else {
-        // Aucune session → afficher "Connexion / S'inscrire"
-        user.style.display  = 'none';
-        guest.style.display = 'flex';
-    }
+    [guest, guestM].forEach(el => { if (el) el.style.display = session ? 'none' : 'flex'; });
+    [user,  userM ].forEach(el => { if (el) el.style.display = session ? 'flex' : 'none'; });
 }
 
 // Compatibilité ascendante (appelée depuis auth.js si besoin)
@@ -422,7 +437,6 @@ window.toggleModal = function(id) {
     const isOpening = (m.style.display === 'none' || m.style.display === '');
 
     if (isOpening) {
-        // Fermer toutes les autres modales auth avant d'ouvrir la nouvelle
         ['modal-login', 'modal-inscription', 'modal-compte'].forEach(otherId => {
             if (otherId !== id) {
                 const other = document.getElementById(otherId);
@@ -431,14 +445,12 @@ window.toggleModal = function(id) {
                 }
             }
         });
-        // Compenser la scrollbar avant de la cacher
         const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
         document.documentElement.style.setProperty('--scrollbar-width', scrollbarWidth + 'px');
         m.style.display = 'flex';
         document.body.classList.add('modal-open');
     } else {
         m.style.display = 'none';
-        // Retirer modal-open seulement si aucune autre modale n'est ouverte
         const anyOpen = Array.from(document.querySelectorAll('.modal-overlay'))
             .some(el => el.style.display === 'flex');
         if (!anyOpen) {
@@ -446,6 +458,22 @@ window.toggleModal = function(id) {
             document.documentElement.style.setProperty('--scrollbar-width', '0px');
         }
     }
+};
+
+/* =========================
+   MENU MOBILE (HAMBURGER)
+========================= */
+window.toggleMobileMenu = function() {
+    const menu = document.getElementById('nav-mobile-menu');
+    const btn  = document.getElementById('nav-hamburger');
+    if (!menu) return;
+    const isOpen = menu.classList.toggle('open');
+    btn.classList.toggle('open', isOpen);
+};
+
+window.closeMobileMenu = function() {
+    document.getElementById('nav-mobile-menu')?.classList.remove('open');
+    document.getElementById('nav-hamburger')?.classList.remove('open');
 };
 
 window.openCompte = async function() {
@@ -456,14 +484,12 @@ window.openCompte = async function() {
     const user = session.user;
     const meta = user.user_metadata || {};
 
-    // Infos figées
     const set = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val || '—'; };
     set('compte-prenom', meta.prenom || meta.first_name);
     set('compte-nom',    meta.nom    || meta.last_name);
     set('compte-promo',  meta.promo  || meta.promotion);
     set('compte-email',  user.email);
 
-    // Réinitialiser le formulaire mdp
     ['compte-mdp-nouveau', 'compte-mdp-confirm'].forEach(id => {
         const el = document.getElementById(id); if (el) el.value = '';
     });
@@ -512,7 +538,6 @@ window.handleLibraryAccess = async function(e) {
     }
 };
 
-
 window.switchFromErrorTo = function(targetModal) {
     toggleModal('modal-library-error');
     toggleModal(targetModal);
@@ -534,24 +559,21 @@ async function initPageAccess() {
     const isLibrairie = path.includes('/bibliotheque') || path.includes('bibliotheque');
     const isMethodo   = path.includes('/pole-methodo') || path.includes('pole-methodo');
 
-    if (!isLibrairie && !isMethodo) return; // page non protégée
+    if (!isLibrairie && !isMethodo) return;
 
     function showContent() {
         if (main) {
-            main.style.filter      = '';
+            main.style.filter        = '';
             main.style.pointerEvents = '';
-            main.style.userSelect  = '';
-            main.style.opacity     = '';
+            main.style.userSelect    = '';
+            main.style.opacity       = '';
         }
-        // Bibliothèque : fermer modal-library-error
         const mErr = document.getElementById('modal-library-error');
         if (mErr && mErr.style.display === 'flex') window.toggleModal('modal-library-error');
 
-        // Méthodo : fermer popup-methodo
         const mPm = document.getElementById('popup-methodo');
         if (mPm) { mPm.style.display = 'none'; document.body.classList.remove('modal-open'); }
 
-        // Contenu méthodo
         const cm = document.getElementById('contenu-methodo');
         if (cm) { cm.style.display = 'block'; cm.style.filter = ''; cm.style.pointerEvents = ''; cm.style.opacity = ''; }
     }
@@ -563,12 +585,10 @@ async function initPageAccess() {
             main.style.userSelect    = 'none';
             main.style.opacity       = '0.9';
         }
-        // Bibliothèque : ouvrir modal-library-error
         if (isLibrairie) {
             const mErr = document.getElementById('modal-library-error');
             if (mErr && mErr.style.display !== 'flex') window.toggleModal('modal-library-error');
         }
-        // Méthodo : ouvrir popup-methodo + flouter contenu
         if (isMethodo) {
             const cm = document.getElementById('contenu-methodo');
             if (cm) { cm.style.display = 'block'; cm.style.filter = 'blur(2px)'; cm.style.pointerEvents = 'none'; cm.style.opacity = '0.9'; }
@@ -584,7 +604,6 @@ async function initPageAccess() {
         if (session) { showContent(); } else { blurContent(); }
     });
 }
-
 
 window.showPage = function(page) {
     const ids = {
