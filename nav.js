@@ -374,7 +374,7 @@ function injectNavbar() {
             <div class="text-center md:text-left">
                 <span class="font-heritage italic text-2xl text-[#c5a059] block mb-2">ATPr</span>
                 <p class="text-[9px] uppercase tracking-[0.08em] text-[#f5f2e8]/60">
-                    &copy; 2024 Association du Tutorat de Pharmacie Rennais. <br> Tous droits réservés.
+                    &copy; 2025 Association du Tutorat de Pharmacie Rennais. <br> Tous droits réservés.
                 </p>
             </div>
             <div class="flex flex-wrap justify-center gap-8">
