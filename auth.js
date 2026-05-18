@@ -165,3 +165,41 @@ async function handleLogout() {
 }
 
 // updateUI et toggleModal sont définis dans nav.js
+
+/* =========================
+   SUPPRESSION DU COMPTE
+========================= */
+function confirmerSuppressionCompte() {
+    const el = document.getElementById('confirm-delete-account');
+    if (el) el.style.display = el.style.display === 'none' ? 'block' : 'none';
+}
+
+async function supprimerCompte() {
+    try {
+        const { data: { session } } = await window.supabase.auth.getSession();
+        if (!session) return;
+
+        const res = await fetch('https://zcueonuffhzrvnktxzpl.supabase.co/functions/v1/delete-account', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + session.access_token
+            }
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+            alert('Erreur lors de la suppression : ' + (data.error || res.status));
+            return;
+        }
+
+        await window.supabase.auth.signOut();
+        if (typeof window.toggleModal === 'function') window.toggleModal('modal-compte');
+        window.location.href = '/index.html';
+
+    } catch (err) {
+        console.error(err);
+        alert('Une erreur est survenue. Réessaie plus tard.');
+    }
+}

@@ -255,7 +255,19 @@ function injectNavbar() {
                     <p id="compte-mdp-msg" class="text-[11px] tracking-wide" style="display:none"></p>
                 </div>
                 <button onclick="handleChangePassword()" class="auth-submit-btn w-full shadow-sm">Mettre à jour le mot de passe</button>
-                <div class="mt-4 text-center border-t border-black/5 pt-4">
+
+                <!-- Confirmation suppression -->
+                <div id="confirm-delete-account" style="display:none;" class="mt-3 border border-red-200 bg-red-50 rounded-lg p-4 text-center">
+                    <p class="text-[11px] text-red-700 uppercase tracking-wider font-semibold mb-1">Action irréversible</p>
+                    <p class="text-[11px] text-red-600 mb-4 leading-relaxed">Votre compte et toutes vos données seront définitivement supprimés.</p>
+                    <div class="flex gap-3 justify-center">
+                        <button onclick="supprimerCompte()" class="text-[10px] uppercase tracking-wider font-bold bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition-colors">Confirmer</button>
+                        <button onclick="document.getElementById('confirm-delete-account').style.display='none'" class="text-[10px] uppercase tracking-wider font-bold border border-black/20 px-4 py-2 rounded hover:bg-black/5 transition-colors">Annuler</button>
+                    </div>
+                </div>
+
+                <div class="mt-4 text-center border-t border-black/5 pt-4 flex flex-col gap-3">
+                    <button onclick="confirmerSuppressionCompte()" class="text-[10px] uppercase tracking-wider text-red-400/60 hover:text-red-500 transition-colors">Supprimer mon compte</button>
                     <button onclick="toggleModal('modal-compte'); handleLogout();" class="text-[11px] font-bold text-[#c5a059] uppercase tracking-wider hover:underline">Se déconnecter</button>
                 </div>
             </div>
