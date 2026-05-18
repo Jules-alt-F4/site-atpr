@@ -491,6 +491,11 @@ html {
 }
 
 /* Logo à gauche */
+
+.nav-left {
+    flex: 0 0 auto;
+}
+
 .nav-left .logo-text {
     font-family: 'Cormorant Garamond', serif;
     font-size: 1.8rem;
@@ -501,12 +506,12 @@ html {
 
 /* Groupe central (Navigation) */
 .nav-center-group {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 6px;
+    white-space: nowrap;
+    flex: 1;
+    justify-content: center;
 }
 
 .nav-center-group .nav-link, 
@@ -518,13 +523,14 @@ html {
     letter-spacing: 0.05em !important;
     text-transform: none;
     color: #052e16 !important; /* Texte sombre */
-    padding: 8px 18px;
-    border: 1px solid var(--luxury-gold) !important; /* Liseré doré sans remplissage */
+    padding: 7px 14px;
+    border: 1px solid var(--luxury-gold) !important;
     border-radius: 9999px;
     background: transparent !important;
     transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
     text-decoration: none;
     display: inline-block;
+    white-space: nowrap;
 }
 
 .nav-center-group .nav-link:hover, 
@@ -533,6 +539,10 @@ html {
     color: var(--luxury-gold) !important; /* Texte doré */
     box-shadow: inset 0 0 0 100px #052e16; /* Overlay propre */
     transform: none;
+}
+
+.nav-right {
+    flex: 0 0 auto;
 }
 
 /* Groupe droite (Auth) */
@@ -581,26 +591,6 @@ html {
    VIEW TRANSITIONS
    Fondu entre les pages
 ========================= */
-@view-transition {
-    navigation: auto;
-}
-
-::view-transition-old(root) {
-    animation: 180ms ease-out vt-fade-out;
-}
-
-::view-transition-new(root) {
-    animation: 180ms ease-in vt-fade-in;
-}
-
-@keyframes vt-fade-out {
-    to { opacity: 0; }
-}
-
-@keyframes vt-fade-in {
-    from { opacity: 0; }
-}
-
 
 /* =========================
    NAVBAR — RESSERRAGE PROGRESSIF (desktop)
@@ -803,11 +793,520 @@ html {
 }
 
 /* =========================
-   VIEW TRANSITIONS
-   Fondu entre les pages
+   PAGE CONTACT
 ========================= */
-@view-transition { navigation: auto; }
-::view-transition-old(root) { animation: 180ms ease-out vt-fade-out; }
-::view-transition-new(root) { animation: 180ms ease-in vt-fade-in; }
-@keyframes vt-fade-out { to { opacity: 0; } }
-@keyframes vt-fade-in { from { opacity: 0; } }
+.contact-hero {
+    min-height: calc(100vh - 80px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 120px 20px 80px;
+    position: relative;
+}
+
+.gold-ornament {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 2rem;
+}
+.gold-ornament::before,
+.gold-ornament::after {
+    content: '';
+    width: 60px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--luxury-gold));
+}
+.gold-ornament::after {
+    background: linear-gradient(90deg, var(--luxury-gold), transparent);
+}
+.gold-ornament span {
+    color: var(--luxury-gold);
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+}
+
+.contact-card {
+    max-width: 680px;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.97);
+    border: 1px solid rgba(197, 160, 89, 0.4);
+    border-radius: 4px;
+    padding: 56px 60px;
+    position: relative;
+    box-shadow: 0 8px 40px rgba(5, 46, 22, 0.15);
+}
+
+.contact-card::before {
+    content: '';
+    position: absolute;
+    top: -4px; left: -4px; right: -4px; bottom: -4px;
+    border: 1px solid rgba(197, 160, 89, 0.15);
+    border-radius: 6px;
+    pointer-events: none;
+}
+
+.contact-column {
+    position: absolute;
+    top: 8%;
+    bottom: 8%;
+    width: 1px;
+    background: linear-gradient(to bottom, transparent, var(--luxury-gold), transparent);
+    opacity: 0.35;
+}
+.contact-column-left  { left: 18px; }
+.contact-column-right { right: 18px; }
+
+.contact-eyebrow {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--luxury-gold);
+    text-align: center;
+    margin-bottom: 0.75rem;
+}
+
+.contact-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 2.8rem;
+    font-weight: 600;
+    color: var(--forest-green);
+    text-align: center;
+    line-height: 1.15;
+    margin-bottom: 0;
+}
+
+.contact-divider {
+    height: 1px;
+    width: 64px;
+    background: linear-gradient(90deg, transparent, var(--luxury-gold), transparent);
+    margin: 1.5rem auto 1.75rem;
+}
+
+.contact-desc {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.8rem;
+    line-height: 1.9;
+    letter-spacing: 0.04em;
+    color: rgba(26, 26, 26, 0.65);
+    text-align: center;
+    margin-bottom: 2.5rem;
+}
+
+.contact-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    align-items: center;
+}
+
+.contact-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    width: 100%;
+    max-width: 340px;
+    padding: 16px 28px;
+    border-radius: 2px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border: none;
+}
+
+.contact-btn-primary {
+    background-color: var(--forest-green);
+    color: var(--parchment);
+    border: 1px solid var(--forest-green);
+}
+.contact-btn-primary:hover {
+    background-color: var(--luxury-gold);
+    border-color: var(--luxury-gold);
+    color: var(--forest-green);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(197, 160, 89, 0.25);
+}
+
+.contact-btn-outline {
+    background-color: transparent;
+    color: var(--forest-green);
+    border: 1px solid var(--luxury-gold);
+}
+.contact-btn-outline:hover {
+    background-color: var(--forest-green);
+    color: var(--luxury-gold);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(5, 46, 22, 0.15);
+}
+
+.contact-btn i {
+    font-size: 0.95rem;
+    opacity: 0.85;
+}
+
+.contact-footer-note {
+    margin-top: 2.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(197, 160, 89, 0.2);
+    text-align: center;
+}
+.contact-footer-note p {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(26, 26, 26, 0.4);
+    line-height: 2;
+    margin: 0;
+}
+.contact-footer-note i {
+    color: var(--luxury-gold);
+    margin-right: 6px;
+}
+
+@media (max-width: 768px) {
+    .contact-card {
+        padding: 40px 28px;
+    }
+    .contact-title {
+        font-size: 2.2rem;
+    }
+}
+/* =========================
+   NAVBAR — SÉPARATEUR DORÉ
+========================= */
+.nav-separator {
+    display: inline-block;
+    width: 1px;
+    height: 18px;
+    background: linear-gradient(to bottom, transparent, var(--luxury-gold), transparent);
+    opacity: 0.6;
+    margin: 0 6px;
+    vertical-align: middle;
+    flex-shrink: 0;
+}
+
+/* =========================
+   PAGE NOUS REJOINDRE
+========================= */
+.rejoindre-hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 140px 20px 80px;
+    gap: 64px;
+}
+
+.rejoindre-header {
+    text-align: center;
+    max-width: 680px;
+}
+
+.rejoindre-eyebrow {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--luxury-gold);
+    margin-bottom: 0.75rem;
+}
+
+.rejoindre-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 3.2rem;
+    font-weight: 600;
+    color: var(--parchment);
+    line-height: 1.1;
+    margin-bottom: 0;
+}
+
+.rejoindre-desc {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.8rem;
+    line-height: 1.9;
+    letter-spacing: 0.04em;
+    color: rgba(245, 242, 232, 0.6);
+    margin-top: 0;
+}
+
+.rejoindre-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    max-width: 960px;
+    width: 100%;
+}
+
+.rejoindre-card {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(197, 160, 89, 0.25);
+    border-radius: 4px;
+    padding: 36px 28px;
+    text-align: center;
+    transition: background 0.3s ease, border-color 0.3s ease;
+}
+.rejoindre-card:hover {
+    background: rgba(197, 160, 89, 0.07);
+    border-color: rgba(197, 160, 89, 0.5);
+}
+
+.rejoindre-card-icon {
+    font-size: 1.5rem;
+    color: var(--luxury-gold);
+    margin-bottom: 1rem;
+    opacity: 0.85;
+}
+
+.rejoindre-card-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--parchment);
+    margin-bottom: 0.75rem;
+}
+
+.rejoindre-card-desc {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.72rem;
+    line-height: 1.8;
+    letter-spacing: 0.03em;
+    color: rgba(245, 242, 232, 0.55);
+    margin: 0;
+}
+
+.rejoindre-cta-block {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.rejoindre-cta-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--forest-green);
+    text-align: center;
+    margin-bottom: 0;
+}
+
+.rejoindre-cta-desc {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.75rem;
+    line-height: 1.9;
+    letter-spacing: 0.04em;
+    color: rgba(26, 26, 26, 0.55);
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+@media (max-width: 768px) {
+    .rejoindre-grid {
+        grid-template-columns: 1fr;
+        max-width: 400px;
+    }
+    .rejoindre-title {
+        font-size: 2.4rem;
+    }
+}
+
+/* =========================
+   PAGE CONTACT
+========================= */
+.contact-hero {
+    min-height: calc(100vh - 80px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 120px 20px 80px;
+    position: relative;
+}
+
+.gold-ornament {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 2rem;
+}
+.gold-ornament::before,
+.gold-ornament::after {
+    content: '';
+    width: 60px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--luxury-gold));
+}
+.gold-ornament::after {
+    background: linear-gradient(90deg, var(--luxury-gold), transparent);
+}
+.gold-ornament span {
+    color: var(--luxury-gold);
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+}
+
+.contact-card {
+    max-width: 680px;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.97);
+    border: 1px solid rgba(197, 160, 89, 0.4);
+    border-radius: 4px;
+    padding: 56px 60px;
+    position: relative;
+    box-shadow: 0 8px 40px rgba(5, 46, 22, 0.15);
+}
+
+.contact-card::before {
+    content: '';
+    position: absolute;
+    top: -4px; left: -4px; right: -4px; bottom: -4px;
+    border: 1px solid rgba(197, 160, 89, 0.15);
+    border-radius: 6px;
+    pointer-events: none;
+}
+
+.contact-column {
+    position: absolute;
+    top: 8%;
+    bottom: 8%;
+    width: 1px;
+    background: linear-gradient(to bottom, transparent, var(--luxury-gold), transparent);
+    opacity: 0.35;
+}
+.contact-column-left  { left: 18px; }
+.contact-column-right { right: 18px; }
+
+.contact-eyebrow {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--luxury-gold);
+    text-align: center;
+    margin-bottom: 0.75rem;
+}
+
+.contact-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 2.8rem;
+    font-weight: 600;
+    color: var(--forest-green);
+    text-align: center;
+    line-height: 1.15;
+    margin-bottom: 0;
+}
+
+.contact-divider {
+    height: 1px;
+    width: 64px;
+    background: linear-gradient(90deg, transparent, var(--luxury-gold), transparent);
+    margin: 1.5rem auto 1.75rem;
+}
+
+.contact-desc {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.8rem;
+    line-height: 1.9;
+    letter-spacing: 0.04em;
+    color: rgba(26, 26, 26, 0.65);
+    text-align: center;
+    margin-bottom: 2.5rem;
+}
+
+.contact-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    align-items: center;
+}
+
+.contact-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    width: 100%;
+    max-width: 340px;
+    padding: 16px 28px;
+    border-radius: 2px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border: none;
+}
+
+.contact-btn-primary {
+    background-color: var(--forest-green);
+    color: var(--parchment);
+    border: 1px solid var(--forest-green);
+}
+.contact-btn-primary:hover {
+    background-color: var(--luxury-gold);
+    border-color: var(--luxury-gold);
+    color: var(--forest-green);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(197, 160, 89, 0.25);
+}
+
+.contact-btn-outline {
+    background-color: transparent;
+    color: var(--forest-green);
+    border: 1px solid var(--luxury-gold);
+}
+.contact-btn-outline:hover {
+    background-color: var(--forest-green);
+    color: var(--luxury-gold);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(5, 46, 22, 0.15);
+}
+
+.contact-btn i {
+    font-size: 0.95rem;
+    opacity: 0.85;
+}
+
+.contact-footer-note {
+    margin-top: 2.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(197, 160, 89, 0.2);
+    text-align: center;
+}
+.contact-footer-note p {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(26, 26, 26, 0.4);
+    line-height: 2;
+    margin: 0;
+}
+.contact-footer-note i {
+    color: var(--luxury-gold);
+    margin-right: 6px;
+}
+
+@media (max-width: 768px) {
+    .contact-card { padding: 40px 28px; }
+    .contact-title { font-size: 2.2rem; }
+}

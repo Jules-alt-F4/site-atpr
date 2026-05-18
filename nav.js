@@ -33,8 +33,11 @@ function injectNavbar() {
         <div class="nav-center-group">
             <a href="/index.html#presentation-association" class="nav-link">L'Institution</a>
             <a href="bureau.html" class="nav-link">Le Bureau</a>
-            <a href="/bibliotheque.html" class="nav-link">Bibliothèque</a>
+            <a href="bibliotheque.html" class="nav-link">Bibliothèque</a>
             <a href="pole-methodo.html" class="nav-link">Pôle Méthodo</a>
+            <span class="nav-separator"></span>
+            <a href="contact.html" class="nav-link">Contact</a>
+            <a href="nous-rejoindre.html" class="nav-link">Nous rejoindre</a>
         </div>
         <div class="nav-right">
             <div id="auth-guest" class="auth-flex">
@@ -62,6 +65,8 @@ function injectNavbar() {
             <a href="bureau.html" class="nav-mobile-link">Le Bureau</a>
             <a href="/bibliotheque.html" class="nav-mobile-link">Bibliothèque</a>
             <a href="pole-methodo.html" class="nav-mobile-link">Pôle Méthodo</a>
+            <a href="contact.html" class="nav-mobile-link">Contact</a>
+            <a href="nous-rejoindre.html" class="nav-mobile-link">Nous rejoindre</a>
             <div id="auth-guest-mobile" class="nav-mobile-auth">
                 <button type="button" onclick="toggleModal('modal-login'); closeMobileMenu()" class="nav-mobile-btn-login">Connexion</button>
                 <button type="button" onclick="toggleModal('modal-inscription'); closeMobileMenu()" class="nav-mobile-btn-join">S'inscrire</button>
