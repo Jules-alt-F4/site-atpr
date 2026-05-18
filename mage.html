@@ -11,6 +11,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
     <script src="supabase-init.js"></script>
+    <!-- PDF.js pour extraction texte PDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <!-- Mammoth pour extraction texte Word .docx -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
     <style>
         /* Cacher le footer et le widget flottant sur cette page */
         footer, #main-footer, .site-footer { display: none !important; }
@@ -404,11 +408,21 @@
         <div class="sb-divider"></div>
 
         <div class="sb-label">Document</div>
-        <button class="sb-pdf" id="pdf-zone" onclick="document.getElementById('pdf-file').click()">
+        <button class="sb-pdf" id="pdf-zone" onclick="document.getElementById('doc-file').click()">
             <i class="fa-solid fa-paperclip" style="color:#c5a059;"></i>
-            <span id="pdf-label">Importer un fichier .txt</span>
+            <span id="pdf-label">Importer un document</span>
         </button>
-        <input type="file" id="pdf-file" accept=".txt" style="display:none;">
+        <input type="file" id="doc-file" accept=".txt,.pdf,.docx,.doc,.mp3,.mp4,.wav,.m4a" style="display:none;">
+        <!-- Indicateur de traitement -->
+        <div id="doc-processing" style="display:none;padding:6px 10px;font-size:0.75rem;color:#9c8e6e;display:none;align-items:center;gap:6px;">
+            <i class="fa-solid fa-spinner fa-spin" style="font-size:0.7rem;"></i>
+            <span id="doc-processing-label">Extraction en cours...</span>
+        </div>
+        <!-- Formats supportés -->
+        <div style="padding:2px 10px 6px;font-size:0.65rem;color:#b5ad98;line-height:1.6;">
+            <span style="color:#9c8e6e;font-weight:600;">Supportés :</span> .txt .pdf .docx<br>
+            <span style="color:#9c8e6e;font-weight:600;">Non supportés :</span> .mp3 .mp4 <span style="font-size:0.6rem;">(audio/vidéo)</span>
+        </div>
 
         <div class="sb-divider"></div>
 
@@ -661,8 +675,9 @@ function fillInput(btn) {
 
 function clearConv() {
     chatHistory = []; pdfContent = null;
-    document.getElementById('pdf-label').textContent = 'Importer un fichier .txt';
+    document.getElementById('pdf-label').textContent = 'Importer un document';
     document.getElementById('pdf-zone').classList.remove('loaded');
+    document.getElementById('doc-processing').style.display = 'none';
     document.getElementById('mage-messages').innerHTML = '';
     document.getElementById('mage-suggestions').style.display = 'flex';
     addMsg("Nouvelle conversation ! Comment puis-je t'aider, jeune Pupuce ? 🧙‍♂️", false);
@@ -677,12 +692,90 @@ function copyConv() {
     setTimeout(() => lbl.textContent = 'Copier la conversation', 1500);
 }
 
-// ── PDF ──
-document.getElementById('pdf-file').addEventListener('change', async e => {
-    const file = e.target.files[0]; if (!file) return;
-    pdfContent = await file.text();
-    document.getElementById('pdf-label').textContent = '✅ ' + file.name;
-    document.getElementById('pdf-zone').classList.add('loaded');
+// ── Import de documents (txt, pdf, docx, mp3, mp4) ──
+document.getElementById('doc-file').addEventListener('change', async e => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const label      = document.getElementById('pdf-label');
+    const zone       = document.getElementById('pdf-zone');
+    const processing = document.getElementById('doc-processing');
+    const procLabel  = document.getElementById('doc-processing-label');
+    const ext        = file.name.split('.').pop().toLowerCase();
+
+    // Audio / vidéo : non supporté
+    if (['mp3','mp4','wav','m4a','ogg','webm','avi','mov'].includes(ext)) {
+        label.textContent = '⚠️ ' + file.name;
+        zone.classList.remove('loaded');
+        addMsg(
+            "⚠️ Les fichiers audio et vidéo (.mp3, .mp4...) ne peuvent pas être lus directement par le Mage — leur transcription nécessite un service dédié (Whisper, etc.) non encore intégré. Importe plutôt le cours en .pdf ou .docx !",
+            false
+        );
+        return;
+    }
+
+    // Afficher indicateur de traitement
+    label.textContent = '⏳ ' + file.name;
+    processing.style.display = 'flex';
+    procLabel.textContent = 'Extraction en cours...';
+    zone.classList.remove('loaded');
+    pdfContent = null;
+
+    try {
+        if (ext === 'txt') {
+            // ── Texte brut ──
+            pdfContent = await file.text();
+
+        } else if (ext === 'pdf') {
+            // ── PDF via PDF.js ──
+            procLabel.textContent = 'Lecture du PDF...';
+            const pdfjsLib = window['pdfjs-dist/build/pdf'];
+            pdfjsLib.GlobalWorkerOptions.workerSrc =
+                'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+            const arrayBuffer = await file.arrayBuffer();
+            const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+            let text = '';
+            for (let i = 1; i <= pdf.numPages; i++) {
+                procLabel.textContent = `Page ${i}/${pdf.numPages}...`;
+                const page = await pdf.getPage(i);
+                const content = await page.getTextContent();
+                text += content.items.map(item => item.str).join(' ') + '\n';
+            }
+            pdfContent = text.trim();
+
+        } else if (['docx','doc'].includes(ext)) {
+            // ── Word via Mammoth ──
+            procLabel.textContent = 'Lecture du fichier Word...';
+            const arrayBuffer = await file.arrayBuffer();
+            const result = await mammoth.extractRawText({ arrayBuffer });
+            pdfContent = result.value.trim();
+
+        } else {
+            addMsg("⚠️ Format non supporté. Utilise .txt, .pdf ou .docx.", false);
+            processing.style.display = 'none';
+            label.textContent = 'Importer un document';
+            return;
+        }
+
+        // Succès
+        processing.style.display = 'none';
+        const chars = pdfContent.length;
+        const words = pdfContent.split(/\s+/).length;
+        label.textContent = '✅ ' + file.name;
+        zone.classList.add('loaded');
+        addMsg(
+            `📄 Document chargé : **${file.name}**\n${words.toLocaleString()} mots · ${chars.toLocaleString()} caractères\n\nPose-moi tes questions sur ce document, ou demande-moi un QCM, une fiche ou un résumé !`,
+            false
+        );
+
+    } catch (err) {
+        processing.style.display = 'none';
+        label.textContent = '❌ Erreur : ' + file.name;
+        zone.classList.remove('loaded');
+        addMsg('⚠️ Impossible de lire ce fichier : ' + err.message, false);
+        console.error(err);
+    }
 });
 
 // ── Keyboard ──

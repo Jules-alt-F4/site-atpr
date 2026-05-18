@@ -457,7 +457,8 @@ window.toggleModal = function(id) {
     const isOpening = (m.style.display === 'none' || m.style.display === '');
 
     if (isOpening) {
-        ['modal-login', 'modal-inscription', 'modal-compte'].forEach(otherId => {
+        // Fermer toutes les autres modales + pop-ups restrictifs
+        ['modal-login', 'modal-inscription', 'modal-compte', 'modal-library-error'].forEach(otherId => {
             if (otherId !== id) {
                 const other = document.getElementById(otherId);
                 if (other && other.style.display === 'flex') {
@@ -465,8 +466,15 @@ window.toggleModal = function(id) {
                 }
             }
         });
+        // Fermer aussi popup-methodo si présent
+        const mPm = document.getElementById('popup-methodo');
+        if (mPm) { mPm.style.display = 'none'; }
         const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
         document.documentElement.style.setProperty('--scrollbar-width', scrollbarWidth + 'px');
+        // Les modales auth passent devant les pop-ups restrictifs
+        if (['modal-login', 'modal-inscription', 'modal-compte'].includes(id)) {
+            m.style.zIndex = '200';
+        }
         m.style.display = 'flex';
         document.body.classList.add('modal-open');
     } else {
@@ -476,6 +484,23 @@ window.toggleModal = function(id) {
         if (!anyOpen) {
             document.body.classList.remove('modal-open');
             document.documentElement.style.setProperty('--scrollbar-width', '0px');
+        }
+
+        // Si on ferme login, inscription ou library-error sans être connecté → re-afficher la restriction
+        if (['modal-login', 'modal-inscription', 'modal-library-error'].includes(id)) {
+            setTimeout(async () => {
+                if (!window.supabase) return;
+                const authModals = ['modal-login', 'modal-inscription', 'modal-library-error'];
+                const anyAuthOpen = authModals.some(mid => {
+                    const el = document.getElementById(mid);
+                    return el && el.style.display === 'flex';
+                });
+                if (anyAuthOpen) return;
+                const { data: { session } } = await window.supabase.auth.getSession();
+                if (!session && typeof window._reBlurProtectedPage === 'function') {
+                    window._reBlurProtectedPage();
+                }
+            }, 80);
         }
     }
 };
@@ -711,7 +736,18 @@ function injectIAWidget() {
     let pdfContent  = null;
 
     // Ouverture/fermeture
-    bubble.addEventListener('click', () => {
+    bubble.addEventListener('click', async () => {
+        // Vérifier la session avant d'ouvrir le chat
+        if (window.supabase) {
+            const { data: { session } } = await window.supabase.auth.getSession();
+            if (!session) {
+                // Non connecté → ouvrir modal-login
+                if (typeof window.toggleModal === 'function') {
+                    window.toggleModal('modal-login');
+                }
+                return;
+            }
+        }
         const isOpen = chatBox.style.display === 'flex';
         chatBox.style.display = isOpen ? 'none' : 'flex';
         if (!isOpen) input.focus();
@@ -889,22 +925,28 @@ async function initPageAccess() {
     const path = window.location.pathname;
     const isLibrairie = path.includes('/bibliotheque') || path.includes('bibliotheque');
     const isMethodo   = path.includes('/pole-methodo') || path.includes('pole-methodo');
+    const isBureau    = path.includes('/bureau') || path.includes('bureau');
 
-    if (!isLibrairie && !isMethodo) return;
+    if (!isLibrairie && !isMethodo && !isBureau) return;
 
     function showContent() {
         if (main) { main.style.filter=''; main.style.pointerEvents=''; main.style.userSelect=''; main.style.opacity=''; }
         const mErr = document.getElementById('modal-library-error');
-        if (mErr && mErr.style.display === 'flex') window.toggleModal('modal-library-error');
+        if (mErr && mErr.style.display === 'flex') {
+            mErr.style.display = 'none';
+            const anyOpen = Array.from(document.querySelectorAll('.modal-overlay')).some(el => el.style.display === 'flex');
+            if (!anyOpen) document.body.classList.remove('modal-open');
+        }
         const mPm = document.getElementById('popup-methodo');
         if (mPm) { mPm.style.display='none'; document.body.classList.remove('modal-open'); }
         const cm = document.getElementById('contenu-methodo');
         if (cm) { cm.style.display='block'; cm.style.filter=''; cm.style.pointerEvents=''; cm.style.opacity=''; }
+        window._reBlurProtectedPage = null;
     }
 
     function blurContent() {
         if (main) { main.style.filter='blur(2px)'; main.style.pointerEvents='none'; main.style.userSelect='none'; main.style.opacity='0.9'; }
-        if (isLibrairie) {
+        if (isLibrairie || isBureau) {
             const mErr = document.getElementById('modal-library-error');
             if (mErr && mErr.style.display !== 'flex') window.toggleModal('modal-library-error');
         }
@@ -914,6 +956,7 @@ async function initPageAccess() {
             const mPm = document.getElementById('popup-methodo');
             if (mPm) { mPm.style.display='flex'; document.body.classList.add('modal-open'); }
         }
+        window._reBlurProtectedPage = blurContent;
     }
 
     const { data: { session } } = await window.supabase.auth.getSession();
