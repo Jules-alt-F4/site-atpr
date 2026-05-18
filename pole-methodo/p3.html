@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>P3 — Pôle Méthodo — ATPr</title>
+    <link rel="stylesheet" href="../style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+    <script src="../supabase-init.js"></script>
+</head>
+
+<body class="bg-[#f5f2e8] min-h-screen">
+
+<div id="popup-methodo" style="display:none; position:fixed; inset:0; z-index:100; background:rgba(0,0,0,0.6); align-items:center; justify-content:center;">
+    <div class="max-w-md mx-4 bg-[#f5f2e8] p-12 auth-frame-gold relative text-center">
+        <div class="auth-column auth-column-left"></div>
+        <div class="auth-column auth-column-right"></div>
+        <div class="mb-6 text-[#c5a059] text-4xl"><i class="fas fa-lock"></i></div>
+        <h3 class="font-heritage italic text-3xl text-[#052e16] mb-4">Accès Restreint</h3>
+        <p class="text-[11px] uppercase tracking-widest leading-loose opacity-70 mb-8 text-black">
+            La consultation des ressources du pôle méthodo est exclusivement réservée aux membres de l&apos;ATPr.
+        </p>
+        <div class="flex flex-col gap-4">
+            <button onclick="ouvrirConnexion()" class="auth-submit-btn w-full">S&apos;identifier</button>
+            <button onclick="ouvrirInscription()" class="text-[10px] uppercase font-bold tracking-widest text-[#c5a059] hover:underline">Devenir membre</button>
+        </div>
+    </div>
+</div>
+
+<main id="contenu-methodo" style="display:none; position:relative; z-index:1; min-height:80vh;" class="pt-32 px-6 pb-20">
+    <div class="max-w-7xl mx-auto">
+
+        <!-- Flèche retour -->
+        <a href="/pole-methodo.html" class="inline-flex items-center gap-2 text-[#052e16] hover:text-[#c5a059] transition text-sm mb-10">
+            <i class="fa-solid fa-arrow-left"></i>
+            Retour au Pôle Méthodo
+        </a>
+
+        <div class="text-center mb-20">
+            <p class="text-[#c5a059] uppercase tracking-widest text-xs mb-3">Troisième Année</p>
+            <h1 class="font-heritage text-5xl text-[#052e16] italic">P3</h1>
+            <p class="mt-4 text-[11px] uppercase tracking-widest opacity-50 text-black">Choisissez votre semestre</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl mx-auto">
+
+            <a href="/pole-methodo/p3/s1.html"
+               class="group border border-[#c5a059]/40 bg-white/40 backdrop-blur-sm rounded-2xl p-10 hover:bg-[#f8f4ea] transition duration-300 shadow-sm">
+                <p class="text-[11px] font-semibold text-[#c5a059] mb-3">P3</p>
+                <h2 class="text-2xl text-[#052e16] font-bold italic mb-4">Semestre 1</h2>
+                <p class="text-sm text-[#5b4b2a] leading-relaxed">Fiches et ressources du premier semestre de P3.</p>
+            </a>
+
+            <a href="/pole-methodo/p3/s2.html"
+               class="group border border-[#c5a059]/40 bg-white/40 backdrop-blur-sm rounded-2xl p-10 hover:bg-[#f8f4ea] transition duration-300 shadow-sm">
+                <p class="text-[11px] font-semibold text-[#c5a059] mb-3">P3</p>
+                <h2 class="text-2xl text-[#052e16] font-bold italic mb-4">Semestre 2</h2>
+                <p class="text-sm text-[#5b4b2a] leading-relaxed">Fiches et ressources du second semestre de P3.</p>
+            </a>
+
+        </div>
+    </div>
+</main>
+
+<script>
+let sessionChecked = false;
+supabase.auth.onAuthStateChange((event, session) => {
+    if (sessionChecked) return;
+    sessionChecked = true;
+    if (!session) {
+        const popup = document.getElementById('popup-methodo');
+        const contenu = document.getElementById('contenu-methodo');
+        if (contenu) { contenu.style.display = 'block'; contenu.style.filter = 'blur(4px)'; contenu.style.pointerEvents = 'none'; contenu.style.opacity = '0.6'; }
+        if (popup) { popup.style.display = 'flex'; document.body.classList.add('modal-open'); }
+    } else {
+        const contenu = document.getElementById('contenu-methodo');
+        if (contenu) { contenu.style.display = 'block'; contenu.style.filter = ''; contenu.style.pointerEvents = ''; contenu.style.opacity = ''; }
+    }
+});
+</script>
+<script src="../nav.js"></script>
+<script src="../auth.js"></script>
+<script>
+function ouvrirConnexion() {
+    fermerPopup();
+    const tryOpen = () => {
+        const m = document.getElementById('modal-login');
+        if (m && typeof toggleModal === 'function') { toggleModal('modal-login'); }
+        else { setTimeout(tryOpen, 50); }
+    };
+    tryOpen();
+}
+function ouvrirInscription() {
+    fermerPopup();
+    const tryOpen = () => {
+        const m = document.getElementById('modal-inscription');
+        if (m && typeof toggleModal === 'function') { toggleModal('modal-inscription'); }
+        else { setTimeout(tryOpen, 50); }
+    };
+    tryOpen();
+}
+function fermerPopup() {
+    const popup = document.getElementById('popup-methodo');
+    popup.style.display = 'none';
+    document.body.classList.remove('modal-open');
+}
+</script>
+</body>
+</html>

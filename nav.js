@@ -32,12 +32,12 @@ function injectNavbar() {
         </div>
         <div class="nav-center-group">
             <a href="/index.html#presentation-association" class="nav-link">L'Institution</a>
-            <a href="bureau.html" class="nav-link">Le Bureau</a>
-            <a href="bibliotheque.html" class="nav-link">Bibliothèque</a>
-            <a href="pole-methodo.html" class="nav-link">Pôle Méthodo</a>
+            <a href="/bureau.html" class="nav-link">Le Bureau</a>
+            <a href="/bibliotheque.html" class="nav-link">Bibliothèque</a>
+            <a href="/pole-methodo.html" class="nav-link">Pôle Méthodo</a>
             <span class="nav-separator"></span>
-            <a href="contact.html" class="nav-link">Contact</a>
-            <a href="nous-rejoindre.html" class="nav-link">Nous rejoindre</a>
+            <a href="/contact.html" class="nav-link">Contact</a>
+            <a href="/nous-rejoindre.html" class="nav-link">Nous rejoindre</a>
         </div>
         <div class="nav-right">
             <div id="auth-guest" class="auth-flex">
@@ -62,11 +62,11 @@ function injectNavbar() {
     <div id="nav-mobile-menu" class="nav-mobile-menu">
         <div class="nav-mobile-inner">
             <a href="/index.html#presentation-association" class="nav-mobile-link">L'Institution</a>
-            <a href="bureau.html" class="nav-mobile-link">Le Bureau</a>
+            <a href="/bureau.html" class="nav-mobile-link">Le Bureau</a>
             <a href="/bibliotheque.html" class="nav-mobile-link">Bibliothèque</a>
-            <a href="pole-methodo.html" class="nav-mobile-link">Pôle Méthodo</a>
-            <a href="contact.html" class="nav-mobile-link">Contact</a>
-            <a href="nous-rejoindre.html" class="nav-mobile-link">Nous rejoindre</a>
+            <a href="/pole-methodo.html" class="nav-mobile-link">Pôle Méthodo</a>
+            <a href="/contact.html" class="nav-mobile-link">Contact</a>
+            <a href="/nous-rejoindre.html" class="nav-mobile-link">Nous rejoindre</a>
             <div id="auth-guest-mobile" class="nav-mobile-auth">
                 <button type="button" onclick="toggleModal('modal-login'); closeMobileMenu()" class="nav-mobile-btn-login">Connexion</button>
                 <button type="button" onclick="toggleModal('modal-inscription'); closeMobileMenu()" class="nav-mobile-btn-join">S'inscrire</button>
@@ -563,6 +563,141 @@ window.switchFromErrorTo = function(targetModal) {
     toggleModal(targetModal);
 };
 
+/* =========================================================
+   WIDGET IA MISTRAL - TUTORAT PHARMACIE RENNES
+========================================================= */
+function injectIAWidget() {
+    if (document.getElementById('ia-widget-container')) return;
+
+    const iaContainer = document.createElement('div');
+    iaContainer.id = 'ia-widget-container';
+    iaContainer.style.cssText = "position: fixed; bottom: 20px; right: 20px; z-index: 9999; font-family: 'Montserrat', sans-serif;";
+
+    iaContainer.innerHTML = `
+        <div id="ia-bubble" style="width: 60px; height: 60px; background-color: var(--luxury-gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.3); transition: transform 0.2s; user-select: none;">
+            🧙‍♂️
+        </div>
+
+        <div id="ia-chat-box" style="display: none; width: 360px; height: 480px; background-color: var(--pharma-green); border: 2px solid var(--luxury-gold); border-radius: 12px; position: absolute; bottom: 75px; right: 0; flex-direction: column; overflow: hidden; box-shadow: 0 8px 24px rgba(0,0,0,0.5); backdrop-filter: blur(8px);">
+            
+            <div style="background-color: var(--forest-green); padding: 14px; border-bottom: 1px solid var(--luxury-gold); display: flex; justify-content: space-between; align-items: center;">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <span style="font-size: 1.2rem;">✨</span>
+                    <span style="color: var(--luxury-gold); font-weight: 600; font-size: 0.95rem;">Le Mage du Tutorat</span>
+                </div>
+                <span id="close-ia" style="cursor: pointer; color: var(--parchment); font-size: 1.5rem; line-height: 1;">&times;</span>
+            </div>
+            
+            <div id="ia-messages" style="flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; font-size: 0.9rem; color: var(--parchment); scroll-behavior: smooth;">
+                <div style="background: rgba(245, 242, 232, 0.08); padding: 10px 14px; border-radius: 12px; align-self: flex-start; max-width: 85%; line-height: 1.4;">
+                    Salutations, jeune Pupuce ! 🧪 Je suis le <b>Mage du Tutorat</b>. 
+                    Je suis là pour répondre à tes questions & même te créer des petits QCM Al Dente ! Mage Pupuce est là pour aider jeune Pupuce !
+                </div>
+            </div>
+            
+            <div style="padding: 12px; display: flex; gap: 8px; background: var(--forest-green); border-top: 1px solid rgba(197, 160, 89, 0.2);">
+                <input type="text" id="ia-input" placeholder="Pose ton énigme au Mage..." style="flex: 1; padding: 10px 14px; border-radius: 8px; border: 1px solid var(--luxury-gold); background: var(--pharma-green); color: var(--parchment); font-size: 0.85rem; outline: none;">
+                <button id="ia-send-btn" style="background: var(--luxury-gold); border: none; color: var(--forest-green); padding: 0 16px; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 0.85rem; transition: background 0.2s;">Envoyer</button>
+            </div>
+        </div>
+    `;
+
+    document.body.appendChild(iaContainer);
+
+    // Événements d'ouverture/fermeture
+    const bubble = document.getElementById('ia-bubble');
+    const chatBox = document.getElementById('ia-chat-box');
+    const closeBtn = document.getElementById('close-ia');
+
+    bubble.addEventListener('click', () => {
+        chatBox.style.display = chatBox.style.display === 'none' ? 'flex' : 'none';
+    });
+
+    closeBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        chatBox.style.display = 'none';
+    });
+
+    // Envoi des messages
+    const sendBtn = document.getElementById('ia-send-btn');
+    const input = document.getElementById('ia-input');
+    const messagesContainer = document.getElementById('ia-messages');
+    
+    async function gérerEnvoi() {
+        const texte = input.value.trim();
+        if (!texte) return;
+
+        // 1. Afficher le message de l'étudiant
+        const userDiv = document.createElement('div');
+        userDiv.style.cssText = "background: var(--luxury-gold); color: var(--forest-green); padding: 10px 14px; border-radius: 12px; align-self: flex-end; max-width: 85%; font-weight: 500; line-height: 1.4;";
+        userDiv.textContent = texte;
+        messagesContainer.appendChild(userDiv);
+        
+        input.value = '';
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
+        // 2. Afficher l'indicateur d'effort de réflexion "..."
+        const loadingDiv = document.createElement('div');
+        loadingDiv.id = 'ia-loading-bubble';
+        loadingDiv.style.cssText = "background: rgba(245, 242, 232, 0.05); padding: 10px 14px; border-radius: 12px; align-self: flex-start; max-width: 85%; font-style: italic; color: #a1a1aa;";
+        loadingDiv.innerHTML = "Le Mage consulte ses grimoires web... <span class='dots'>✨</span>";
+        messagesContainer.appendChild(loadingDiv);
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
+        // 3. Appel Edge Function Supabase avec le token JWT de l'utilisateur connecté
+        try {
+            // Récupération du token JWT de la session active
+            const { data: { session } } = await window.supabase.auth.getSession();
+            const token = session?.access_token;
+
+            const response = await fetch('https://zcueonuffhzrvnktxzpl.supabase.co/functions/v1/mistral-chat', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+                },
+                body: JSON.stringify({ message: texte })
+            });
+
+            const data = await response.json();
+
+            // Retirer le message de chargement
+            const loadingBubble = document.getElementById('ia-loading-bubble');
+            if (loadingBubble) loadingBubble.remove();
+
+            if (!response.ok || data.error) {
+                throw new Error(data.error || `Erreur HTTP ${response.status}`);
+            }
+
+            // Afficher la réponse du Mage
+            const replyDiv = document.createElement('div');
+            replyDiv.style.cssText = "background: rgba(245, 242, 232, 0.08); padding: 10px 14px; border-radius: 12px; align-self: flex-start; max-width: 85%; line-height: 1.4;";
+            replyDiv.innerHTML = (data.reply || '').replace(/\n/g, '<br>');
+            messagesContainer.appendChild(replyDiv);
+
+        } catch (error) {
+            console.error("Erreur IA:", error);
+            const loadingBubble = document.getElementById('ia-loading-bubble');
+            if (loadingBubble) loadingBubble.remove();
+            const errorDiv = document.createElement('div');
+            errorDiv.style.cssText = "background: rgba(239, 68, 68, 0.2); border: 1px solid #ef4444; padding: 10px 14px; border-radius: 12px; align-self: flex-start; max-width: 85%; color: #fca5a5;";
+            errorDiv.textContent = "Une perturbation magique empêche le Mage de répondre. Réessaie plus tard !";
+            messagesContainer.appendChild(errorDiv);
+        }
+
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    }
+
+    sendBtn.addEventListener('click', gérerEnvoi);
+    input.addEventListener('keypress', (e) => { if (e.key === 'Enter') gérerEnvoi(); });
+}
+
+// Lancement automatique
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', injectIAWidget);
+} else {
+    injectIAWidget();
+}
 
 /* =========================
    GESTION ACCÈS PAGES PROTÉGÉES

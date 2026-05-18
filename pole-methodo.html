@@ -11,11 +11,28 @@
     <!-- SUPABASE + NAVBAR -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
     <script src="supabase-init.js"></script>
+<style>
+.methodo-background {
+    position: relative;
+}
+.methodo-background::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background-image: url("images/deco-livre.png");
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 55%;
+    opacity: 0.45;
+    pointer-events: none;
+    z-index: 0;
+}
+</style>
 </head>
 
-<body class="bg-[#f5f2e8] min-h-screen">
+<body class="bg-[#f5f2e8] min-h-screen methodo-background">
 
-<!-- Pop-up accès restreint — même esthétique que modal-library-error -->
+<!-- Pop-up accès restreint -->
 <div id="popup-methodo" style="display:none; position:fixed; inset:0; z-index:100; background:rgba(0,0,0,0.6); align-items:center; justify-content:center;">
     <div class="max-w-md mx-4 bg-[#f5f2e8] p-12 auth-frame-gold relative text-center">
         <div class="auth-column auth-column-left"></div>
@@ -40,30 +57,84 @@
 
 <!-- Contenu principal -->
 <main id="contenu-methodo" style="display:none; position:relative; z-index:1; min-height:80vh;" class="pt-32 px-6 pb-20">
-    <div class="max-w-7xl mx-auto text-center">
-        <h1 class="font-heritage text-5xl text-[#052e16] italic">Pôle Méthodo</h1>
-        <p class="mt-4 text-[#c5a059] uppercase tracking-widest text-xs">Fiches de méthode &amp; Ressources pédagogiques</p>
+    <div class="max-w-7xl mx-auto">
+
+        <div class="text-center mb-20">
+            <h1 class="font-heritage text-5xl text-[#052e16] italic">Pôle Méthodo</h1>
+            <p class="mt-4 text-[#c5a059] uppercase tracking-widest text-xs">Fiches de méthode &amp; Ressources pédagogiques</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+
+            <a href="pole-methodo/p2.html"
+               class="group border border-[#c5a059]/40 bg-white/40 backdrop-blur-sm rounded-2xl p-10 hover:bg-[#f8f4ea] transition duration-300 shadow-lg flex flex-col items-start">
+                <div class="text-[#052e16] text-4xl mb-6">
+                    <i class="fa-solid fa-seedling"></i>
+                </div>
+                <div class="text-[10px] uppercase tracking-widest text-[#c5a059] mb-2 font-bold">Deuxième Année</div>
+                <h2 class="text-2xl text-[#052e16] font-semibold italic">P2</h2>
+                <p class="mt-4 text-sm text-[#5b4b2a] leading-relaxed">
+                    Fiches et méthodes pour la deuxième année de pharmacie.
+                </p>
+                <div class="mt-6 text-[#c5a059] text-xs uppercase tracking-widest font-bold group-hover:underline">
+                    Accéder →
+                </div>
+            </a>
+
+            <a href="pole-methodo/p3.html"
+               class="group border border-[#c5a059]/40 bg-white/40 backdrop-blur-sm rounded-2xl p-10 hover:bg-[#f8f4ea] transition duration-300 shadow-lg flex flex-col items-start">
+                <div class="text-[#052e16] text-4xl mb-6">
+                    <i class="fa-solid fa-flask"></i>
+                </div>
+                <div class="text-[10px] uppercase tracking-widest text-[#c5a059] mb-2 font-bold">Troisième Année</div>
+                <h2 class="text-2xl text-[#052e16] font-semibold italic">P3</h2>
+                <p class="mt-4 text-sm text-[#5b4b2a] leading-relaxed">
+                    Fiches et méthodes pour la troisième année de pharmacie.
+                </p>
+                <div class="mt-6 text-[#c5a059] text-xs uppercase tracking-widest font-bold group-hover:underline">
+                    Accéder →
+                </div>
+            </a>
+
+            <a href="pole-methodo/p4.html"
+               class="group border border-[#c5a059]/40 bg-white/40 backdrop-blur-sm rounded-2xl p-10 hover:bg-[#f8f4ea] transition duration-300 shadow-lg flex flex-col items-start">
+                <div class="text-[#052e16] text-4xl mb-6">
+                    <i class="fa-solid fa-microscope"></i>
+                </div>
+                <div class="text-[10px] uppercase tracking-widest text-[#c5a059] mb-2 font-bold">Quatrième Année</div>
+                <h2 class="text-2xl text-[#052e16] font-semibold italic">P4</h2>
+                <p class="mt-4 text-sm text-[#5b4b2a] leading-relaxed">
+                    Fiches et méthodes pour la quatrième année de pharmacie.
+                </p>
+                <div class="mt-6 text-[#c5a059] text-xs uppercase tracking-widest font-bold group-hover:underline">
+                    Accéder →
+                </div>
+            </a>
+
+            <a href="pole-methodo/p5.html"
+               class="group border border-[#c5a059]/40 bg-white/40 backdrop-blur-sm rounded-2xl p-10 hover:bg-[#f8f4ea] transition duration-300 shadow-lg flex flex-col items-start">
+                <div class="text-[#052e16] text-4xl mb-6">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                </div>
+                <div class="text-[10px] uppercase tracking-widest text-[#c5a059] mb-2 font-bold">Cinquième Année</div>
+                <h2 class="text-2xl text-[#052e16] font-semibold italic">P5</h2>
+                <p class="mt-4 text-sm text-[#5b4b2a] leading-relaxed">
+                    Fiches et méthodes pour la cinquième année de pharmacie.
+                </p>
+                <div class="mt-6 text-[#c5a059] text-xs uppercase tracking-widest font-bold group-hover:underline">
+                    Accéder →
+                </div>
+            </a>
+
+        </div>
     </div>
 </main>
 
 <script src="nav.js"></script>
 <script src="auth.js"></script>
 <script>
-function ouvrirPopup() {
-    const popup = document.getElementById('popup-methodo');
-    popup.style.display = 'flex';
-    document.body.classList.add('modal-open');
-}
-
-function fermerPopup() {
-    const popup = document.getElementById('popup-methodo');
-    popup.style.display = 'none';
-    document.body.classList.remove('modal-open');
-}
-
 function ouvrirConnexion() {
     fermerPopup();
-    // Attendre que nav.js ait injecté modal-login
     const tryOpen = () => {
         const m = document.getElementById('modal-login');
         if (m && typeof toggleModal === 'function') {
@@ -88,7 +159,11 @@ function ouvrirInscription() {
     tryOpen();
 }
 
+function fermerPopup() {
+    const popup = document.getElementById('popup-methodo');
+    popup.style.display = 'none';
+    document.body.classList.remove('modal-open');
+}
 </script>
-
 </body>
 </html>
