@@ -650,7 +650,7 @@ function injectIAWidget() {
             const { data: { session } } = await window.supabase.auth.getSession();
             const token = session?.access_token;
 
-            const response = await fetch('https://zcueonuffhzrvnktxzpl.supabase.co/functions/v1/mistral-chat', {
+            const response = await fetch('https://zcueonuffhzrvnktxzpl.supabase.co/functions/v2/mistral-chat', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
